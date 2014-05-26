@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='1'>
+  <unit id='20140526-1303.com.codeaffine.gonsole.category' version='1.0.0.07E-cM8cnh7735A3C7E15939'>
+    <properties size='3'>
+      <property name='org.eclipse.equinox.p2.name' value='Gonsole - Eclipse Git Console'/>
+      <property name='org.eclipse.equinox.p2.description' value=''/>
+      <property name='org.eclipse.equinox.p2.type.category' value='true'/>
+    </properties>
+    <provides size='1'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='20140526-1303.com.codeaffine.gonsole.category' version='1.0.0.07E-cM8cnh7735A3C7E15939'/>
+    </provides>
+    <requires size='1'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com.codeaffine.gonsole.feature.feature.group' range='[0.8.0.20140526-1303,0.8.0.20140526-1303]'/>
+    </requires>
+    <touchpoint id='null' version='0.0.0'/>
+  </unit>
+</units>

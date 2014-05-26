@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)"
+Bundle-Vendor: codeaffine.com
+Fragment-Host: com.codeaffine.gonsole;bundle-version="0.8.0"
+Bundle-Version: 0.8.0.20140526-1303
+Bundle-Name: Gonsole Test
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.codeaffine.gonsole.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+
