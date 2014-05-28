@@ -6,9 +6,11 @@
       provider-name="codeaffine.com">
 
    <description url="">
+      
    </description>
 
    <license url="license.html">
+      
    </license>
 
    <requires>
@@ -46,6 +48,13 @@
 
    <plugin
          id="com.codeaffine.gonsole.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jgit.pgm"
          download-size="0"
          install-size="0"
          version="0.0.0"
