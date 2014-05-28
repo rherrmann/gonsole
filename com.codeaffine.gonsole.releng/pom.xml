@@ -28,6 +28,7 @@
     <module>../com.codeaffine.gonsole.test</module>
     <module>../com.codeaffine.gonsole.pdetest</module>
     <module>../com.codeaffine.test.util</module>
+    <module>../org.eclipse.jgit.pgm</module>
   </modules>
 
   <pluginRepositories>
@@ -139,28 +140,6 @@
         <configuration>
           <defaultP2Metadata>false</defaultP2Metadata>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <version>1.11</version>
-        <configuration>
-          <signature>
-            <groupId>org.codehaus.mojo.signature</groupId>
-            <artifactId>java16</artifactId>
-            <version>1.1</version>
-          </signature>
-        </configuration>
-        <executions>
-          <execution>
-            <id>ensure-java-1.6-class-library</id>
-            <phase>test</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 
     </plugins>
