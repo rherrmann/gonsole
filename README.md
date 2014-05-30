@@ -4,6 +4,8 @@ Git Console Integration for the Eclipse IDE [![Build Status](https://travis-ci.o
 [Git](http://http://git-scm.com/) is a popular version control system.  This project integrates a Git console into
 the Eclipse IDE. It lets you enter common Git commands directly into the [Eclipse Console View](http://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.user%2Freference%2Fviews%2Fconsole%2Fref-console_view.htm) and displays their output within this view.
 
+![](readme-screenshot.png)
+
 The project is currently in its proof of concept stage and of almost no practical use. We will soon provide early access versions that can be consumed from a software repository.
 
 <!--- 
