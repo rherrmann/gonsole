@@ -29,7 +29,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   git push -fq origin gh-pages > /dev/null 2>&1 || error_exit "Error uploading the build result to gh-pages"
 
   # go back to the directory where we started
-  cd..
+  cd ..
   
   echo -e "Done with deployment to gh-pages\n"
 fi
