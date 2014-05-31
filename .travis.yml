@@ -4,7 +4,7 @@ jdk:
 script: mvn -f com.codeaffine.gonsole.releng/pom.xml clean verify
 deploy:
   provider: releases
-  api-key: "oDkFR0jyrP2XKUozqmt8D9wEpyD0+ym8KUpIqT9BNxUSU06didaYoYvidbWwNp5Hk2fWhWNJ50xpOi0GljXPa8XUnx+64Y6mZX18nXZ2OBRpSjct7LCgJd5SupozzYvIZmw/ZIn8uxC3f+yyx69i8N2gYB5iSoOXk4Ecrr3Tgn0="
+  api-key: oDkFR0jyrP2XKUozqmt8D9wEpyD0+ym8KUpIqT9BNxUSU06didaYoYvidbWwNp5Hk2fWhWNJ50xpOi0GljXPa8XUnx+64Y6mZX18nXZ2OBRpSjct7LCgJd5SupozzYvIZmw/ZIn8uxC3f+yyx69i8N2gYB5iSoOXk4Ecrr3Tgn0=
   file: "com.codeaffine.gonsole.releng/repository/target/repository"
   skip_cleanup: true
   on:
