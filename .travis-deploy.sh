@@ -13,7 +13,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 
   # copy the build result into the gh-pages repository
   mkdir -p repository 
-  cp -Rf ../com.codeaffine.releng/repository/target/repository* ./repository
+  cp -Rf ../com.codeaffine.gonsole.releng/repository/target/repository/* ./repository
 
   # add, commit and push files
   git add -f .
