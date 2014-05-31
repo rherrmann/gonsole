@@ -1,3 +1,11 @@
+#!/bin/bash
+
+function error_exit
+{
+  echo -e "\e[01;31m$1\e[00m" 1>&2
+  exit 1
+}
+
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
   echo -e "Starting to deploy to gh-pages\n"
 
@@ -8,7 +16,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   # setup git and clone from gh-pages branch
   git config --global user.email "travis-deployer@codeaffine.com"
   git config --global user.name "Travis Deployer"
-  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/rherrmann/gonsole.git . > /dev/null 2>&1
+  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/rherrmann/gonsole.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
 
   # copy the build result into the gh-pages repository
   mkdir -p repository 
@@ -17,7 +25,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   # add, commit and push files
   git add -f .
   git commit -m "Deploy Travis build #$TRAVIS_BUILD_NUMBER to gh-pages"
-  git push -fq origin gh-pages > /dev/null 2>&1
+  git push -fq origin gh-pages > /dev/null 2>&1 || error_exit "Error uploading the build result to gh-pages"
 
   # go back to the directory where we started
   cd..
