@@ -4,6 +4,9 @@ env:
 language: java
 jdk:
   - openjdk6
+branches:
+  only:
+    - master
 script: mvn -f com.codeaffine.gonsole.releng/pom.xml clean verify
 after_success: 
   - chmod a+x .travis-deploy.sh
