@@ -1,12 +1,8 @@
+env:
+  global:
+    secure: AH6JUSKRpfmfU/K0VqTBtwEZSNCUcP+JEYIWSNQ/HtbBXAPKfEp91ywOlRb6KQUv0anFtZH2UFL7C0CFY81sALfMEWKQXwi7SH4RjgO4mAfT6tmWb+CgeS98M2sY8oEnfX/Riv3cxvz1Yrq1vijZMY1GV3/TuBHKEMYecjMS1Ss=
 language: java
 jdk:
 - openjdk6
 script: mvn -f com.codeaffine.gonsole.releng/pom.xml clean verify
-deploy:
-  provider: releases
-  api-key:
-    secure: kdijE5FaHjKGESO2bHkKgVTZgjwfCYdc8zYQQzXOAmBiPUjpWdb5TQMXWupQcUITog0L63GJtYMyqLSqVLNylp+MhETa+P0iaJMvbz7EB4aa8GP5TMVNHi1ggVQcNl1c82Qkrj8OVqezmoDPlepFgda9ljVrTfnpwKLrt9ctEdQ=
-  file: com.codeaffine.gonsole.releng/repository/target/repository
-  skip_cleanup: true
-  on:
-    branch: master
+after_success: ./.travis-deploy.sh
