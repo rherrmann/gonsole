@@ -5,13 +5,21 @@
       version="0.8.0.qualifier"
       provider-name="codeaffine.com">
 
-   <description url="">
-      
+   <description url="https://github.com/rherrmann/gonsole/blob/master/README.md">
+      %description
    </description>
 
-   <license url="license.html">
-      
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
    </license>
+   
+   <url>
+      <update url="http://rherrmann.github.io/gonsole/repository/"/>
+   </url>
 
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.7.0" match="compatible"/>
