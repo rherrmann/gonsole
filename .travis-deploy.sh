@@ -19,7 +19,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/rherrmann/gonsole.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
 
   # clean the repository directory, then copy the build result into it
-  rm -rf repository
+  git rm -rf repository
   mkdir -p repository 
   cp -rf ../com.codeaffine.gonsole.releng/repository/target/repository/* ./repository
   
