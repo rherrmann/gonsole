@@ -1,9 +1,8 @@
-if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
   echo -e "Starting to deploy to gh-pages\n"
 
   # create and cd into temporary deployment work directory
-  cd $HOME
-echo -e "ls of $HOME:\n"
+echo -e "ls of cwd:\n"
 ls -la
   mkdir deployment-work
   cd deployment-work
