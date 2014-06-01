@@ -28,12 +28,11 @@ Git included
 It is not necessary to have Git installed on your computer for the the plug-in to work. The plug-in uses [JGit](https://eclipse.org/jgit/), a pure Java implementation of Git, to interact with the repository. 
 
 
-<!---
 Installation
 ------------
 
-Install from this Eclipse update site: ???TBD
---->
+Install from this Eclipse software repository: http://rherrmann.github.io/gonsole/repository/
+
 
 License
 -------
