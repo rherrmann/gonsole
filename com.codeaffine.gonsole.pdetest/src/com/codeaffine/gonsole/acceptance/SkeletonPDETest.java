@@ -1,6 +1,6 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocumentListener;
@@ -59,7 +59,7 @@ public class SkeletonPDETest {
     waitInEventLoop( done );
 
     String expectedText = "status" + lineDelimiter + "# On branch master" + lineDelimiter;
-    assertEquals( expectedText, control.getText() );
+    assertThat( control.getText() ).isEqualTo( expectedText );
   }
 
   private static void waitInEventLoop( boolean[] done ) {
