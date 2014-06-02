@@ -1,0 +1,40 @@
+
+body {
+  margin: auto;
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  max-width: 840px;
+}
+
+h1 {
+	font-size: 200%;
+	font-weight: bold;
+	margin-bottom: 0.2em;
+}
+
+h2 {
+	font-size: 160%;
+	font-weight: bold;
+	margin-bottom: 0.2em;
+	text-align: center;
+}
+
+p, ul, ol {
+	margin-top: 0;
+	line-height: 150%;
+	text-align: center;
+}
+
+a {
+  color: #F34F29;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.link {
+  color: #F34F29;
+  text-decoration: none;
+}
