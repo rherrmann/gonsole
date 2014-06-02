@@ -168,7 +168,7 @@
             <configuration>
               <appArgLine>-application org.eclipse.wtp.releng.tools.addRepoProperties</appArgLine>
               <argLine>
-                -DartifactRepoDirectory=${project.build.directory}/repository
+                -DartifactRepoDirectory=${project.baseUri}/target/repository
                 -Dp2StatsURI=http://codeaffine.com/p2-stats
                 -DstatsTrackedArtifacts=com.codeaffine.gonsole.feature
                 -DstatsArtifactsSuffix=-${project.version}
