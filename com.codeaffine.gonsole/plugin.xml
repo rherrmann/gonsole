@@ -5,6 +5,7 @@
          point="org.eclipse.ui.console.consoleFactories">
       <consoleFactory
             class="com.codeaffine.gonsole.internal.GitConsoleFactory"
+            icon="icons/etool16/gonsole.png"
             label="Interactive Git Console">
       </consoleFactory>
    </extension>
