@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gonsole Git Console
 Bundle-SymbolicName: com.codeaffine.gonsole;singleton:=true
 Bundle-Version: 0.8.0.qualifier
-Bundle-Activator: com.codeaffine.gonsole.internal.GonsolePlugin
 Bundle-Vendor: codeaffine.com
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
