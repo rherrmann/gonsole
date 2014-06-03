@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -43,30 +42,12 @@ public class GitInterpreter {
 
   public void execute( String... commands ) {
     try {
-      NLS.useJVMDefaultLocale();
-      Field localField = NLS.class.getDeclaredField( "local" );
-      localField.setAccessible( true );
-      ThreadLocal<?> nlsThreadLocal = ( ThreadLocal<?> )localField.get( null );
-      NLS nls = ( NLS )nlsThreadLocal.get();
-      Field mapField = nls.getClass().getDeclaredField( "map" );
-      mapField.setAccessible( true );
-      Map<Object,Object> map = ( Map<Object,Object> )mapField.get( nls );
-      CLIText cliText = new CLIText();
-      load( cliText );
-      map.put( CLIText.class, cliText );
+      initializeNLS();
       CmdLineParser clp = new CmdLineParser( this );
       clp.parseArgument( commands );
-      RepositoryBuilder rb = new RepositoryBuilder()
-        .setWorkTree( new File( directory ) );
+      RepositoryBuilder rb = new RepositoryBuilder().setWorkTree( new File( directory ) );
       Repository repository = rb.build();
-      Field[] fields = TextBuiltin.class.getDeclaredFields();
-      for( Field field : fields ) {
-        if( "outs".equals( field.getName() ) || "errs".equals( field.getName() ) ) {
-          field.setAccessible( true );
-          field.set( subcommand, outputStream );
-        }
-      }
-      initCommand( repository );
+      new CommandWrapper( subcommand ).init( repository, outputStream );
       subcommand.execute( arguments.toArray( new String[ arguments.size() ] ) );
     } catch( Exception exception ) {
       exception.printStackTrace();
@@ -80,14 +61,18 @@ public class GitInterpreter {
     }
   }
 
-  private void initCommand( Repository repository ) {
-    try {
-      Method initMethod = TextBuiltin.class.getDeclaredMethod( "init", Repository.class, String.class );
-      initMethod.setAccessible( true );
-      initMethod.invoke( subcommand, repository, null );
-    } catch( Exception exception ) {
-      Throwables.propagate( exception );
-    }
+  private static void initializeNLS() throws NoSuchFieldException, IllegalAccessException {
+    NLS.useJVMDefaultLocale();
+    Field localField = NLS.class.getDeclaredField( "local" );
+    localField.setAccessible( true );
+    ThreadLocal<?> nlsThreadLocal = ( ThreadLocal<?> )localField.get( null );
+    NLS nls = ( NLS )nlsThreadLocal.get();
+    Field mapField = nls.getClass().getDeclaredField( "map" );
+    mapField.setAccessible( true );
+    Map<Object,Object> map = ( Map<Object,Object> )mapField.get( nls );
+    CLIText cliText = new CLIText();
+    load( cliText );
+    map.put( CLIText.class, cliText );
   }
 
   private void flushWriters() {
