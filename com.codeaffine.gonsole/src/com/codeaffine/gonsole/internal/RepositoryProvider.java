@@ -15,14 +15,14 @@ public class RepositoryProvider {
   public RepositoryProvider() {
     try {
       String tmpDir = System.getProperty( "java.io.tmpdir" );
-      directory = new File(  tmpDir, "gonsole-repository" ).getCanonicalFile();
+      directory = new File( tmpDir, "gonsole-repository" ).getCanonicalFile();
     } catch( IOException e ) {
       throw new RuntimeException( e );
     }
   }
 
-  public String getDirectory() {
-    return directory.getAbsolutePath();
+  public String getGitDirectory() {
+    return new File( directory, ".git" ).getAbsolutePath();
   }
 
   public void ensureRepository() {

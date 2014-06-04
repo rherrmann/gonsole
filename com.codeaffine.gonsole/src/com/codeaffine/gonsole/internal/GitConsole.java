@@ -18,7 +18,8 @@ public class GitConsole extends IOConsole {
           String[] parts = line.split( " " );
           RepositoryProvider repositoryProvider = new RepositoryProvider();
           repositoryProvider.ensureRepository();
-          new GitInterpreter( newOutputStream(), repositoryProvider.getDirectory() ).execute( parts );
+
+          new GitInterpreter( newOutputStream(), repositoryProvider.getGitDirectory() ).execute( parts );
         }
       }
     };

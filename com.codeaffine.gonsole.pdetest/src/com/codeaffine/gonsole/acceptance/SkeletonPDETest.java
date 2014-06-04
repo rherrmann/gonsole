@@ -62,15 +62,6 @@ public class SkeletonPDETest {
     assertThat( control.getText() ).isEqualTo( expectedText );
   }
 
-  private static void waitInEventLoop( boolean[] done ) {
-    Display display = Display.getDefault();
-    while( !done[ 0 ] && !PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().isDisposed() ) {
-      if( !display.readAndDispatch() ) {
-        display.sleep();
-      }
-    }
-  }
-
   @Before
   public void setUp() {
     repositoryProvider = new RepositoryProvider();
@@ -86,12 +77,21 @@ public class SkeletonPDETest {
     repositoryProvider.deleteRepository();
   }
 
-  public static void hideIntroPart() {
+  private static void hideIntroPart() {
     IWorkbenchPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
     if( "org.eclipse.ui.internal.introview".equals( view.getSite().getId() ) ) {
       IWorkbenchWindow workbenchWindow = view.getSite().getWorkbenchWindow();
       workbenchWindow.getActivePage().hideView( ( IViewPart )view );
       while( Display.getDefault().readAndDispatch() ) {
+      }
+    }
+  }
+
+  private static void waitInEventLoop( boolean[] done ) {
+    Display display = Display.getDefault();
+    while( !done[ 0 ] && !PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().isDisposed() ) {
+      if( !display.readAndDispatch() ) {
+        display.sleep();
       }
     }
   }
