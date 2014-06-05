@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="com.codeaffine.gonsole.repositoryProviders">
+      <repositoryProvider
+            class="com.codeaffine.gonsole.internal.RepositoryProviderExtensionReaderPDETest$TestRepositoryProvider">
+      </repositoryProvider>
+   </extension>
+</fragment>

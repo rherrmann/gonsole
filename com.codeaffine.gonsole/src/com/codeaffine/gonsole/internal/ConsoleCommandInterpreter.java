@@ -4,15 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.codeaffine.gonsole.internal.repository.TempRepositoryProvider;
 import com.google.common.base.Charsets;
 
 
 public class ConsoleCommandInterpreter {
 
   private final OutputStream outputStream;
-  private final RepositoryProvider repositoryProvider;
+  private final TempRepositoryProvider repositoryProvider;
 
-  public ConsoleCommandInterpreter( OutputStream outStream, RepositoryProvider repoProvider ) {
+  public ConsoleCommandInterpreter( OutputStream outStream, TempRepositoryProvider repoProvider ) {
     this.outputStream = outStream;
     this.repositoryProvider = repoProvider;
   }

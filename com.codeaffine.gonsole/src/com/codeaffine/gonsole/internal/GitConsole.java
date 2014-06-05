@@ -7,14 +7,16 @@ import java.util.Scanner;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
+import com.codeaffine.gonsole.internal.repository.TempRepositoryProvider;
+
 
 public class GitConsole extends IOConsole {
 
-  private final RepositoryProvider repositoryProvider;
+  private final TempRepositoryProvider repositoryProvider;
 
   public GitConsole() {
     super( "Interactive Git Console", null );
-    repositoryProvider = new RepositoryProvider();
+    repositoryProvider = new TempRepositoryProvider();
     repositoryProvider.ensureRepositories();
     repositoryProvider.setCurrentGitDirectory( repositoryProvider.getGitDirectories()[ 0 ] );
     Runnable runnable = new Runnable() {

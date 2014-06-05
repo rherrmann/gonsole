@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.codeaffine.gonsole.internal.GitConsoleFactory;
-import com.codeaffine.gonsole.internal.RepositoryProvider;
+import com.codeaffine.gonsole.internal.repository.TempRepositoryProvider;
 
 public class SkeletonPDETest {
 
@@ -32,7 +32,7 @@ public class SkeletonPDETest {
 
   private Display display;
   private IWorkbenchPage activePage;
-  private RepositoryProvider repositoryProvider;
+  private TempRepositoryProvider repositoryProvider;
 
   @Test
   public void testExecuteSimpleCommand() throws PartInitException {
@@ -62,7 +62,7 @@ public class SkeletonPDETest {
   public void setUp() {
     display = PlatformUI.getWorkbench().getDisplay();
     activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-    repositoryProvider = new RepositoryProvider();
+    repositoryProvider = new TempRepositoryProvider();
     repositoryProvider.deleteRepositories();
     repositoryProvider.ensureRepositories();
     hideIntroPart();
