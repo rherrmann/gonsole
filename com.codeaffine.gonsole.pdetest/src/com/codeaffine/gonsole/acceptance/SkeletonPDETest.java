@@ -16,6 +16,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.part.PageBookView;
@@ -23,6 +24,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.codeaffine.gonsole.internal.GitConsole;
 import com.codeaffine.gonsole.internal.GitConsoleFactory;
 import com.codeaffine.gonsole.internal.repository.TempRepositoryProvider;
 
@@ -72,6 +74,7 @@ public class SkeletonPDETest {
   public void tearDown() {
     activePage.hideView( activePage.findView( CONSOLE_VIEW_ID ) );
     repositoryProvider.deleteRepositories();
+    removeGitConsoles();
   }
 
   private static void enterCommand( TextConsolePage consolePage, String commandText ) {
@@ -104,6 +107,16 @@ public class SkeletonPDETest {
       IWorkbenchWindow workbenchWindow = view.getSite().getWorkbenchWindow();
       workbenchWindow.getActivePage().hideView( ( IViewPart )view );
       flushDisplayEventLoop();
+    }
+  }
+
+  private static void removeGitConsoles() {
+    IConsoleManager consoleManager = ConsolePlugin.getDefault().getConsoleManager();
+    IConsole[] consoles = consoleManager.getConsoles();
+    for( IConsole console : consoles ) {
+      if( console instanceof GitConsole ) {
+        consoleManager.removeConsoles( new IConsole[] { console } );
+      }
     }
   }
 
