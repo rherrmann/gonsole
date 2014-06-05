@@ -21,8 +21,8 @@ public class RepositoryProvider {
     }
   }
 
-  public String getGitDirectory() {
-    return new File( directory, ".git" ).getAbsolutePath();
+  public File getGitDirectory() {
+    return new File( directory, ".git" );
   }
 
   public void ensureRepository() {

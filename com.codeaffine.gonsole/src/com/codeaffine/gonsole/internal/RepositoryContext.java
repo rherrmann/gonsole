@@ -10,13 +10,12 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 
 class RepositoryContext {
 
-  private final String directory;
-
+  private final File gitDirectory;
   private boolean disposed;
   Repository repository;
 
-  RepositoryContext( String directory ) {
-    this.directory = directory;
+  RepositoryContext( File gitDirectory ) {
+    this.gitDirectory = gitDirectory;
   }
 
   Repository getRepository() {
@@ -41,8 +40,7 @@ class RepositoryContext {
 
   private void create() {
     try {
-      File gitDir = new File( directory );
-      repository = new RepositoryBuilder().setGitDir( gitDir ).setMustExist( true ).build();
+      repository = new RepositoryBuilder().setGitDir( gitDirectory ).setMustExist( true ).build();
     } catch( IOException e ) {
       throw new RuntimeException( e );
     }

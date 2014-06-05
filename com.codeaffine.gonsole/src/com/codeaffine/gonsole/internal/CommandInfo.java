@@ -1,8 +1,8 @@
 package com.codeaffine.gonsole.internal;
 
 import static com.google.common.collect.Iterables.toArray;
+import static com.google.common.collect.Lists.newArrayList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.pgm.TextBuiltin;
@@ -16,7 +16,12 @@ class CommandInfo {
   TextBuiltin command;
 
   @Argument(index = 1, metaVar = "metaVar_arg")
-  final List<String> arguments = new ArrayList<String>();
+  final List<String> arguments;
+
+
+  CommandInfo() {
+    arguments = newArrayList();
+  }
 
   TextBuiltin getCommand() {
     return command;

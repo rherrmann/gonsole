@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.internal;
 
+import java.io.File;
 import java.io.OutputStream;
 
 import com.google.common.base.Throwables;
@@ -7,14 +8,15 @@ import com.google.common.base.Throwables;
 class CommandExecutor {
 
   private final OutputStream outputStream;
-  private final RepositoryContext repositoryContext;
+  private final File gitDirectory;
 
-  public CommandExecutor( OutputStream outputStream, String directory ) {
+  CommandExecutor( OutputStream outputStream, File gitDirectory ) {
     this.outputStream = outputStream;
-    this.repositoryContext = new RepositoryContext( directory ); ;
+    this.gitDirectory = gitDirectory;
   }
 
-  public void execute( CommandInfo commandInfo ) {
+  void execute( CommandInfo commandInfo ) {
+    RepositoryContext repositoryContext = new RepositoryContext( gitDirectory ); ;
     try {
       CommandAccessor commandAccessor = new CommandAccessor( commandInfo );
       commandAccessor.init( repositoryContext.getRepository(), outputStream );

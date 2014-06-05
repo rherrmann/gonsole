@@ -86,7 +86,7 @@ public class RepositoryContextPDETest {
   @Test
   public void testProblemOnCreate() {
     try {
-      new RepositoryContext( "does/not/exist" ).getRepository();
+      new RepositoryContext( new File( "does/not/exist" ) ).getRepository();
       fail();
     } catch( Exception expected ) {
       assertThat( expected.getCause() ).isInstanceOf( RepositoryNotFoundException.class );
@@ -96,7 +96,7 @@ public class RepositoryContextPDETest {
   @Before
   public void setUp() throws Exception {
     gitDirectory = createRepository();
-    repositoryContext = new RepositoryContext( gitDirectory.getPath() );
+    repositoryContext = new RepositoryContext( gitDirectory );
   }
 
   @After
