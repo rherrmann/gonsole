@@ -13,6 +13,10 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 
 import com.google.common.base.Throwables;
 
+/*
+ * Workaround for JGit bug 436232: NLS cannot be used in OSGi
+ * https://bugs.eclipse.org/bugs/show_bug.cgi?id=436232
+ */
 @SuppressWarnings("restriction")
 public class PgmResourceBundle {
 
