@@ -10,38 +10,58 @@ import com.google.common.base.Throwables;
 
 public class RepositoryProvider {
 
-  private final File directory;
+  private final File[] directories;
+  private File currentGitDirectory;
 
   public RepositoryProvider() {
+    String tmpDir = System.getProperty( "java.io.tmpdir" );
     try {
-      String tmpDir = System.getProperty( "java.io.tmpdir" );
-      directory = new File( tmpDir, "gonsole-repository" ).getCanonicalFile();
+      directories = new File[] {
+        new File( tmpDir, "gonsole-repository-1" ).getCanonicalFile(),
+        new File( tmpDir, "gonsole-repository-2" ).getCanonicalFile()
+      };
     } catch( IOException e ) {
       throw new RuntimeException( e );
     }
   }
 
-  public File getGitDirectory() {
-    return new File( directory, ".git" );
-  }
-
-  public void ensureRepository() {
-    if( !directory.exists() ) {
-      directory.mkdirs();
-      try {
-        Git git = Git.init().setDirectory( directory ).setBare( false ).call();
-        git.getRepository().close();
-      } catch( GitAPIException e ) {
-        Throwables.propagate( e );
+  public void ensureRepositories() {
+    for( File directory : directories ) {
+      if( !directory.exists() ) {
+        directory.mkdirs();
+        try {
+          Git git = Git.init().setDirectory( directory ).call();
+          git.getRepository().close();
+        } catch( GitAPIException e ) {
+          Throwables.propagate( e );
+        }
       }
     }
   }
 
-  public void deleteRepository() {
-    if( directory.exists() ) {
-      deleteDirectory( directory );
-      deleteFile( directory );
+  public void deleteRepositories() {
+    for( File directory : directories ) {
+      if( directory.exists() ) {
+        deleteDirectory( directory );
+        deleteFile( directory );
+      }
     }
+  }
+
+  public File[] getGitDirectories() {
+    File[] result = new File[ directories.length ];
+    for( int i = 0; i < result.length; i++ ) {
+      result[ i ] = new File( directories[ i ], ".git" );
+    }
+    return result;
+  }
+
+  public File getCurrentGitDirectory() {
+    return currentGitDirectory;
+  }
+
+  public void setCurrentGitDirectory( File currentGitDirectory ) {
+    this.currentGitDirectory = currentGitDirectory;
   }
 
   private static void deleteDirectory( File file ) {

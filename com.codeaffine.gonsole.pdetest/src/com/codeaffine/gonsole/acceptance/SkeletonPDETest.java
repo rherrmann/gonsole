@@ -1,6 +1,7 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -34,16 +35,27 @@ public class SkeletonPDETest {
   private RepositoryProvider repositoryProvider;
 
   @Test
-  public void testExecuteSimpleCommand() throws Exception {
-    TextConsolePage consolePage = openGitConsole();
+  public void testExecuteSimpleCommand() throws PartInitException {
+    TextConsolePage consolePage = openConsolePage();
     StyledText control = ( StyledText )consolePage.getControl();
     String lineDelimiter = control.getLineDelimiter();
     control.append( "status" + lineDelimiter );
 
     waitForDocumentChange( consolePage.getViewer().getDocument() );
 
-    String expectedText = "status" + lineDelimiter + "# On branch master" + lineDelimiter;
-    assertThat( control.getText() ).isEqualTo( expectedText );
+    assertConsoleTextEquals( consolePage, "status", "# On branch master" );
+  }
+
+  @Test
+  public void testExecuteChangeRepositoryCommand() throws PartInitException {
+    TextConsolePage consolePage = openConsolePage();
+    enterCommand( consolePage, "cr gonsole-repository-2" );
+
+    waitForDocumentChange( consolePage.getViewer().getDocument() );
+
+    assertConsoleTextEquals( consolePage,
+                             "cr gonsole-repository-2",
+                             "Current repository is: gonsole-repository-2" );
   }
 
   @Before
@@ -51,18 +63,33 @@ public class SkeletonPDETest {
     display = PlatformUI.getWorkbench().getDisplay();
     activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
     repositoryProvider = new RepositoryProvider();
-    repositoryProvider.deleteRepository();
-    repositoryProvider.ensureRepository();
+    repositoryProvider.deleteRepositories();
+    repositoryProvider.ensureRepositories();
     hideIntroPart();
   }
 
   @After
   public void tearDown() {
     activePage.hideView( activePage.findView( CONSOLE_VIEW_ID ) );
-    repositoryProvider.deleteRepository();
+    repositoryProvider.deleteRepositories();
   }
 
-  private TextConsolePage openGitConsole() throws PartInitException {
+  private static void enterCommand( TextConsolePage consolePage, String commandText ) {
+    StyledText control = ( StyledText )consolePage.getControl();
+    String lineDelimiter = control.getLineDelimiter();
+    control.append( commandText + lineDelimiter );
+  }
+
+  private static void assertConsoleTextEquals( TextConsolePage consolePage, String... lines ) {
+    StyledText control = ( StyledText )consolePage.getControl();
+    String expectedText = "";
+    for( int i = 0; i < lines.length; i++ ) {
+      expectedText = expectedText + lines[ i ] + control.getLineDelimiter();
+    }
+    assertEquals( expectedText, control.getText() );
+  }
+
+  private TextConsolePage openConsolePage() throws PartInitException {
     new GitConsoleFactory().openConsole();
     IConsole console = ConsolePlugin.getDefault().getConsoleManager().getConsoles()[ 0 ];
     IConsoleView consoleView = ( IConsoleView )activePage.showView( CONSOLE_VIEW_ID );
@@ -88,7 +115,11 @@ public class SkeletonPDETest {
         changed[ 0 ] = true;
       }
     } );
+    long startTime = System.currentTimeMillis();
     while( !changed[ 0 ] && !activePage.getWorkbenchWindow().getShell().isDisposed() ) {
+      if( System.currentTimeMillis() - startTime > 10000 ) {
+        fail( "Timed out while waiting on console document change" );
+      }
       if( !display.readAndDispatch() ) {
         display.sleep();
       }
