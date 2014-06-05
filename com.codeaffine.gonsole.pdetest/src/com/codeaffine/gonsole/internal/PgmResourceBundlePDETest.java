@@ -19,6 +19,17 @@ public class PgmResourceBundlePDETest {
 
   @Test
   @RunInThread
+  public void testTranslationSucceedsIfNlsIsIntializedTwice() {
+    new PgmResourceBundle().initialize();
+    new PgmResourceBundle().initialize();
+
+    CLIText cliText = CLIText.get();
+
+    assertThat( cliText.alreadyOnBranch ).isNotNull();
+  }
+
+  @Test
+  @RunInThread
   public void testTranslationSucceedsIfNlsIsIntialized() {
     new PgmResourceBundle().initialize();
 
@@ -29,7 +40,7 @@ public class PgmResourceBundlePDETest {
 
   @RunInThread
   @Test(expected = TranslationBundleLoadingException.class)
-  public void testTranslationFailureIfNlsNotInitialized() {
+  public void testTranslationFailsIfNlsNotInitialized() {
     CLIText.get();
   }
 
