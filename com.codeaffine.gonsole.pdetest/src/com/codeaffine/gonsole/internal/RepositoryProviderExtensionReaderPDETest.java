@@ -2,6 +2,8 @@ package com.codeaffine.gonsole.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.File;
+
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 
@@ -23,5 +25,9 @@ public class RepositoryProviderExtensionReaderPDETest {
   }
 
   public static class TestRepositoryProvider implements RepositoryProvider {
+    @Override
+    public File[] getRepositoryLocations() {
+      return null;
+    }
   }
 }

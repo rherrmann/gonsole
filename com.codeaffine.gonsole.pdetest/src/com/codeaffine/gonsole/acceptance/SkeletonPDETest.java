@@ -2,10 +2,16 @@ package com.codeaffine.gonsole.acceptance;
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.File;
 
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
@@ -22,19 +28,24 @@ import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.part.PageBookView;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
+import com.codeaffine.gonsole.RepositoryProvider;
 import com.codeaffine.gonsole.internal.GitConsole;
-import com.codeaffine.gonsole.internal.GitConsoleFactory;
-import com.codeaffine.gonsole.internal.repository.TempRepositoryProvider;
+import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 
 public class SkeletonPDETest {
 
   private static final String CONSOLE_VIEW_ID = "org.eclipse.ui.console.ConsoleView";
 
+  @Rule
+  public final TemporaryFolder tempFolder = new TemporaryFolder();
+
   private Display display;
   private IWorkbenchPage activePage;
-  private TempRepositoryProvider repositoryProvider;
+  private File[] repositoryLocations;
 
   @Test
   public void testExecuteSimpleCommand() throws PartInitException {
@@ -51,29 +62,27 @@ public class SkeletonPDETest {
   @Test
   public void testExecuteChangeRepositoryCommand() throws PartInitException {
     TextConsolePage consolePage = openConsolePage();
-    enterCommand( consolePage, "cr gonsole-repository-2" );
+    enterCommand( consolePage, "cr repo-2" );
 
     waitForDocumentChange( consolePage.getViewer().getDocument() );
 
-    assertConsoleTextEquals( consolePage,
-                             "cr gonsole-repository-2",
-                             "Current repository is: gonsole-repository-2" );
+    assertConsoleTextEquals( consolePage, "cr repo-2", "Current repository is: repo-2" );
   }
 
   @Before
-  public void setUp() {
+  public void setUp() throws GitAPIException {
     display = PlatformUI.getWorkbench().getDisplay();
     activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-    repositoryProvider = new TempRepositoryProvider();
-    repositoryProvider.deleteRepositories();
-    repositoryProvider.ensureRepositories();
+    repositoryLocations = new File[] {
+      createRepository( new File( tempFolder.getRoot(), "repo-1" ) ),
+      createRepository( new File( tempFolder.getRoot(), "repo-2" ) )
+    };
     hideIntroPart();
   }
 
   @After
   public void tearDown() {
     activePage.hideView( activePage.findView( CONSOLE_VIEW_ID ) );
-    repositoryProvider.deleteRepositories();
     removeGitConsoles();
   }
 
@@ -92,9 +101,25 @@ public class SkeletonPDETest {
     assertEquals( expectedText, control.getText() );
   }
 
+  private static File createRepository( File file ) throws GitAPIException {
+    Git git = Git.init().setDirectory( file ).call();
+    File result = git.getRepository().getDirectory();
+    git.getRepository().close();
+    return result;
+  }
+
+  private CompositeRepositoryProvider createCompositeRepositoryProvider() {
+    RepositoryProvider repositoryProvider = mock( RepositoryProvider.class );
+    when( repositoryProvider.getRepositoryLocations() ).thenReturn( repositoryLocations );
+    CompositeRepositoryProvider result = new CompositeRepositoryProvider( repositoryProvider );
+    result.setCurrentRepositoryLocation( repositoryProvider.getRepositoryLocations()[ 0 ] );
+    return result;
+  }
+
   private TextConsolePage openConsolePage() throws PartInitException {
-    new GitConsoleFactory().openConsole();
-    IConsole console = ConsolePlugin.getDefault().getConsoleManager().getConsoles()[ 0 ];
+    CompositeRepositoryProvider repositoryProvider2 = createCompositeRepositoryProvider();
+    IConsole console = new GitConsole( repositoryProvider2 );
+    ConsolePlugin.getDefault().getConsoleManager().addConsoles( new IConsole[] { console } );
     IConsoleView consoleView = ( IConsoleView )activePage.showView( CONSOLE_VIEW_ID );
     consoleView.display( console );
     flushDisplayEventLoop();

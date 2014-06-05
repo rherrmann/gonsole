@@ -4,18 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.codeaffine.gonsole.internal.repository.TempRepositoryProvider;
+import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 import com.google.common.base.Charsets;
 
 
 public class ConsoleCommandInterpreter {
 
   private final OutputStream outputStream;
-  private final TempRepositoryProvider repositoryProvider;
+  private final CompositeRepositoryProvider repositoryProvider;
 
-  public ConsoleCommandInterpreter( OutputStream outStream, TempRepositoryProvider repoProvider ) {
-    this.outputStream = outStream;
-    this.repositoryProvider = repoProvider;
+  public ConsoleCommandInterpreter( OutputStream outputStream,
+                                    CompositeRepositoryProvider repositoryProvider )
+  {
+    this.outputStream = outputStream;
+    this.repositoryProvider = repositoryProvider;
   }
 
   public boolean execute( String[] parts ) {
@@ -23,13 +25,14 @@ public class ConsoleCommandInterpreter {
     if( parts.length == 2 && parts[ 0 ].equals( "cr" ) ) {
       result = true;
       String newRepositoryName = parts[ 1 ];
-      File[] gitDirectories = repositoryProvider.getGitDirectories();
-      for( File gitDirectory : gitDirectories ) {
-        if( newRepositoryName.equals( gitDirectory.getParent() ) ) {
-          repositoryProvider.setCurrentGitDirectory( gitDirectory );
+      File[] repositoryLocations = repositoryProvider.getRepositoryLocations();
+      for( File repositoryLocation : repositoryLocations ) {
+        if( newRepositoryName.equals( getRepositoryName( repositoryLocation ) ) ) {
+          repositoryProvider.setCurrentRepositoryLocation( repositoryLocation );
         }
       }
-      String message = String.format( "Current repository is: %s%n", newRepositoryName );
+      String changedRepositoryName = getRepositoryName( repositoryProvider.getCurrentRepositoryLocation() );
+      String message = String.format( "Current repository is: %s%n", changedRepositoryName );
       try {
         outputStream.write( message.getBytes( Charsets.UTF_8 ) );
       } catch( IOException e ) {
@@ -38,4 +41,10 @@ public class ConsoleCommandInterpreter {
     }
     return result;
   }
+
+  private static String getRepositoryName( File repositoryLocation ) {
+    File parentFile = repositoryLocation.getParentFile();
+    return parentFile == null ? null : parentFile.getName();
+  }
+
 }

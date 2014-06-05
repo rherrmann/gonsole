@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gonsole PDE Test
-Bundle-SymbolicName: com.codeaffine.gonsole.pdetest
+Bundle-SymbolicName: com.codeaffine.gonsole.pdetest;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: codeaffine.com
 Fragment-Host: com.codeaffine.gonsole;bundle-version="0.8.0"

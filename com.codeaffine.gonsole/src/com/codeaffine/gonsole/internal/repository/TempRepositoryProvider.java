@@ -6,12 +6,12 @@ import java.io.IOException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
+import com.codeaffine.gonsole.RepositoryProvider;
 import com.google.common.base.Throwables;
 
-public class TempRepositoryProvider {
+public class TempRepositoryProvider implements RepositoryProvider {
 
   private final File[] directories;
-  private File currentGitDirectory;
 
   public TempRepositoryProvider() {
     String tmpDir = System.getProperty( "java.io.tmpdir" );
@@ -39,48 +39,12 @@ public class TempRepositoryProvider {
     }
   }
 
-  public void deleteRepositories() {
-    for( File directory : directories ) {
-      if( directory.exists() ) {
-        deleteDirectory( directory );
-        deleteFile( directory );
-      }
-    }
-  }
-
-  public File[] getGitDirectories() {
+  @Override
+  public File[] getRepositoryLocations() {
     File[] result = new File[ directories.length ];
     for( int i = 0; i < result.length; i++ ) {
       result[ i ] = new File( directories[ i ], ".git" );
     }
     return result;
   }
-
-  public File getCurrentGitDirectory() {
-    return currentGitDirectory;
-  }
-
-  public void setCurrentGitDirectory( File currentGitDirectory ) {
-    this.currentGitDirectory = currentGitDirectory;
-  }
-
-  private static void deleteDirectory( File file ) {
-    if( file.isDirectory() ) {
-      File[] children = file.listFiles();
-      for( File child : children ) {
-        if( child.exists() ) {
-          deleteDirectory( child );
-          deleteFile( child );
-        }
-      }
-    }
-  }
-
-  private static void deleteFile( File file ) {
-    boolean deleted = file.delete();
-    if( !deleted ) {
-      throw new RuntimeException( "Unable to delete file: " + file );
-    }
-  }
-
 }

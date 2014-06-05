@@ -7,43 +7,42 @@ import java.util.Scanner;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
-import com.codeaffine.gonsole.internal.repository.TempRepositoryProvider;
-
+import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 
 public class GitConsole extends IOConsole {
 
-  private final TempRepositoryProvider repositoryProvider;
+  private final CompositeRepositoryProvider repositoryProvider;
 
-  public GitConsole() {
+  public GitConsole( CompositeRepositoryProvider repositoryProvider ) {
     super( "Interactive Git Console", null );
-    repositoryProvider = new TempRepositoryProvider();
-    repositoryProvider.ensureRepositories();
-    repositoryProvider.setCurrentGitDirectory( repositoryProvider.getGitDirectories()[ 0 ] );
-    Runnable runnable = new Runnable() {
-      @Override
-      public void run() {
-        while( true ) {
-          Scanner scanner = new Scanner( getInputStream() );
-          String line = scanner.nextLine();
-          String[] parts = line.split( " " );
-          File gitDirectory = repositoryProvider.getCurrentGitDirectory();
-          IOConsoleOutputStream outputStream = newOutputStream();
-          try {
-            if( !new ConsoleCommandInterpreter( outputStream, repositoryProvider ).execute( parts ) ) {
-              new GitInterpreter( outputStream, gitDirectory ).execute( parts );
-            }
-          } finally {
-            try {
-              outputStream.close();
-            } catch( IOException ignore ) {
-            }
-          }
-        }
-      }
-    };
+    this.repositoryProvider = repositoryProvider;
+    Runnable runnable = new InputScanner();
     Thread thread = new Thread( runnable );
     thread.setDaemon( true );
     thread.start();
+  }
+
+  private class InputScanner implements Runnable {
+    @Override
+    public void run() {
+      while( true ) {
+        Scanner scanner = new Scanner( getInputStream() );
+        String line = scanner.nextLine();
+        String[] parts = line.split( " " );
+        File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
+        IOConsoleOutputStream outputStream = newOutputStream();
+        try {
+          if( !new ConsoleCommandInterpreter( outputStream, repositoryProvider ).execute( parts ) ) {
+            new GitInterpreter( outputStream, gitDirectory ).execute( parts );
+          }
+        } finally {
+          try {
+            outputStream.close();
+          } catch( IOException ignore ) {
+          }
+        }
+      }
+    }
   }
 
 }
