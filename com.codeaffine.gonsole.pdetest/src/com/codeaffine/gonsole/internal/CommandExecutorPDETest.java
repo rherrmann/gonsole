@@ -38,6 +38,17 @@ public class CommandExecutorPDETest {
   }
 
   @Test
+  public void testExecuteWithIllegalOptions() {
+    CommandInfo commandInfo = new CommandLineParser().parse( "status", "illegal" );
+
+    try {
+      executor.execute( commandInfo );
+      fail();
+    } catch( RuntimeException expected ) {
+    }
+  }
+
+  @Test
   public void testExecuteWithException() {
     Exception exception = new Exception();
     CommandInfo commandInfo = new CommandInfo();
