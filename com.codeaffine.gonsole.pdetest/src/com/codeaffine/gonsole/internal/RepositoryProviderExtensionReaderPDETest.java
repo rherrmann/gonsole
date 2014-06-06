@@ -16,7 +16,7 @@ public class RepositoryProviderExtensionReaderPDETest {
   public void testRead() {
     RepositoryProvider[] repositoryProviders = new RepositoryProviderExtensionReader().read();
 
-    assertThat( repositoryProviders ).have( new Condition<RepositoryProvider>() {
+    assertThat( repositoryProviders ).areAtLeast( 1, new Condition<RepositoryProvider>() {
       @Override
       public boolean matches( RepositoryProvider value ) {
         return value instanceof TestRepositoryProvider;

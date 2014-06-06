@@ -1,10 +1,11 @@
 package com.codeaffine.gonsole.internal;
 
+import static com.codeaffine.test.util.rergistry.RegistryHelper.findByAttribute;
+import static com.codeaffine.test.util.rergistry.RegistryHelper.getConfigurationElements;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,24 +32,7 @@ public class GitConsoleFactoryExtensionPDETest {
 
   @Before
   public void setUp() {
-    IConfigurationElement[] elements = getConsoleFactoryExtensions();
+    IConfigurationElement[] elements = getConfigurationElements( EP_CONSOLE_FACTORIES );
     configElement = findByAttribute( elements, "class", FACTORY_CLASS_NAME );
-  }
-
-  private static IConfigurationElement[] getConsoleFactoryExtensions() {
-    return Platform.getExtensionRegistry().getConfigurationElementsFor( EP_CONSOLE_FACTORIES );
-  }
-
-  private static IConfigurationElement findByAttribute( IConfigurationElement[] elements,
-                                                        String attributeName,
-                                                        String attributeValue )
-  {
-    IConfigurationElement result = null;
-    for( int i = 0; result == null && i < elements.length; i++ ) {
-      if( attributeValue.equals( elements[ i ].getAttribute( attributeName ) ) ) {
-        result = elements[ i ];
-      }
-    }
-    return result;
   }
 }

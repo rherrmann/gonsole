@@ -14,5 +14,45 @@
             label="Interactive Git Console">
       </consoleFactory>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferencesInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.team.ui.TeamPreferences"
+            class="com.codeaffine.gonsole.internal.preference.ConsolePreferencePage"
+            id="com.codeaffine.gonsole.internal.preference.ConsolePreferencePage"
+            name="Git Console">
+         <keywordReference
+               id="com.codeaffine.gonsole.internal.keyword.PreferencePage">
+         </keywordReference>
+      </page>
+      <page
+            category="com.codeaffine.gonsole.internal.preference.ConsolePreferencePage"
+            class="com.codeaffine.gonsole.internal.preference.RepositoryPreferencePage"
+            id="com.codeaffine.gonsole.internal.preference.RepositoryPreferencePage"
+            name="Repository Locations">
+         <keywordReference
+               id="com.codeaffine.gonsole.internal.keyword.PreferencePage">
+         </keywordReference>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.keywords">
+      <keyword
+            id="com.codeaffine.gonsole.internal.keyword.PreferencePage"
+            label="git console repository team ">
+      </keyword>
+   </extension>
+   <extension
+         point="com.codeaffine.gonsole.repositoryProviders">
+      <repositoryProvider
+            class="com.codeaffine.gonsole.internal.repository.PreferenceRepositoryProvider">
+      </repositoryProvider>
+   </extension>
 
 </plugin>
