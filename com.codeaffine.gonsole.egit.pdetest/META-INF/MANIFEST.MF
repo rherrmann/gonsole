@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EGit Repository Provider for Gonsole PDE Tests
-Bundle-SymbolicName: com.codeaffine.gonsole.egit.pdetest
+Bundle-SymbolicName: com.codeaffine.gonsole.egit.pdetest;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: codeaffine.com
 Fragment-Host: com.codeaffine.gonsole.egit;bundle-version="[0.8.0,2.0.0)"
