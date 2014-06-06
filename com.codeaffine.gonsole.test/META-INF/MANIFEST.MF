@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Gonsole Test
+Bundle-Name: Gonsole Tests
 Bundle-SymbolicName: com.codeaffine.gonsole.test
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: codeaffine.com

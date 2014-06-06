@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.codeaffine.gonsole.egit.feature"
+      label="Gonsole - Git Console Integration for Eclipse EGit"
+      version="0.8.0.qualifier"
+      provider-name="codeaffine.com">
+
+   <description url="https://github.com/rherrmann/gonsole/blob/master/README.md">
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update url="http://rherrmann.github.io/gonsole/repository/"/>
+   </url>
+
+   <requires>
+      <import plugin="com.codeaffine.gonsole" version="0.8.0"/>
+      <import plugin="org.eclipse.egit.core" version="3.3.0" match="compatible"/>
+   </requires>
+
+   <plugin
+         id="com.codeaffine.gonsole.egit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="com.codeaffine.gonsole.egit.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+</feature>

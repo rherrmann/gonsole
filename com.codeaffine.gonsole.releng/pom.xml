@@ -22,11 +22,18 @@
   </prerequisites>
 
   <modules>
-    <module>feature</module>
+    <module>core-feature</module>
+<!-- 
+    <module>egit-feature</module>
+ -->    
     <module>repository</module>
     <module>../com.codeaffine.gonsole</module>
     <module>../com.codeaffine.gonsole.test</module>
     <module>../com.codeaffine.gonsole.pdetest</module>
+<!-- 
+    <module>../com.codeaffine.gonsole.egit</module>
+    <module>../com.codeaffine.gonsole.egit.pdetest</module>
+ -->    
     <module>../com.codeaffine.test.util</module>
     <module>../org.eclipse.jgit.pgm</module>
   </modules>
