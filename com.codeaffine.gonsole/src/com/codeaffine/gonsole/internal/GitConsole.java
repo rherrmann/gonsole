@@ -2,6 +2,9 @@ package com.codeaffine.gonsole.internal;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import org.eclipse.ui.console.IOConsole;
@@ -39,6 +42,8 @@ public class GitConsole extends IOConsole {
           if( !new ConsoleCommandInterpreter( outputStream, repositoryProvider ).execute( parts ) ) {
             new GitInterpreter( outputStream, gitDirectory ).execute( parts );
           }
+        } catch( Exception exception ) {
+          printStackTrace( outputStream, exception );
         } finally {
           try {
             outputStream.close();
@@ -46,6 +51,14 @@ public class GitConsole extends IOConsole {
           }
         }
       }
+    }
+
+    private void printStackTrace( OutputStream outputStream, Exception exception ) {
+      OutputStreamWriter streamWriter = new OutputStreamWriter( outputStream, Charsets.UTF_8 );
+      PrintWriter printWriter = new PrintWriter( streamWriter, true );
+      exception.printStackTrace( printWriter );
+      printWriter.flush();
+      printWriter.close();
     }
   }
 
