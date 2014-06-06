@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
  org.kohsuke.args4j;bundle-version="[2.0.21,3.0.0)",
  com.google.guava;bundle-version="[12.0.0,13.0.0)"
 Bundle-Activator: com.codeaffine.gonsole.internal.GonsolePlugin
+Export-Package: com.codeaffine.gonsole;version="0.8.0.qualifier"
