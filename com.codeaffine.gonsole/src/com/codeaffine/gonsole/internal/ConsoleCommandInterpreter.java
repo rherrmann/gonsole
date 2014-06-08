@@ -13,9 +13,7 @@ public class ConsoleCommandInterpreter {
   private final OutputStream outputStream;
   private final CompositeRepositoryProvider repositoryProvider;
 
-  public ConsoleCommandInterpreter( OutputStream outputStream,
-                                    CompositeRepositoryProvider repositoryProvider )
-  {
+  public ConsoleCommandInterpreter( OutputStream outputStream, CompositeRepositoryProvider repositoryProvider ) {
     this.outputStream = outputStream;
     this.repositoryProvider = repositoryProvider;
   }
