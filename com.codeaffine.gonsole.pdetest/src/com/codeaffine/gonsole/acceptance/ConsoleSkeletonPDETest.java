@@ -1,6 +1,6 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static com.codeaffine.gonsole.pdetest.GonsoleAsserts.assertThat;
+import static com.codeaffine.gonsole.pdetest.GonsolePDEAsserts.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -9,7 +9,6 @@ import java.io.File;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -31,15 +30,15 @@ import org.junit.rules.TemporaryFolder;
 import com.codeaffine.gonsole.RepositoryProvider;
 import com.codeaffine.gonsole.internal.GitConsole;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class ConsoleSkeletonPDETest {
 
   private static final String CONSOLE_VIEW_ID = "org.eclipse.ui.console.ConsoleView";
 
-  @Rule
-  public final TemporaryFolder tempFolder = new TemporaryFolder();
+  @Rule public final TemporaryFolder tempFolder = new TemporaryFolder();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private Display display;
   private IWorkbenchPage activePage;
   private File[] repositoryLocations;
 
@@ -65,7 +64,6 @@ public class ConsoleSkeletonPDETest {
 
   @Before
   public void setUp() throws GitAPIException {
-    display = PlatformUI.getWorkbench().getDisplay();
     activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
     repositoryLocations = new File[] {
       createRepository( new File( tempFolder.getRoot(), "repo-1" ) ),
@@ -107,7 +105,7 @@ public class ConsoleSkeletonPDETest {
     ConsolePlugin.getDefault().getConsoleManager().addConsoles( new IConsole[] { console } );
     IConsoleView consoleView = ( IConsoleView )activePage.showView( CONSOLE_VIEW_ID );
     consoleView.display( console );
-    flushDisplayEventLoop();
+    displayHelper.flushPendingEvents();
     return ( TextConsolePage )( ( PageBookView )consoleView ).getCurrentPage();
   }
 
@@ -116,7 +114,7 @@ public class ConsoleSkeletonPDETest {
     if( "org.eclipse.ui.internal.introview".equals( view.getSite().getId() ) ) {
       IWorkbenchWindow workbenchWindow = view.getSite().getWorkbenchWindow();
       workbenchWindow.getActivePage().hideView( ( IViewPart )view );
-      flushDisplayEventLoop();
+      displayHelper.flushPendingEvents();
     }
   }
 
@@ -128,9 +126,5 @@ public class ConsoleSkeletonPDETest {
         consoleManager.removeConsoles( new IConsole[] { console } );
       }
     }
-  }
-
-  private void flushDisplayEventLoop() {
-    while( display.readAndDispatch() ) {}
   }
 }
