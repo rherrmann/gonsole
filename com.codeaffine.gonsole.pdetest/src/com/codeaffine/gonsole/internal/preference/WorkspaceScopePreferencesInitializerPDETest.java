@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.junit.Test;
 
-import com.codeaffine.test.util.rergistry.RegistryHelper;
+import com.codeaffine.test.util.registry.RegistryHelper;
 
 
 public class WorkspaceScopePreferencesInitializerPDETest {

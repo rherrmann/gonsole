@@ -1,7 +1,7 @@
 package com.codeaffine.gonsole.internal;
 
-import static com.codeaffine.test.util.rergistry.RegistryHelper.findByAttribute;
-import static com.codeaffine.test.util.rergistry.RegistryHelper.getConfigurationElements;
+import static com.codeaffine.test.util.registry.RegistryHelper.findByAttribute;
+import static com.codeaffine.test.util.registry.RegistryHelper.getConfigurationElements;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.core.runtime.CoreException;
