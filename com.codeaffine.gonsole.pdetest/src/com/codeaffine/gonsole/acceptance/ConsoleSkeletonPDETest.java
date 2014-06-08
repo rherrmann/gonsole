@@ -1,15 +1,11 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static org.assertj.core.api.Assertions.fail;
-import static org.junit.Assert.assertEquals;
+import static com.codeaffine.gonsole.pdetest.GonsoleAsserts.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 
-import org.eclipse.jface.text.DocumentEvent;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.swt.custom.StyledText;
@@ -54,9 +50,8 @@ public class ConsoleSkeletonPDETest {
     String lineDelimiter = control.getLineDelimiter();
     control.append( "status" + lineDelimiter );
 
-    waitForDocumentChange( consolePage.getViewer().getDocument() );
-
-    assertConsoleTextEquals( consolePage, "status", "# On branch master" );
+    assertThat( consolePage ).waitForChange();
+    assertThat( consolePage ).containsLines( "status", "# On branch master" );
   }
 
   @Test
@@ -64,9 +59,8 @@ public class ConsoleSkeletonPDETest {
     TextConsolePage consolePage = openConsolePage();
     enterCommand( consolePage, "cr repo-2" );
 
-    waitForDocumentChange( consolePage.getViewer().getDocument() );
-
-    assertConsoleTextEquals( consolePage, "cr repo-2", "Current repository is: repo-2" );
+    assertThat( consolePage ).waitForChange();
+    assertThat( consolePage ).containsLines( "cr repo-2", "Current repository is: repo-2" );
   }
 
   @Before
@@ -90,15 +84,6 @@ public class ConsoleSkeletonPDETest {
     StyledText control = ( StyledText )consolePage.getControl();
     String lineDelimiter = control.getLineDelimiter();
     control.append( commandText + lineDelimiter );
-  }
-
-  private static void assertConsoleTextEquals( TextConsolePage consolePage, String... lines ) {
-    StyledText control = ( StyledText )consolePage.getControl();
-    String expectedText = "";
-    for( int i = 0; i < lines.length; i++ ) {
-      expectedText = expectedText + lines[ i ] + control.getLineDelimiter();
-    }
-    assertEquals( expectedText, control.getText() );
   }
 
   private static File createRepository( File file ) throws GitAPIException {
@@ -145,36 +130,7 @@ public class ConsoleSkeletonPDETest {
     }
   }
 
-  private void waitForDocumentChange( IDocument document ) {
-    final boolean[] changed = new boolean[ 1 ];
-    document.addDocumentListener( new DocumentAdapter() {
-      @Override
-      public void documentChanged( DocumentEvent event ) {
-        changed[ 0 ] = true;
-      }
-    } );
-    long startTime = System.currentTimeMillis();
-    while( !changed[ 0 ] && !activePage.getWorkbenchWindow().getShell().isDisposed() ) {
-      if( System.currentTimeMillis() - startTime > 10000 ) {
-        fail( "Timed out while waiting on console document change" );
-      }
-      if( !display.readAndDispatch() ) {
-        display.sleep();
-      }
-    }
-  }
-
   private void flushDisplayEventLoop() {
     while( display.readAndDispatch() ) {}
-  }
-
-  private static class DocumentAdapter implements IDocumentListener {
-    @Override
-    public void documentAboutToBeChanged( DocumentEvent event ) {
-    }
-
-    @Override
-    public void documentChanged( DocumentEvent event ) {
-    }
   }
 }
