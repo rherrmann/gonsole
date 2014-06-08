@@ -18,10 +18,10 @@ public class ConsoleCommandInputPDETest {
   public void testEnterSimpleGitCommand() throws GitAPIException {
     console.open( repositories.create( "repo-1" ) );
 
-    console.enterCommand( "status" );
+    console.enterCommandLine( "status" );
 
     assertThat( console )
-      .waitForChange()
+      .hasProcessedCommandLine()
       .containsLines( "status", "# On branch master" );
   }
 
@@ -29,10 +29,10 @@ public class ConsoleCommandInputPDETest {
   public void testEnterChangeRepositoryCommand() throws GitAPIException {
     console.open( repositories.create( "repo-1", "repo-2" ) );
 
-    console.enterCommand( "cr repo-2" );
+    console.enterCommandLine( "cr repo-2" );
 
     assertThat( console )
-      .waitForChange()
+      .hasProcessedCommandLine()
       .containsLines( "cr repo-2", "Current repository is: repo-2" );
   }
 }

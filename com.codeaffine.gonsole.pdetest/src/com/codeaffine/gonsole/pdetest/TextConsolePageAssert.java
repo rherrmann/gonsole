@@ -20,11 +20,11 @@ public class TextConsolePageAssert extends AbstractAssert<TextConsolePageAssert,
     return new TextConsolePageAssert( actual );
   }
 
-  public TextConsolePageAssert waitForChange() {
+  public TextConsolePageAssert hasProcessedCommandLine() {
     DocumentChangeObserver observer = new DocumentChangeObserver();
     getDocument().addDocumentListener( observer );
     try {
-      doWaitForChange( observer );
+      waitForChange( observer );
     } finally {
       getDocument().removeDocumentListener( observer );
     }
@@ -40,7 +40,7 @@ public class TextConsolePageAssert extends AbstractAssert<TextConsolePageAssert,
     assertEquals( expectedText, control.getText() );
   }
 
-  private void doWaitForChange( DocumentChangeObserver observer ) {
+  private void waitForChange( DocumentChangeObserver observer ) {
     long startTime = System.currentTimeMillis();
     while( mustWait( observer ) ) {
       checkTimeout( startTime );
@@ -54,7 +54,7 @@ public class TextConsolePageAssert extends AbstractAssert<TextConsolePageAssert,
 
   private static void checkTimeout( long startTime ) {
     if( System.currentTimeMillis() - startTime > 10000 ) {
-      fail( "Timed out while waiting on console document change" );
+      fail( "Timeout while waiting for the result of command line processing." );
     }
   }
 

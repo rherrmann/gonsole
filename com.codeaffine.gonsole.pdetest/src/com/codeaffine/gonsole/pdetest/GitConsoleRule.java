@@ -40,12 +40,12 @@ public class GitConsoleRule implements MethodRule {
     return new GitConsoleRuleStatement( this, base );
   }
 
-  public void enterCommand( String commandText ) {
+  public void enterCommandLine( String commandLine ) {
     checkState( textConsolePage != null, "GitConsole has not been opened yet." );
 
     StyledText control = ( StyledText )textConsolePage.getControl();
     String lineDelimiter = control.getLineDelimiter();
-    control.append( commandText + lineDelimiter );
+    control.append( commandLine + lineDelimiter );
   }
 
   public void open( File ... repositoryLocations ) {
