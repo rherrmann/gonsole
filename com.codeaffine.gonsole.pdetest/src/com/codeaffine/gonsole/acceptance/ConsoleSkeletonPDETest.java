@@ -165,8 +165,7 @@ public class ConsoleSkeletonPDETest {
   }
 
   private void flushDisplayEventLoop() {
-    while( display.readAndDispatch() ) {
-    }
+    while( display.readAndDispatch() ) {}
   }
 
   private static class DocumentAdapter implements IDocumentListener {
