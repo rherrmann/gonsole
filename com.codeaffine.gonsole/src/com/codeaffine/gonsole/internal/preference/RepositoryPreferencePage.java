@@ -5,6 +5,7 @@ import static com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferenc
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -15,8 +16,7 @@ public class RepositoryPreferencePage
   implements IWorkbenchPreferencePage
 {
 
-  public static final String ID
-    = "com.codeaffine.gonsole.internal.preference.RepositoryPreferencePage";
+  public static final String ID = "com.codeaffine.gonsole.internal.preference.RepositoryPreferencePage";
 
   private MultiLineFieldEditor repositoryLocationsField;
 
@@ -24,8 +24,8 @@ public class RepositoryPreferencePage
     super( "Repository Locations", GRID );
   }
 
-  public MultiLineFieldEditor getRepositoryLocationsField() {
-    return repositoryLocationsField;
+  public Text getRepositoryLocationsControl() {
+    return repositoryLocationsField.getTextControl();
   }
 
   @Override

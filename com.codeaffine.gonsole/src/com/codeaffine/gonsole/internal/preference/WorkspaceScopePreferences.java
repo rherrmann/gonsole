@@ -4,7 +4,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.codeaffine.gonsole.internal.activator.GonsolePlugin;
 
-
 public class WorkspaceScopePreferences {
 
   public static final String PREF_REPOSITORY_LOCATIONS = "repository_locations";
@@ -15,12 +14,8 @@ public class WorkspaceScopePreferences {
     this( GonsolePlugin.getInstance().getPreferenceStore() );
   }
 
-  public WorkspaceScopePreferences( IPreferenceStore preferenceStore ) {
+  WorkspaceScopePreferences( IPreferenceStore preferenceStore ) {
     this.preferenceStore = preferenceStore;
-  }
-
-  public IPreferenceStore getPreferenceStore() {
-    return preferenceStore;
   }
 
   public void initializeDefaults() {

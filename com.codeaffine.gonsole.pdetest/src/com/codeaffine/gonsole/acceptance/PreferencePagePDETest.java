@@ -1,17 +1,12 @@
 package com.codeaffine.gonsole.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.core.runtime.preferences.InstanceScope.INSTANCE;
 
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.preference.RepositoryPreferencePage;
 import com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferences;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
@@ -20,49 +15,35 @@ public class PreferencePagePDETest {
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private RepositoryPreferencePage preferencePage;
+  private RepositoryPreferencePageHelper pageHelper;
   private WorkspaceScopePreferences preferences;
 
   @Test
   public void testEnterRepositoryLocationsAndPerformOk() {
-    preferencePage.createControl( displayHelper.createShell() );
-    Text textControl = preferencePage.getRepositoryLocationsField().getTextControl();
-    String enteredText = "/path/to/repo1" + textControl.getLineDelimiter() + "/path/to/repo2";
-    textControl.setText( enteredText );
+    String expected = pageHelper.enterRepositoryLocations( "/path/to/repo1", "/path/to/repo2" );
 
-    preferencePage.performOk();
+    pageHelper.pressOk();
 
-    assertThat( preferences.getRepositoryLocations() ).isEqualTo( enteredText );
+    assertThat( preferences.getRepositoryLocations() ).isEqualTo( expected );
   }
 
   @Test
   public void testEnterRepositoryLocationsAndPerformCancel() {
-    preferencePage.createControl( displayHelper.createShell() );
-    Text textControl = preferencePage.getRepositoryLocationsField().getTextControl();
-    textControl.setText( "/path/to/repo" );
+    pageHelper.enterRepositoryLocations( "/path/to/repo" );
 
-    preferencePage.performCancel();
+    pageHelper.pressCancel();
 
     assertThat( preferences.getRepositoryLocations() ).isEmpty();
   }
 
   @Before
   public void setUp() {
-    preferences = createWorkspaceScopePreferences();
-    preferencePage = new RepositoryPreferencePage();
-    preferencePage.setPreferenceStore( preferences.getPreferenceStore() );
+    pageHelper = new RepositoryPreferencePageHelper( displayHelper.createShell() );
+    preferences = pageHelper.getWorkspaceScopePreferences();
   }
 
   @After
   public void tearDown() {
-    preferencePage.dispose();
-  }
-
-  private static WorkspaceScopePreferences createWorkspaceScopePreferences() {
-    String qualifier = "com.codeaffine.gonsole.pdetest-" + System.currentTimeMillis();
-    IPreferenceStore preferenceStore = new ScopedPreferenceStore( INSTANCE, qualifier );
-    WorkspaceScopePreferences result = new WorkspaceScopePreferences( preferenceStore );
-    result.initializeDefaults();
-    return result;
+    pageHelper.dispose();
   }
 }

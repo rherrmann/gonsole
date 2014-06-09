@@ -11,13 +11,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-
-public class MultiLineFieldEditor extends FieldEditor {
+class MultiLineFieldEditor extends FieldEditor {
 
   private Text textControl;
   private String oldValue;
 
-  public MultiLineFieldEditor( String name, String labelText, Composite parent ) {
+  MultiLineFieldEditor( String name, String labelText, Composite parent ) {
     super( name, labelText, parent );
   }
 

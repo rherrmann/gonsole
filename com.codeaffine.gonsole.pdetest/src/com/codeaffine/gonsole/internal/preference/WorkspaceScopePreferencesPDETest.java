@@ -1,6 +1,7 @@
 package com.codeaffine.gonsole.internal.preference;
 
 import static com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferences.PREF_REPOSITORY_LOCATIONS;
+import static com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferencesHelper.newWorkspaceScopePreferences;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -12,11 +13,6 @@ public class WorkspaceScopePreferencesPDETest {
 
   private IPreferenceStore preferenceStore;
   private WorkspaceScopePreferences preferences;
-
-  @Test
-  public void testGetPreferenceStore() {
-    assertThat( preferences.getPreferenceStore() ).isSameAs( preferenceStore );
-  }
 
   @Test
   public void testInitializeDefaults() {
@@ -39,6 +35,6 @@ public class WorkspaceScopePreferencesPDETest {
   @Before
   public void setUp() {
     preferenceStore = new PreferenceStore();
-    preferences = new WorkspaceScopePreferences( preferenceStore );
+    preferences = newWorkspaceScopePreferences( preferenceStore );
   }
 }
