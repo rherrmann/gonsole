@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
@@ -20,36 +23,47 @@ public class GitConsole extends IOConsole {
   private static final String ENCODING = Charsets.UTF_8.name();
 
   private final CompositeRepositoryProvider repositoryProvider;
+  private final ExecutorService executorService;
 
   public GitConsole( CompositeRepositoryProvider repositoryProvider ) {
     super( "Interactive Git Console", TYPE, new IconRegistry().getDescriptor( IconRegistry.GONSOLE ), ENCODING, true );
     this.repositoryProvider = repositoryProvider;
-    Runnable runnable = new InputScanner();
-    Thread thread = new Thread( runnable );
-    thread.setDaemon( true );
-    thread.start();
+    this.executorService = Executors.newSingleThreadExecutor();
+    executorService.execute( new InputScanner() );
   }
 
   private class InputScanner implements Runnable {
+
+    private final Scanner scanner;
+
+    InputScanner() {
+      scanner = new Scanner( getInputStream() );
+    }
+
     @Override
     public void run() {
-      while( true ) {
-        Scanner scanner = new Scanner( getInputStream() );
-        String line = scanner.nextLine();
-        String[] parts = line.split( " " );
-        File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
-        IOConsoleOutputStream outputStream = newOutputStream();
-        try {
-          if( !new ConsoleCommandInterpreter( outputStream, repositoryProvider ).execute( parts ) ) {
-            new GitInterpreter( outputStream, gitDirectory ).execute( parts );
-          }
-        } catch( Exception exception ) {
-          printStackTrace( outputStream, exception );
-        } finally {
+      try {
+        while( true ) {
+          String line = scanner.nextLine();
+          String[] parts = line.split( " " );
+          File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
+          IOConsoleOutputStream outputStream = newOutputStream();
           try {
-            outputStream.close();
-          } catch( IOException ignore ) {
+            if( !new ConsoleCommandInterpreter( outputStream, repositoryProvider ).execute( parts ) ) {
+              new GitInterpreter( outputStream, gitDirectory ).execute( parts );
+            }
+          } catch( Exception exception ) {
+            printStackTrace( outputStream, exception );
+          } finally {
+            try {
+              outputStream.close();
+            } catch( IOException ignore ) {
+            }
           }
+        }
+      } catch( NoSuchElementException e ) {
+        if( !executorService.isShutdown() ) {
+          e.printStackTrace();
         }
       }
     }
@@ -63,4 +77,9 @@ public class GitConsole extends IOConsole {
     }
   }
 
+  @Override
+  protected void dispose() {
+    executorService.shutdownNow();
+    super.dispose();
+  }
 }
