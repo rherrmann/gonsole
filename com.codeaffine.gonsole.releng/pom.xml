@@ -27,9 +27,11 @@
     <module>egit-feature</module>
  -->    
     <module>repository</module>
+    
     <module>../com.codeaffine.gonsole</module>
-    <module>../com.codeaffine.gonsole.test</module>
     <module>../com.codeaffine.gonsole.pdetest</module>
+    <module>../com.codeaffine.gonsole.test</module>
+    <module>../com.codeaffine.gonsole.test.helper</module>
 <!-- 
     <module>../com.codeaffine.gonsole.egit</module>
     <module>../com.codeaffine.gonsole.egit.pdetest</module>

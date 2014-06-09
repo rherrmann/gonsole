@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.pdetest;
 
+import static com.codeaffine.gonsole.test.helper.CompositeRepositoryProviderHelper.createWithSingleChildProvider;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.File;
@@ -62,7 +63,7 @@ public class GitConsoleRule implements MethodRule {
   }
 
   private static IConsole registerNewGitConsole( File[] repositoryLocations ) {
-    IConsole result = new GitConsole( CompositeRepositoryProviders.createFor( repositoryLocations ) );
+    IConsole result = new GitConsole( createWithSingleChildProvider( repositoryLocations ) );
     ConsolePlugin.getDefault().getConsoleManager().addConsoles( new IConsole[] { result } );
     return result;
   }

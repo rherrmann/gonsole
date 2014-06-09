@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gonsole Test Helper
+Bundle-SymbolicName: com.codeaffine.gonsole.test.helper
+Bundle-Version: 0.8.0.qualifier
+Bundle-Vendor: CODEAFFINE
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: com.codeaffine.gonsole;bundle-version="[0.8.0,1.0.0)",
+ org.mockito.mockito-all;bundle-version="[1.9.5,2.0.0)"
+Export-Package: com.codeaffine.gonsole.test.helper

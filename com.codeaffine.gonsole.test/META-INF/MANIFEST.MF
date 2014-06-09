@@ -11,4 +11,5 @@ Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
  net.johanneslink.cpsuite;bundle-version="[1.2.6,2.0.0)",
  junitparams;bundle-version="[1.0.0,2.0.0)",
  org.assertj.core;bundle-version="[1.6.0,2.0.0)",
- com.codeaffine.test.util;bundle-version="0.8.0"
+ com.codeaffine.test.util;bundle-version="0.8.0",
+ com.codeaffine.gonsole.test.helper;bundle-version="0.8.0"
