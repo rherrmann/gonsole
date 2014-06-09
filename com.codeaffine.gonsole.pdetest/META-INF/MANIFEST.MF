@@ -9,4 +9,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
  org.mockito.mockito-all;bundle-version="[1.9.5,2.0.0)",
  org.assertj.core;bundle-version="[1.6.0,2.0.0)",
- com.codeaffine.test.util;bundle-version="[0.8.0,2.0.0)"
+ com.codeaffine.test.util;bundle-version="[0.8.0,2.0.0)",
+ junitparams;bundle-version="1.0.0"

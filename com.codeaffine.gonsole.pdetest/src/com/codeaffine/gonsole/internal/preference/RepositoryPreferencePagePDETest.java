@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.GonsolePlugin;
+import com.codeaffine.gonsole.internal.activator.GonsolePlugin;
 
 public class RepositoryPreferencePagePDETest {
 

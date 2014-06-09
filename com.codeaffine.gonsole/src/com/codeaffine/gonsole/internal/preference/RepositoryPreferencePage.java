@@ -8,8 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import com.codeaffine.gonsole.internal.GonsolePlugin;
-
+import com.codeaffine.gonsole.internal.activator.GonsolePlugin;
 
 public class RepositoryPreferencePage
   extends FieldEditorPreferencePage
@@ -48,5 +47,4 @@ public class RepositoryPreferencePage
     repositoryLocationsField = new MultiLineFieldEditor( PREF_REPOSITORY_LOCATIONS, label, parent );
     addField( repositoryLocationsField );
   }
-
 }

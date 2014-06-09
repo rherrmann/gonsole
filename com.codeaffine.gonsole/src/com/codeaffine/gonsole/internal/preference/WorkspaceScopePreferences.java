@@ -2,7 +2,7 @@ package com.codeaffine.gonsole.internal.preference;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.codeaffine.gonsole.internal.GonsolePlugin;
+import com.codeaffine.gonsole.internal.activator.GonsolePlugin;
 
 
 public class WorkspaceScopePreferences {
