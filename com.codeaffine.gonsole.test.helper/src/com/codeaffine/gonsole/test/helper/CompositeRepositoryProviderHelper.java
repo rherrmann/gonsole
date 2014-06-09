@@ -24,7 +24,7 @@ public class CompositeRepositoryProviderHelper {
     return createCompositeProvider( providers, getCurrentLocation( repositoryLocations ) );
   }
 
-  private static RepositoryProvider stubRepositoryProvider( File[] repositoryLocations ) {
+  public static RepositoryProvider stubRepositoryProvider( File ... repositoryLocations ) {
     RepositoryProvider result = mock( RepositoryProvider.class );
     when( result.getRepositoryLocations() ).thenReturn( repositoryLocations );
     return result;

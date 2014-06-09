@@ -17,8 +17,7 @@ public class RepositoryProviderExtensionReader {
     return createRepositoryProviders( elements );
   }
 
-  private static RepositoryProvider[] createRepositoryProviders( IConfigurationElement[] elements )
-  {
+  private static RepositoryProvider[] createRepositoryProviders( IConfigurationElement[] elements ) {
     RepositoryProvider[] result = new RepositoryProvider[ elements.length ];
     for( int i = 0; i < result.length; i++ ) {
       result[ i ] = createRepositoryProvider( elements[ i ] );
