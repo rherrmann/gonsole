@@ -4,7 +4,7 @@
    <extension
          point="com.codeaffine.gonsole.repositoryProviders">
       <repositoryProvider
-            class="com.codeaffine.gonsole.internal.RepositoryProviderExtensionReaderPDETest$TestRepositoryProvider">
+            class="com.codeaffine.gonsole.internal.repository.RepositoryProviderExtensionReaderPDETest$TestRepositoryProvider">
       </repositoryProvider>
    </extension>
 </fragment>

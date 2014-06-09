@@ -6,7 +6,6 @@ import org.eclipse.core.runtime.Platform;
 
 import com.codeaffine.gonsole.RepositoryProvider;
 
-
 public class RepositoryProviderExtensionReader {
 
   private static final String EP_REPOSITORY_PROVIDERS
