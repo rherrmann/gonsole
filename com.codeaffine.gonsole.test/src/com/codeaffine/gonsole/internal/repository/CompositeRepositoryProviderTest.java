@@ -19,8 +19,7 @@ public class CompositeRepositoryProviderTest {
 
     assertThat( repositoryLocations )
       .hasSize( 2 )
-      .contains( location1 )
-      .contains( location2 );
+      .contains( location1, location2 );
   }
 
   @Test
