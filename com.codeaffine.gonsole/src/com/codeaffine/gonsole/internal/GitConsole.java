@@ -10,8 +10,22 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.eclipse.jface.text.DocumentEvent;
+import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
+import org.eclipse.ui.console.TextConsolePage;
+import org.eclipse.ui.console.TextConsoleViewer;
+import org.eclipse.ui.part.IPageBookViewPage;
+import org.eclipse.ui.part.IPageSite;
 
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
@@ -24,12 +38,59 @@ public class GitConsole extends IOConsole {
 
   private final CompositeRepositoryProvider repositoryProvider;
   private final ExecutorService executorService;
+  private volatile TextConsolePage consolePage;
 
   public GitConsole( CompositeRepositoryProvider repositoryProvider ) {
     super( "Interactive Git Console", TYPE, new IconRegistry().getDescriptor( IconRegistry.GONSOLE ), ENCODING, true );
     this.repositoryProvider = repositoryProvider;
     this.executorService = Executors.newSingleThreadExecutor();
-    executorService.execute( new InputScanner() );
+  }
+
+  @Override
+  public IPageBookViewPage createPage( IConsoleView view ) {
+    consolePage = ( TextConsolePage )super.createPage( view );
+    return new IPageBookViewPage() {
+
+      @Override
+      public void setFocus() {
+        consolePage.setFocus();
+      }
+
+      @Override
+      public void setActionBars( IActionBars actionBars ) {
+        consolePage.setActionBars( actionBars );
+      }
+
+      @Override
+      public Control getControl() {
+        return consolePage.getControl();
+      }
+
+      @Override
+      public void dispose() {
+        consolePage.dispose();
+      }
+
+      @Override
+      public void createControl( Composite parent ) {
+        consolePage.createControl( parent );
+        executorService.execute( new InputScanner() );
+      }
+
+      @Override
+      public void init( IPageSite site ) throws PartInitException {
+        consolePage.init( site );
+      }
+
+      @Override
+      public IPageSite getSite() {
+        return consolePage.getSite();
+      }
+    };
+  }
+
+  public TextConsolePage getPage() {
+    return consolePage;
   }
 
   private class InputScanner implements Runnable {
@@ -42,11 +103,58 @@ public class GitConsole extends IOConsole {
 
     @Override
     public void run() {
+
+      TextConsoleViewer viewer = consolePage.getViewer();
+      final StyledText textWidget = viewer.getTextWidget();
+      textWidget.getDisplay().syncExec( new Runnable() {
+        @Override
+        public void run() {
+          textWidget.addKeyListener( new KeyListener() {
+            @Override
+            public void keyReleased( KeyEvent e ) {
+              // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void keyPressed( KeyEvent e ) {
+      System.out.println( "caret: " + textWidget.getCaretOffset() );
+            }
+          } );
+        }
+      } );
+
+      viewer.getDocument().addDocumentListener( new IDocumentListener() {
+        @Override
+        public void documentChanged( DocumentEvent event ) {
+System.out.println( event.fText + " " + textWidget.getCaretOffset() + " " + textWidget.getCharCount() );
+          textWidget.setCaretOffset( textWidget.getCharCount() );
+        }
+
+        @Override
+        public void documentAboutToBeChanged( DocumentEvent event ) {
+          // TODO Auto-generated method stub
+        }
+      } );
+
       try {
         while( true ) {
+          File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
+          String repositoryName = ConsoleCommandInterpreter.getRepositoryName( gitDirectory );
+
+          IOConsoleOutputStream out = newOutputStream();
+          try {
+            out.write( ( repositoryName + ">" ).getBytes( Charsets.UTF_8 ) );
+          } catch( IOException exception ) {
+            printStackTrace( out, exception );
+          } finally {
+            try {
+              out.close();
+            } catch( IOException ignore ) {
+            }
+          }
+
           String line = scanner.nextLine();
           String[] parts = line.split( " " );
-          File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
           IOConsoleOutputStream outputStream = newOutputStream();
           try {
             if( !new ConsoleCommandInterpreter( outputStream, repositoryProvider ).execute( parts ) ) {

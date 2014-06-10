@@ -40,7 +40,7 @@ public class ConsoleCommandInterpreter {
     return result;
   }
 
-  private static String getRepositoryName( File repositoryLocation ) {
+  public static String getRepositoryName( File repositoryLocation ) {
     File parentFile = repositoryLocation.getParentFile();
     return parentFile == null ? null : parentFile.getName();
   }

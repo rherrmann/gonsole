@@ -31,13 +31,23 @@ public class TextConsolePageAssert extends AbstractAssert<TextConsolePageAssert,
     return this;
   }
 
-  public void containsLines( String ... lines ) {
+  public TextConsolePageAssert caretIsAtEnd() {
+    StyledText control = ( StyledText )actual.getControl();
+    assertEquals( control.getCharCount(), control.getCaretOffset() );
+    return this;
+  }
+
+  public TextConsolePageAssert containsLines( String ... lines ) {
     String expectedText = "";
     StyledText control = ( StyledText )actual.getControl();
     for( int i = 0; i < lines.length; i++ ) {
-      expectedText = expectedText + lines[ i ] + control.getLineDelimiter();
+      expectedText += lines[ i ];
+      if( i < lines.length - 1 ) {
+        expectedText += control.getLineDelimiter();
+      }
     }
     assertEquals( expectedText, control.getText() );
+    return this;
   }
 
   private void waitForChange( DocumentChangeObserver observer ) {

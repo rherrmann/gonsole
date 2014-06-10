@@ -11,7 +11,6 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.TextConsolePage;
-import org.eclipse.ui.part.PageBookView;
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
@@ -51,9 +50,9 @@ public class GitConsoleRule implements MethodRule {
 
   public void open( File ... repositoryLocations ) {
     viewHelper.hideView( INTRO_VIEW_ID );
-    IConsole console = registerNewGitConsole( repositoryLocations );
-    PageBookView consoleView = ( PageBookView )showInView( console );
-    textConsolePage = ( TextConsolePage )consoleView.getCurrentPage();
+    GitConsole console = registerNewGitConsole( repositoryLocations );
+    showInView( console );
+    textConsolePage = console.getPage();
   }
 
   void cleanup() {
@@ -62,8 +61,8 @@ public class GitConsoleRule implements MethodRule {
     viewHelper.hideView( CONSOLE_VIEW_ID );
   }
 
-  private static IConsole registerNewGitConsole( File[] repositoryLocations ) {
-    IConsole result = new GitConsole( createWithSingleChildProvider( repositoryLocations ) );
+  private static GitConsole registerNewGitConsole( File[] repositoryLocations ) {
+    GitConsole result = new GitConsole( createWithSingleChildProvider( repositoryLocations ) );
     ConsolePlugin.getDefault().getConsoleManager().addConsoles( new IConsole[] { result } );
     return result;
   }

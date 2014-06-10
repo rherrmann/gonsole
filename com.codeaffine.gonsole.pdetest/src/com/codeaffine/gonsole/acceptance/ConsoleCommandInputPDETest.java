@@ -17,22 +17,28 @@ public class ConsoleCommandInputPDETest {
   @Test
   public void testEnterSimpleGitCommand() throws GitAPIException {
     console.open( repositories.create( "repo-1" ) );
+    assertThat( console )
+      .hasProcessedCommandLine();
 
     console.enterCommandLine( "status" );
 
     assertThat( console )
       .hasProcessedCommandLine()
-      .containsLines( "status", "# On branch master" );
+      .caretIsAtEnd()
+      .containsLines( "repo-1>status", "# On branch master", "repo-1>" );
   }
 
   @Test
   public void testEnterChangeRepositoryCommand() throws GitAPIException {
     console.open( repositories.create( "repo-1", "repo-2" ) );
+    assertThat( console )
+      .hasProcessedCommandLine();
 
     console.enterCommandLine( "cr repo-2" );
 
     assertThat( console )
       .hasProcessedCommandLine()
-      .containsLines( "cr repo-2", "Current repository is: repo-2" );
+      .caretIsAtEnd()
+      .containsLines( "repo-1>cr repo-2", "Current repository is: repo-2", "repo-2>" );
   }
 }
