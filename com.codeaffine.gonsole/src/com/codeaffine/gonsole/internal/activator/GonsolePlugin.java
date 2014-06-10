@@ -16,8 +16,8 @@ public class GonsolePlugin extends AbstractUIPlugin {
 
   @Override
   public void start( BundleContext context ) throws Exception {
-    instance = this;
     super.start( context );
+    instance = this;
   }
 
   @Override
@@ -32,7 +32,7 @@ public class GonsolePlugin extends AbstractUIPlugin {
 
   @Override
   protected void initializeImageRegistry( ImageRegistry registry ) {
-    new IconRegistrar( instance, registry ).initialize();
+    new IconRegistrar( this, registry ).initialize();
   }
 
   protected ImageDescriptor newImageDescriptor( String imageName ) {
