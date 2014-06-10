@@ -16,7 +16,7 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201406011324"/>
+<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201406090850"/>
 <repository location="http://fappel.github.io/test-libraries/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
