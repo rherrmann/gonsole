@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.codeaffine.gonsole.egit.feature"
-      label="Gonsole - Git Console Integration for Eclipse EGit"
+      label="Gonsole - EGit Integration"
       version="0.8.0.qualifier"
       provider-name="codeaffine.com">
 

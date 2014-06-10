@@ -6,7 +6,7 @@
    <feature url="../features/com.codeaffine.gonsole.egit.feature_0.8.0.qualifier.jar" id="com.codeaffine.gonsole.egit.feature" version="0.8.0.qualifier">
       <category name="com.codeaffine.gonsole.category"/>
    </feature>
-   <category-def name="com.codeaffine.gonsole.category" label="Gonsole - Eclipse Git Console">
+   <category-def name="com.codeaffine.gonsole.category" label="Gonsole - Git Console for Eclipse">
       <description>
       </description>
    </category-def>

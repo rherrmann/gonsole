@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.codeaffine.gonsole.feature"
-      label="Gonsole - Eclipse Git Console"
+      label="Gonsole - Git Console for Eclipse"
       version="0.8.0.qualifier"
       provider-name="codeaffine.com">
 
@@ -16,7 +16,7 @@
    <license url="%licenseURL">
       %license
    </license>
-   
+
    <url>
       <update url="http://rherrmann.github.io/gonsole/repository/"/>
    </url>
