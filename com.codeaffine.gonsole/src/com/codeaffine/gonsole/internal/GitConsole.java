@@ -13,8 +13,6 @@ import java.util.concurrent.Executors;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
@@ -106,27 +104,16 @@ public class GitConsole extends IOConsole {
 
       TextConsoleViewer viewer = consolePage.getViewer();
       final StyledText textWidget = viewer.getTextWidget();
+
       textWidget.getDisplay().syncExec( new Runnable() {
         @Override
         public void run() {
-          textWidget.addKeyListener( new KeyListener() {
-            @Override
-            public void keyReleased( KeyEvent e ) {
-              // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void keyPressed( KeyEvent e ) {
-      System.out.println( "caret: " + textWidget.getCaretOffset() );
-            }
-          } );
         }
       } );
 
       viewer.getDocument().addDocumentListener( new IDocumentListener() {
         @Override
         public void documentChanged( DocumentEvent event ) {
-System.out.println( event.fText + " " + textWidget.getCaretOffset() + " " + textWidget.getCharCount() );
           textWidget.setCaretOffset( textWidget.getCharCount() );
         }
 
