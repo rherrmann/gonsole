@@ -62,7 +62,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.jgit.pgm"
+         id="com.codeaffine.gonsole.jgit-pgm"
          download-size="0"
          install-size="0"
          version="0.0.0"

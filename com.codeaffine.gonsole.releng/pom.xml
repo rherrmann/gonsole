@@ -33,7 +33,7 @@
     <module>../com.codeaffine.gonsole.egit</module>
     <module>../com.codeaffine.gonsole.egit.pdetest</module>
     <module>../com.codeaffine.test.util</module>
-    <module>../org.eclipse.jgit.pgm</module>
+    <module>../com.codeaffine.gonsole.jgit-pgm</module>
   </modules>
 
   <pluginRepositories>
