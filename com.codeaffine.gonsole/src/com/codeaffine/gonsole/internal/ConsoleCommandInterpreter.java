@@ -1,20 +1,17 @@
 package com.codeaffine.gonsole.internal;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
-import com.google.common.base.Charsets;
 
 
 public class ConsoleCommandInterpreter {
 
-  private final OutputStream outputStream;
+  private final ConsoleOutput consoleOutput;
   private final CompositeRepositoryProvider repositoryProvider;
 
-  public ConsoleCommandInterpreter( OutputStream outputStream, CompositeRepositoryProvider repositoryProvider ) {
-    this.outputStream = outputStream;
+  public ConsoleCommandInterpreter( ConsoleOutput consoleOutput, CompositeRepositoryProvider repositoryProvider ) {
+    this.consoleOutput = consoleOutput;
     this.repositoryProvider = repositoryProvider;
   }
 
@@ -31,11 +28,7 @@ public class ConsoleCommandInterpreter {
       }
       String changedRepositoryName = getRepositoryName( repositoryProvider.getCurrentRepositoryLocation() );
       String message = String.format( "Current repository is: %s%n", changedRepositoryName );
-      try {
-        outputStream.write( message.getBytes( Charsets.UTF_8 ) );
-      } catch( IOException e ) {
-        throw new RuntimeException( e );
-      }
+      consoleOutput.write( message );
     }
     return result;
   }

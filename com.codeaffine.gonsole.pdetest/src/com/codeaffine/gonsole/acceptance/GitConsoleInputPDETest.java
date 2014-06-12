@@ -1,11 +1,12 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static com.codeaffine.gonsole.acceptance.GitConsoleAssert.assertThat;
+import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.codeaffine.gonsole.pdetest.GitConsoleBot;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 
 public class GitConsoleInputPDETest {

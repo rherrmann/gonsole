@@ -1,7 +1,6 @@
 package com.codeaffine.gonsole.internal;
 
 import java.io.File;
-import java.io.OutputStream;
 
 public class GitInterpreter {
 
@@ -9,9 +8,9 @@ public class GitInterpreter {
   private final CommandExecutor commandExecutor;
   private final CommandLineParser commandLineParser;
 
-  public GitInterpreter( OutputStream outputStream, File gitDirectory ) {
+  public GitInterpreter( ConsoleOutput consoleOutput, File gitDirectory ) {
     this( new PgmResourceBundle(),
-          new CommandExecutor( outputStream, gitDirectory ),
+          new CommandExecutor( consoleOutput, gitDirectory ),
           new CommandLineParser() );
   }
 
