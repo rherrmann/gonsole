@@ -11,7 +11,7 @@
       <consoleFactory
             class="com.codeaffine.gonsole.internal.GitConsoleFactory"
             icon="icons/etool16/gonsole.png"
-            label="Interactive Git Console">
+            label="Git Console">
       </consoleFactory>
    </extension>
    <extension

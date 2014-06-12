@@ -39,7 +39,7 @@ public class GitConsole extends IOConsole {
   private volatile TextConsolePage consolePage;
 
   public GitConsole( CompositeRepositoryProvider repositoryProvider ) {
-    super( "Interactive Git Console", TYPE, new IconRegistry().getDescriptor( IconRegistry.GONSOLE ), ENCODING, true );
+    super( "Git Console", TYPE, new IconRegistry().getDescriptor( IconRegistry.GONSOLE ), ENCODING, true );
     this.repositoryProvider = repositoryProvider;
     this.executorService = Executors.newSingleThreadExecutor();
   }
