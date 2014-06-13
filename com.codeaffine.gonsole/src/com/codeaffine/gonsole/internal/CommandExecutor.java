@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import com.codeaffine.gonsole.internal.ConsoleOutput.ConsoleWriter;
-import com.google.common.base.Throwables;
 
 class CommandExecutor {
 
@@ -17,32 +16,25 @@ class CommandExecutor {
     this.gitDirectory = gitDirectory;
   }
 
-  void execute( final CommandInfo commandInfo ) {
+  String execute( final CommandInfo commandInfo ) {
+    final String[] result = new String[ 1 ];
     consoleOutput.write( new ConsoleWriter() {
       @Override
       public void write( OutputStream outputStream ) throws IOException {
-        execute( commandInfo, outputStream );
+        result[ 0 ] = execute( commandInfo, outputStream );
       }
     } );
+    return result[ 0 ];
   }
 
-  private void execute( CommandInfo commandInfo, OutputStream outputStream ) {
+  private String execute( CommandInfo commandInfo, OutputStream outputStream ) {
     RepositoryContext repositoryContext = new RepositoryContext( gitDirectory ); ;
     try {
       CommandAccessor commandAccessor = new CommandAccessor( commandInfo );
       commandAccessor.init( repositoryContext.getRepository(), outputStream );
-      execute( commandInfo, commandAccessor );
+      return commandAccessor.execute( commandInfo );
     } finally {
       repositoryContext.dispose();
-    }
-  }
-  private static void execute( CommandInfo commandInfo, CommandAccessor commandAccessor ) {
-    try {
-      commandInfo.getCommand().execute( commandInfo.getArguments() );
-    } catch( Exception e ) {
-      Throwables.propagate( e );
-    } finally {
-      commandAccessor.flush();
     }
   }
 }

@@ -34,21 +34,20 @@ public class CommandExecutorPDETest {
   public void testExecute() {
     CommandInfo commandInfo = new CommandLineParser().parse( "status" );
 
-    executor.execute( commandInfo );
+    String actual = executor.execute( commandInfo );
 
     String expectedOutput = new String( outputStream.toByteArray(), Charsets.UTF_8 );
     assertThat( expectedOutput ).startsWith( "# On branch master" );
+    assertThat( actual ).isNull();
   }
 
   @Test
-  public void testExecuteWithIllegalOptions() {
+  public void testExecuteWithIllegalArguments() {
     CommandInfo commandInfo = new CommandLineParser().parse( "status", "illegal" );
 
-    try {
-      executor.execute( commandInfo );
-      fail();
-    } catch( RuntimeException expected ) {
-    }
+    String actual = executor.execute( commandInfo );
+
+    assertThat( actual ).isNotEmpty();
   }
 
   @Test

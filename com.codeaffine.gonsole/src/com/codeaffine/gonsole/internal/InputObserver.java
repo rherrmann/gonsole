@@ -69,17 +69,30 @@ public class InputObserver {
       String line;
       do {
         File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
-        String repositoryName = ConsoleCommandInterpreter.getRepositoryName( gitDirectory );
+        String repositoryName = ControlCommandInterpreter.getRepositoryName( gitDirectory );
 
         consoleOutput.write( repositoryName + ">" );
 
         line = consoleInput.readLine();
-        if( line != null ) {
-          String[] parts = line.split( " " );
+        if( line != null && line.trim().length() > 0 ) {
+          String[] commandLine = line.split( " " );
+          ConsoleCommandInterpreter[] interpreters = {
+            new ControlCommandInterpreter( consoleOutput, repositoryProvider ),
+            new GitCommandInterpreter( consoleOutput, gitDirectory )
+          };
           try {
-            if( !new ConsoleCommandInterpreter( consoleOutput, repositoryProvider ).execute( parts ) )
-            {
-              new GitInterpreter( consoleOutput, gitDirectory ).execute( parts );
+            boolean commandExecuted = false;
+            for( int i = 0; !commandExecuted && i < interpreters.length; i++ ) {
+              if( interpreters[ i ].isRecognized( commandLine ) ) {
+                String errorOutput = interpreters[ i ].execute( commandLine );
+                if( errorOutput != null ) {
+                  consoleOutput.write( errorOutput );
+                }
+                commandExecuted = true;
+              }
+            }
+            if( !commandExecuted ) {
+              consoleOutput.write( "Unrecognized command: " + commandLine[ 0 ] + "\n" );
             }
           } catch( Exception exception ) {
             printStackTrace( consoleOutput, exception );

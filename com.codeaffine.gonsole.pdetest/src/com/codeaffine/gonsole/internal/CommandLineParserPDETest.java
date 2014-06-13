@@ -12,6 +12,27 @@ public class CommandLineParserPDETest {
   private CommandLineParser commandLineParser;
 
   @Test
+  public void testIsRecognized() {
+    boolean actual = commandLineParser.isRecognized( "status" );
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void testIsRecognizedWithUnknownArguments() {
+    boolean actual = commandLineParser.isRecognized( "status", "--unknown" );
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void testIsRecognizedWithUnknownCommand() {
+    boolean actual = commandLineParser.isRecognized( "unknown" );
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test
   public  void testParseArgumentLessCommand() {
     CommandInfo commandInfo = commandLineParser.parse( "status" );
 
@@ -25,6 +46,14 @@ public class CommandLineParserPDETest {
 
     assertThat( commandInfo.getCommand().getClass().getSimpleName() ).isEqualTo( "Commit" );
     assertThat( commandInfo.getArguments() ).containsOnly( "-m" );
+  }
+
+  @Test
+  public  void testParseWithUnknownArguments() {
+    CommandInfo commandInfo = commandLineParser.parse( "status", "foo" );
+
+    assertThat( commandInfo.getCommand().getClass().getSimpleName() ).isEqualTo( "Status" );
+    assertThat( commandInfo.getArguments() ).containsOnly( "foo" );
   }
 
   @Test

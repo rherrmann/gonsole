@@ -5,9 +5,9 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -21,39 +21,29 @@ public class CommandAccessorTest {
 
   private Repository repository;
   private OutputStream outputStream;
+  private ByteArrayOutputStream errorStream;
 
   @Test
-  public void testInitWithJGit3_3() {
-    TestCommand_JGit_3_3 command = spy( new TestCommand_JGit_3_3() );
-    CommandAccessor commandWrapper = new CommandAccessor( command, TestCommand_JGit_3_3.class );
+  public void testInit() {
+    TestCommand command = spy( new TestCommand() );
+    CommandAccessor accessor = new CommandAccessor( command, TestCommand.class, errorStream );
 
-    commandWrapper.init( repository, outputStream );
-
-    assertThat( command.outs ).isSameAs( outputStream );
-    verify( command ).init( repository, null );
-  }
-
-  @Test
-  public void testInitWithJGit3_4() {
-    TestCommand_JGit_3_4 command = spy( new TestCommand_JGit_3_4() );
-    CommandAccessor commandWrapper = new CommandAccessor( command, TestCommand_JGit_3_4.class );
-
-    commandWrapper.init( repository, outputStream );
+    accessor.init( repository, outputStream );
 
     assertThat( command.outs ).isSameAs( outputStream );
-    assertThat( command.errs ).isSameAs( outputStream );
+    assertThat( command.errs ).isSameAs( accessor.errorStream );
     verify( command ).init( repository, null );
   }
 
   @Test
   public void testInitWithException() {
-    TestCommand_JGit_3_3 command = spy( new TestCommand_JGit_3_3() );
+    TestCommand command = spy( new TestCommand() );
     RuntimeException exception = new RuntimeException();
     doThrow( exception ).when( command ).init( repository, null );
-    CommandAccessor commandWrapper = new CommandAccessor( command, TestCommand_JGit_3_3.class );
+    CommandAccessor accessor = new CommandAccessor( command, TestCommand.class, errorStream );
 
     try {
-      commandWrapper.init( repository, outputStream );
+      accessor.init( repository, outputStream );
       fail();
     } catch( Exception expected ) {
       assertThat( expected ).isSameAs( exception );
@@ -61,50 +51,41 @@ public class CommandAccessorTest {
   }
 
   @Test
-  public  void testFlushWithJGit_3_4() throws IOException {
-    TestCommand_JGit_3_4 command = spy( new TestCommand_JGit_3_4() );
-    CommandAccessor commandWrapper = new CommandAccessor( command, TestCommand_JGit_3_4.class );
-    commandWrapper.init( repository, outputStream );
+  public  void testFlush() throws IOException {
+    TestCommand command = spy( new TestCommand() );
+    CommandAccessor accessor = new CommandAccessor( command, TestCommand.class, errorStream );
+    accessor.init( repository, outputStream );
 
-    commandWrapper.flush();
+    accessor.flush();
 
-    verify( outputStream, times( 2 ) ).flush();
+    verify( outputStream ).flush();
+    verify( errorStream ).flush();
   }
 
   @Test
   public void testFlushWithException() throws IOException {
-    TestCommand_JGit_3_4 command = spy( new TestCommand_JGit_3_4() );
-    CommandAccessor commandWrapper = new CommandAccessor( command, TestCommand_JGit_3_4.class );
+    TestCommand command = spy( new TestCommand() );
+    CommandAccessor accessor = new CommandAccessor( command, TestCommand.class, errorStream );
     IOException toBeThrown = new IOException();
     doThrow( toBeThrown ).when( outputStream ).flush();
-    commandWrapper.init( repository, outputStream );
+    accessor.init( repository, outputStream );
 
     try {
-      commandWrapper.flush();
+      accessor.flush();
       fail();
     } catch ( RuntimeException expected ) {
       assertThat( expected.getCause() ).isSameAs( toBeThrown );
     }
   }
 
-  @Test
-  public  void testFlushWithJGit_3_3() throws IOException {
-    TestCommand_JGit_3_3 command = spy( new TestCommand_JGit_3_3() );
-    CommandAccessor commandWrapper = new CommandAccessor( command, TestCommand_JGit_3_3.class );
-    commandWrapper.init( repository, outputStream );
-
-    commandWrapper.flush();
-
-    verify( outputStream, times( 1 ) ).flush();
-  }
-
   @Before
   public void setUp() {
     repository = mock( Repository.class );
     outputStream = mock( OutputStream.class );
+    errorStream = mock( ByteArrayOutputStream.class );
   }
 
-  static class TestCommand_JGit_3_4 {
+  static class TestCommand {
     protected OutputStream outs;
     protected OutputStream errs;
     protected Writer outw;
@@ -114,16 +95,6 @@ public class CommandAccessorTest {
     protected void init( Repository repository, String gitDir ) {
       outw = new OutputStreamWriter( outs );
       errw = new OutputStreamWriter( errs );
-    }
-  }
-
-  static class TestCommand_JGit_3_3 {
-    protected OutputStream outs;
-    protected Writer outw;
-
-    @SuppressWarnings("unused")
-    protected void init( Repository repository, String gitDir ) {
-      outw = new OutputStreamWriter( outs );
     }
   }
 }
