@@ -74,4 +74,16 @@ public class GitConsoleInputPDETest {
       .containsLines( "repo>abc" )
       .caretIsAtEnd();
   }
+
+  @Test
+  public void testTypeNewline() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( "repo>", "repo>" );
+  }
 }
