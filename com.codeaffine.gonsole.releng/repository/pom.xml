@@ -71,7 +71,7 @@
             </repository>
             <!-- Repository for JGit -->
             <repository>
-              <url>http://download.eclipse.org/egit/updates/</url>
+              <url>http://download.eclipse.org/egit/updates-stable-nightly</url>
               <layout>p2</layout>
             </repository>
           </source>
@@ -105,7 +105,7 @@
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.eclipse.jgit.archive,3.3.2,4.0.0</parameters>
+                <parameters>org.eclipse.jgit.archive,3.4.0,4.0.0</parameters>
               </query>
             </iu>
             <iu>
@@ -113,7 +113,7 @@
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.eclipse.jgit,3.3.2,4.0.0</parameters>
+                <parameters>org.eclipse.jgit,3.4.0,4.0.0</parameters>
               </query>
             </iu>
             <iu>
@@ -121,7 +121,23 @@
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.eclipse.jgit.java7,3.3.0,4.0.0</parameters>
+                <parameters>org.eclipse.jgit.java7,3.4.0,4.0.0</parameters>
+              </query>
+            </iu>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jgit.pgm,3.4.0,4.0.0</parameters>
+              </query>
+            </iu>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jgit.ui,3.4.0,4.0.0</parameters>
               </query>
             </iu>
             <iu>
