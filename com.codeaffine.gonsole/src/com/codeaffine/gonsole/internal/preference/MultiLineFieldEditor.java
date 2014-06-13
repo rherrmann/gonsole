@@ -18,6 +18,7 @@ class MultiLineFieldEditor extends FieldEditor {
 
   MultiLineFieldEditor( String name, String labelText, Composite parent ) {
     super( name, labelText, parent );
+    oldValue = "";
   }
 
   @Override
@@ -25,7 +26,7 @@ class MultiLineFieldEditor extends FieldEditor {
     return 1;
   }
 
-  public Text getTextControl() {
+  Text getTextControl() {
     return textControl;
   }
 
@@ -67,7 +68,9 @@ class MultiLineFieldEditor extends FieldEditor {
 
   @Override
   protected void doStore() {
-    getPreferenceStore().setValue( getPreferenceName(), textControl.getText() );
+    if( textControl != null ) {
+      getPreferenceStore().setValue( getPreferenceName(), textControl.getText() );
+    }
   }
 
   private Text getTextControl( Composite parent ) {
@@ -87,7 +90,7 @@ class MultiLineFieldEditor extends FieldEditor {
         }
       } );
     } else {
-      checkParent(textControl, parent);
+      checkParent( textControl, parent );
     }
     return textControl;
   }
