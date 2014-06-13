@@ -65,7 +65,7 @@ public class ConsoleInputTest {
   }
 
   private static void equipInputStreamWithIOException( InputStream inStream ) throws IOException {
-    doThrow( IOException.class ).when( inStream ).read( any( byte[].class ), anyInt(), anyInt() );
+    doThrow( new IOException() ).when( inStream ).read( any( byte[].class ), anyInt(), anyInt() );
   }
 
   private static InputStream createInputStreamSpy() {
