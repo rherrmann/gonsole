@@ -39,6 +39,18 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
+  public void testEnterGitCommandWithMultipleSpaces() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "log  -M" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( "repo>log  -M", "repo>" );
+  }
+
+  @Test
   public void testType() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
 

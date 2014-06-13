@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.internal;
 
+
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -75,7 +76,7 @@ public class InputObserver {
 
         line = consoleInput.readLine();
         if( line != null && line.trim().length() > 0 ) {
-          String[] commandLine = line.split( " " );
+          String[] commandLine = new CommandLineSplitter( line ).split();
           ConsoleCommandInterpreter[] interpreters = {
             new ControlCommandInterpreter( consoleOutput, repositoryProvider ),
             new GitCommandInterpreter( consoleOutput, gitDirectory )
