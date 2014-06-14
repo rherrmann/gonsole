@@ -51,6 +51,18 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
+  public void testEnterUnrecognizedCommand() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "foo" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( "repo>foo", "Unrecognized command: foo", "repo>" );
+  }
+
+  @Test
   public void testType() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
 
@@ -97,5 +109,17 @@ public class GitConsoleInputPDETest {
       .hasProcessedCommandLine()
       .caretIsAtEnd()
       .containsLines( "repo>", "repo>" );
+  }
+
+  @Test
+  public void testEncoding() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "status äöü" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( "repo>status äöü", "fatal: No argument is allowed: äöü", "repo>" );
   }
 }

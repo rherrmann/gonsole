@@ -15,9 +15,23 @@ class GitConsolePage implements IPageBookViewPage {
   private final TextConsolePage consolePage;
   private final InputObserver inputObserver;
 
-  public GitConsolePage( TextConsolePage consolePage, ConsoleIOProvider consoleIOProvider, CompositeRepositoryProvider repositoryProvider ) {
+  GitConsolePage( TextConsolePage consolePage,
+                  ConsoleIOProvider consoleIOProvider,
+                  CompositeRepositoryProvider repositoryProvider )
+  {
     this.consolePage = consolePage;
     this.inputObserver = new InputObserver( consoleIOProvider, repositoryProvider );
+  }
+
+  @Override
+  public void init( IPageSite site ) throws PartInitException {
+    consolePage.init( site );
+  }
+
+  @Override
+  public void createControl( Composite parent ) {
+    consolePage.createControl( parent );
+    inputObserver.start( consolePage.getViewer() );
   }
 
   @Override
@@ -36,24 +50,13 @@ class GitConsolePage implements IPageBookViewPage {
   }
 
   @Override
+  public IPageSite getSite() {
+    return consolePage.getSite();
+  }
+
+  @Override
   public void dispose() {
     inputObserver.stop();
     consolePage.dispose();
-  }
-
-  @Override
-  public void createControl( Composite parent ) {
-    consolePage.createControl( parent );
-    inputObserver.start( consolePage.getViewer() );
-  }
-
-  @Override
-  public void init( IPageSite site ) throws PartInitException {
-    consolePage.init( site );
-  }
-
-  @Override
-  public IPageSite getSite() {
-    return consolePage.getSite();
   }
 }

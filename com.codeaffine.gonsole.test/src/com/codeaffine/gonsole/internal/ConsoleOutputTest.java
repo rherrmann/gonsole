@@ -21,8 +21,8 @@ import com.google.common.base.Charsets;
 
 public class ConsoleOutputTest {
 
-  private ConsoleIOProvider consoleIOProvider;
   private OutputStream out;
+  private ConsoleIOProvider consoleIOProvider;
   private ConsoleOutput consoleOutput;
 
   @Test
@@ -44,6 +44,16 @@ public class ConsoleOutputTest {
     InOrder order = inOrder( consoleIOProvider, out, consoleWriter );
     order.verify( consoleIOProvider ).newOutputStream();
     order.verify( consoleWriter ).write( out );
+    order.verify( out ).close();
+  }
+
+  @Test
+  public void testWriteLine() throws IOException {
+    consoleOutput.writeLine( "foo" );
+
+    InOrder order = inOrder( consoleIOProvider, out );
+    order.verify( consoleIOProvider ).newOutputStream();
+    order.verify( out ).write( "foo\n".getBytes( consoleIOProvider.getEncoding() ) );
     order.verify( out ).close();
   }
 
@@ -73,6 +83,7 @@ public class ConsoleOutputTest {
     ConsoleIOProvider result = mock( ConsoleIOProvider.class );
     when( result.newOutputStream() ).thenReturn( out );
     when( result.getEncoding() ).thenReturn( Charsets.UTF_8.name() );
+    when( result.getLineDelimiter() ).thenReturn( "\n" );
     return result;
   }
 

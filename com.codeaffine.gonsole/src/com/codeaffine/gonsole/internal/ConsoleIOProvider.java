@@ -6,6 +6,7 @@ import java.io.OutputStream;
 public interface ConsoleIOProvider {
 
   OutputStream newOutputStream();
-  String getEncoding();
   InputStream getInputStream();
+  String getEncoding();
+  String getLineDelimiter();
 }

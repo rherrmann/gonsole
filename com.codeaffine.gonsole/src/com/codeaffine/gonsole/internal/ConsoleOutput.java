@@ -38,4 +38,8 @@ public class ConsoleOutput {
     } );
   }
 
+  public void writeLine( String text ) {
+    write( text + consoleIOProvider.getLineDelimiter() );
+  }
+
 }

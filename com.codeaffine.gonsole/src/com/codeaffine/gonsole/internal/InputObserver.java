@@ -93,7 +93,7 @@ public class InputObserver {
               }
             }
             if( !commandExecuted ) {
-              consoleOutput.write( "Unrecognized command: " + commandLine[ 0 ] + "\n" );
+              consoleOutput.writeLine( "Unrecognized command: " + commandLine[ 0 ] );
             }
           } catch( Exception exception ) {
             printStackTrace( consoleOutput, exception );
