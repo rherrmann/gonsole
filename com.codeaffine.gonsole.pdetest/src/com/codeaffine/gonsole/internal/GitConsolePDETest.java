@@ -4,6 +4,7 @@ import static com.codeaffine.gonsole.internal.activator.IconRegistry.GONSOLE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Color;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,8 +40,12 @@ public class GitConsolePDETest {
   }
 
   @Test
-  public void testGetLineDelimiter() {
-    assertThat( console.getLineDelimiter() ).isNotEmpty();
+  public void testGetBackground() {
+    console.initialize();
+
+    Color background = console.getBackground();
+
+    assertThat( background ).isNull();
   }
 
   @Before

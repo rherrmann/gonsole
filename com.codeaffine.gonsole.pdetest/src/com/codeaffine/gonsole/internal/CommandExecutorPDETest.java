@@ -2,13 +2,10 @@ package com.codeaffine.gonsole.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -69,14 +66,8 @@ public class CommandExecutorPDETest {
     new PgmResourceBundle().initialize();
     gitDirectory = createRepository();
     outputStream = new ByteArrayOutputStream();
-    ConsoleOutput consoleOutput = new ConsoleOutput( mockConsoleIOProvider( outputStream ) );
+    ConsoleOutput consoleOutput = new ConsoleOutput( outputStream, Charsets.UTF_8, "\n" );
     executor = new CommandExecutor( consoleOutput, gitDirectory );
-  }
-
-  private static ConsoleIOProvider mockConsoleIOProvider( OutputStream outputStream ) {
-    ConsoleIOProvider result = mock( ConsoleIOProvider.class );
-    when( result.newOutputStream() ).thenReturn( outputStream );
-    return result;
   }
 
   private File createRepository() throws GitAPIException, IOException {

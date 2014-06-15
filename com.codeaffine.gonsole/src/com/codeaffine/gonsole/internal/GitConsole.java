@@ -2,7 +2,9 @@ package com.codeaffine.gonsole.internal;
 
 import static com.codeaffine.gonsole.internal.activator.IconRegistry.GONSOLE;
 
+
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.TextConsolePage;
@@ -12,7 +14,7 @@ import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 import com.google.common.base.Charsets;
 
-public class GitConsole extends IOConsole implements ConsoleIOProvider {
+public class GitConsole extends IOConsole {
 
   private static final String TYPE = "com.codeaffine.gonsole.console";
   private static final ImageDescriptor IMAGE = new IconRegistry().getDescriptor( GONSOLE );
@@ -20,6 +22,7 @@ public class GitConsole extends IOConsole implements ConsoleIOProvider {
 
   private final CompositeRepositoryProvider repositoryProvider;
   private volatile TextConsolePage consolePage;
+  private DefaultConsoleIOProvider consoleIOProvider;
 
   public GitConsole( CompositeRepositoryProvider repositoryProvider ) {
     super( "Git Console", TYPE, IMAGE, ENCODING, true );
@@ -27,17 +30,18 @@ public class GitConsole extends IOConsole implements ConsoleIOProvider {
   }
 
   @Override
+  protected void init() {
+    super.init();
+    consoleIOProvider = new DefaultConsoleIOProvider( Display.getCurrent(), this );
+  }
+
+  @Override
   public IPageBookViewPage createPage( IConsoleView view ) {
     consolePage = ( TextConsolePage )super.createPage( view );
-    return new GitConsolePage( consolePage, this, repositoryProvider );
+    return new GitConsolePage( consolePage, consoleIOProvider, repositoryProvider );
   }
 
   public TextConsolePage getPage() {
     return consolePage;
-  }
-
-  @Override
-  public String getLineDelimiter() {
-    return System.getProperty( "line.separator" );
   }
 }

@@ -2,11 +2,13 @@ package com.codeaffine.gonsole.internal;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 public interface ConsoleIOProvider {
 
-  OutputStream newOutputStream();
+  OutputStream getOutputStream();
+  OutputStream getErrorStream();
   InputStream getInputStream();
-  String getEncoding();
+  Charset getCharacterEncoding();
   String getLineDelimiter();
 }

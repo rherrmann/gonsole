@@ -3,17 +3,16 @@ package com.codeaffine.gonsole.internal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InOrder;
 
 import com.codeaffine.gonsole.internal.ConsoleOutput.ConsoleWriter;
 import com.google.common.base.Charsets;
@@ -21,18 +20,24 @@ import com.google.common.base.Charsets;
 
 public class ConsoleOutputTest {
 
+  private static final String LINE_DELIMITER = "\n";
+  private static final Charset ENCODING = Charsets.UTF_8;
+
   private OutputStream out;
-  private ConsoleIOProvider consoleIOProvider;
   private ConsoleOutput consoleOutput;
+
+  @Test
+  public void testWriterLeavesOutputStreamOpen() throws IOException {
+    consoleOutput.write( mock( ConsoleWriter.class ) );
+
+    verify( out, never() ).close();
+  }
 
   @Test
   public void testWriteText() throws IOException {
     consoleOutput.write( "foo" );
 
-    InOrder order = inOrder( consoleIOProvider, out );
-    order.verify( consoleIOProvider ).newOutputStream();
-    order.verify( out ).write( "foo".getBytes( consoleIOProvider.getEncoding() ) );
-    order.verify( out ).close();
+    verify( out ).write( "foo".getBytes( ENCODING ) );
   }
 
   @Test
@@ -41,20 +46,14 @@ public class ConsoleOutputTest {
 
     consoleOutput.write( consoleWriter );
 
-    InOrder order = inOrder( consoleIOProvider, out, consoleWriter );
-    order.verify( consoleIOProvider ).newOutputStream();
-    order.verify( consoleWriter ).write( out );
-    order.verify( out ).close();
+    verify( consoleWriter ).write( out );
   }
 
   @Test
   public void testWriteLine() throws IOException {
     consoleOutput.writeLine( "foo" );
 
-    InOrder order = inOrder( consoleIOProvider, out );
-    order.verify( consoleIOProvider ).newOutputStream();
-    order.verify( out ).write( "foo\n".getBytes( consoleIOProvider.getEncoding() ) );
-    order.verify( out ).close();
+    verify( out ).write( ( "foo" + LINE_DELIMITER ).getBytes( ENCODING ) );
   }
 
   @Test
@@ -68,23 +67,19 @@ public class ConsoleOutputTest {
     } catch( RuntimeException expected ) {
       assertThat( expected.getCause() ).isSameAs( ioException );
     }
+  }
 
-    verify( out ).close();
+  @Test
+  public void testWriteUsesSpecifiedEncoding() throws IOException {
+    consoleOutput.write( "äöü" );
+
+    verify( out ).write( "äöü".getBytes( ENCODING ) );
   }
 
   @Before
   public void setUp() {
     out = mock( OutputStream.class );
-    consoleIOProvider = mockConsoleIoProvider( out );
-    consoleOutput = new ConsoleOutput( consoleIOProvider );
-  }
-
-  private static ConsoleIOProvider mockConsoleIoProvider( OutputStream out ) {
-    ConsoleIOProvider result = mock( ConsoleIOProvider.class );
-    when( result.newOutputStream() ).thenReturn( out );
-    when( result.getEncoding() ).thenReturn( Charsets.UTF_8.name() );
-    when( result.getLineDelimiter() ).thenReturn( "\n" );
-    return result;
+    consoleOutput = new ConsoleOutput( out, ENCODING, LINE_DELIMITER );
   }
 
   private ConsoleWriter mockConsoleWriterWithProblem( IOException ioException ) throws IOException {

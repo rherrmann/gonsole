@@ -2,8 +2,10 @@ package com.codeaffine.gonsole.internal;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.swt.widgets.Display;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -22,7 +24,7 @@ public class ConsoleOutputPDETest {
   public void testWrite() throws GitAPIException {
     GitConsole console = consoleBot.open( repositories.create( "repo" ) );
 
-    ConsoleOutput consoleOutput = new ConsoleOutput( console );
+    ConsoleOutput consoleOutput = createConsoleOutput( console );
     consoleOutput.write( new ConsoleWriter() {
       @Override
       public void write( OutputStream outputStream ) throws IOException {
@@ -39,11 +41,20 @@ public class ConsoleOutputPDETest {
   public void testWriteText() throws GitAPIException {
     GitConsole console = consoleBot.open( repositories.create( "repo" ) );
 
-    ConsoleOutput consoleOutput = new ConsoleOutput( console );
+    ConsoleOutput consoleOutput = createConsoleOutput( console );
     consoleOutput.write( "foo" );
 
     GitConsoleAssert.assertThat( consoleBot )
-    .hasProcessedCommandLine()
-    .containsLines( "repo>foo" );
+      .hasProcessedCommandLine()
+      .containsLines( "repo>foo" );
+  }
+
+  private static ConsoleOutput createConsoleOutput( GitConsole console ) {
+    Display display = Display.getCurrent();
+    DefaultConsoleIOProvider consoleIOProvider = new DefaultConsoleIOProvider( display, console );
+    OutputStream outputStream = consoleIOProvider.getOutputStream();
+    Charset encoding = consoleIOProvider.getCharacterEncoding();
+    String lineDelimiter = consoleIOProvider.getLineDelimiter();
+    return new ConsoleOutput( outputStream, encoding, lineDelimiter );
   }
 }

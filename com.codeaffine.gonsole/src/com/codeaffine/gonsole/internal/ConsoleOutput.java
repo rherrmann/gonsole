@@ -2,8 +2,7 @@ package com.codeaffine.gonsole.internal;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
-import com.google.common.io.Closeables;
+import java.nio.charset.Charset;
 
 
 public class ConsoleOutput {
@@ -12,34 +11,47 @@ public class ConsoleOutput {
     void write( OutputStream outputStream ) throws IOException;
   }
 
-  private final ConsoleIOProvider consoleIOProvider;
+  private final OutputStream outputStream;
+  private final Charset encoding;
+  private final String lineDelimiter;
 
-  public ConsoleOutput( ConsoleIOProvider consoleIOProvider ) {
-    this.consoleIOProvider = consoleIOProvider;
+  public ConsoleOutput( OutputStream outputStream, Charset encoding, String lineDelimiter ) {
+    this.outputStream = outputStream;
+    this.encoding = encoding;
+    this.lineDelimiter = lineDelimiter;
   }
 
   public void write( ConsoleWriter consoleWriter ) {
-    OutputStream outputStream = consoleIOProvider.newOutputStream();
+    write( outputStream, consoleWriter );
+  }
+
+  public void write( String text ) {
+    write( new EncodingConsoleWriter( text ) );
+  }
+
+  public void writeLine( String text ) {
+    write( text + lineDelimiter );
+  }
+
+  private static void write( OutputStream outputStream, ConsoleWriter consoleWriter ) {
     try {
       consoleWriter.write( outputStream );
     } catch( IOException ioe ) {
       throw new RuntimeException( ioe );
-    } finally {
-      Closeables.closeQuietly( outputStream );
     }
   }
 
-  public void write( final String text ) {
-    write( new ConsoleWriter() {
-      @Override
-      public void write( OutputStream outputStream ) throws IOException {
-        outputStream.write( text.getBytes( consoleIOProvider.getEncoding() ) );
-      }
-    } );
-  }
+  private class EncodingConsoleWriter implements ConsoleWriter {
+    private final String text;
 
-  public void writeLine( String text ) {
-    write( text + consoleIOProvider.getLineDelimiter() );
+    EncodingConsoleWriter( String text ) {
+      this.text = text;
+    }
+
+    @Override
+    public void write( OutputStream outputStream ) throws IOException {
+      outputStream.write( text.getBytes( encoding ) );
+    }
   }
 
 }
