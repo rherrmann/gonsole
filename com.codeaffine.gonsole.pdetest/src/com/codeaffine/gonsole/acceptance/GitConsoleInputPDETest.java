@@ -51,6 +51,18 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
+  public void testEnterGitCommandWithGitPrefix() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "git status" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( "repo>git status", "# On branch master", "repo>" );
+  }
+
+  @Test
   public void testEnterUnrecognizedCommand() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
 
@@ -60,6 +72,18 @@ public class GitConsoleInputPDETest {
       .hasProcessedCommandLine()
       .caretIsAtEnd()
       .containsLines( "repo>foo", "Unrecognized command: foo", "repo>" );
+  }
+
+  @Test
+  public void testEnterUnrecognizedCommandWithGitPrefix() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "git unknown" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( "repo>git unknown", "Unrecognized command: git", "repo>" );
   }
 
   @Test
