@@ -27,7 +27,9 @@ public class GitConsoleFactory implements IConsoleFactory {
     this( new CompositeRepositoryProviderFactory(), ConsolePlugin.getDefault().getConsoleManager() );
   }
 
-  GitConsoleFactory( CompositeRepositoryProviderFactory repositoryProviderFactory, IConsoleManager consoleManager ) {
+  GitConsoleFactory( CompositeRepositoryProviderFactory repositoryProviderFactory,
+                     IConsoleManager consoleManager )
+  {
     this.repositoryProviderFactory = repositoryProviderFactory;
     this.consoleManager = consoleManager;
   }
