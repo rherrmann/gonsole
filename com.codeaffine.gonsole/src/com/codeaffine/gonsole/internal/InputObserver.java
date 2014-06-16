@@ -93,7 +93,6 @@ public class InputObserver {
           String[] commandLine = new CommandLineSplitter( line ).split();
           ConsoleCommandInterpreter[] interpreters = {
             new ControlCommandInterpreter( consoleStandardOutput, repositoryProvider ),
-            new CompatibilityCommandInterpreter( consoleStandardOutput, gitDirectory ),
             new GitCommandInterpreter( consoleStandardOutput, gitDirectory )
           };
           try {

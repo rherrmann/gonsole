@@ -82,12 +82,12 @@ public class GitConsoleInputPDETest {
   public void testEnterUnrecognizedCommandWithGitPrefix() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
 
-    console.enterCommandLine( "git unknown" );
+    console.enterCommandLine( "git foo" );
 
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( line( "repo", "git unknown" ), "Unrecognized command: git", line( "repo" ) );
+      .containsLines( line( "repo", "git foo" ), "Unrecognized command: foo", line( "repo" ) );
   }
 
   @Test

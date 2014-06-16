@@ -47,4 +47,18 @@ public class CommandLineSplitterTest {
 
     assertThat( commandLine ).containsExactly( "a", "b" );
   }
+
+  @Test
+  public void testSplitWithGitPrefix() {
+    String[] commandLine = new CommandLineSplitter( "git foo" ).split();
+
+    assertThat( commandLine ).containsExactly( "foo" );
+  }
+
+  @Test
+  public void testSplitWithOnlyGitPrefix() {
+    String[] commandLine = new CommandLineSplitter( "git" ).split();
+
+    assertThat( commandLine ).containsExactly( "git" );
+  }
 }
