@@ -2,8 +2,8 @@
 <?pde version="3.8"?><target name="com.codeaffine.gonsole on Eclipse 4.4" sequenceNumber="83">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.egit.feature.group" version="3.4.0.201406121419"/>
-<unit id="org.eclipse.egit.source.feature.group" version="3.4.0.201406121419"/>
+<unit id="org.eclipse.egit.feature.group" version="3.4.0.201406160822"/>
+<unit id="org.eclipse.egit.source.feature.group" version="3.4.0.201406160822"/>
 <unit id="org.eclipse.jgit.pgm.feature.group" version="3.4.0.201406112033"/>
 <unit id="org.eclipse.jgit.pgm.source.feature.group" version="3.4.0.201406112033"/>
 <unit id="org.eclipse.jgit.feature.group" version="3.4.0.201406112033"/>
