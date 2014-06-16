@@ -16,6 +16,8 @@ import com.google.common.base.Throwables;
 
 public class InputObserver {
 
+  public static final String PROMPT_POSTFIX = "> ";
+
   private final ConsoleOutput consoleStandardOutput;
   private final ConsoleOutput consolePromptOutput;
   private final ConsoleOutput consoleErrorOutput;
@@ -84,7 +86,7 @@ public class InputObserver {
         File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
         String repositoryName = ControlCommandInterpreter.getRepositoryName( gitDirectory );
 
-        consolePromptOutput.write( repositoryName + "> " );
+        consolePromptOutput.write( repositoryName + PROMPT_POSTFIX );
 
         line = consoleInput.readLine();
         if( line != null && line.trim().length() > 0 ) {

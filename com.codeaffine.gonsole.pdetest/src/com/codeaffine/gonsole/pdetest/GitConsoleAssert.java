@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.pdetest;
 
+import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.ERROR_COLOR;
 import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.INPUT_COLOR;
 import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.OUTPUT_COLOR;
 import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.PROMPT_COLOR;
@@ -10,11 +11,9 @@ import org.assertj.core.api.Assertions;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
-import com.codeaffine.gonsole.internal.DefaultConsoleIOProvider;
+import com.codeaffine.gonsole.internal.InputObserver;
 
 public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsolePageBot> {
-
-  public static final String PROMPT_POSTFIX = "> ";
 
   private GitConsoleAssert( GitConsolePageBot actual ) {
     super( actual, GitConsoleAssert.class );
@@ -25,7 +24,7 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
   }
 
   public static String line( String promptPrefix, String... commands ) {
-    String result = promptPrefix + PROMPT_POSTFIX;
+    String result = promptPrefix + InputObserver.PROMPT_POSTFIX;
     for( String command : commands ) {
       result += command;
     }
@@ -74,7 +73,7 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
   }
 
   public GitConsoleAssert hasErrorColorAt( int offset ) {
-    hasColorAt( offset, DefaultConsoleIOProvider.ERROR_COLOR );
+    hasColorAt( offset, ERROR_COLOR );
     return this;
   }
 

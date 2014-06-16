@@ -1,6 +1,5 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.PROMPT_POSTFIX;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
 
@@ -8,6 +7,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.codeaffine.gonsole.internal.InputObserver;
 import com.codeaffine.gonsole.pdetest.GitConsoleBot;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 
@@ -104,8 +104,8 @@ public class GitConsoleInputPDETest {
   @Test
   public void testTypeWithCaretBeforeEnd() throws GitAPIException {
     String repositoryName = "repo";
-    int insertCaretPosition = ( repositoryName + PROMPT_POSTFIX ).length();
-    int expectedCaretPosition = ( repositoryName + PROMPT_POSTFIX + "a" ).length();
+    int insertCaretPosition = ( repositoryName + InputObserver.PROMPT_POSTFIX ).length();
+    int expectedCaretPosition = ( repositoryName + InputObserver.PROMPT_POSTFIX + "a" ).length();
     console.open( repositories.create( repositoryName ) );
 
     console.typeText( "bc" );
