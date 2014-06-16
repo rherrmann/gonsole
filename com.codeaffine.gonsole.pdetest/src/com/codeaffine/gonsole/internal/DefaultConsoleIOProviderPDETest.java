@@ -1,9 +1,12 @@
 package com.codeaffine.gonsole.internal;
 
+import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.ERROR_COLOR;
+import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.INPUT_COLOR;
+import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.OUTPUT_COLOR;
+import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.PROMPT_COLOR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.console.IOConsoleInputStream;
 import org.eclipse.ui.console.IOConsoleOutputStream;
@@ -40,8 +43,7 @@ public class DefaultConsoleIOProviderPDETest {
 
     IOConsoleInputStream inputStream = ( IOConsoleInputStream )consoleIOProvider.getInputStream();
 
-    Color expectedColor = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE );
-    assertThat( inputStream.getColor() ).isEqualTo( expectedColor );
+    assertThat( inputStream.getColor() ).isEqualTo( getColor( INPUT_COLOR ) );
   }
 
   @Test
@@ -50,7 +52,7 @@ public class DefaultConsoleIOProviderPDETest {
 
     IOConsoleOutputStream outStream = ( IOConsoleOutputStream )consoleIOProvider.getOutputStream();
 
-    assertThat( outStream.getColor() ).isNull();
+    assertThat( outStream.getColor() ).isEqualTo( getColor( OUTPUT_COLOR ) );
   }
 
   @Test
@@ -59,8 +61,16 @@ public class DefaultConsoleIOProviderPDETest {
 
     IOConsoleOutputStream errorStream = ( IOConsoleOutputStream )consoleIOProvider.getErrorStream();
 
-    Color expectedColor = displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED );
-    assertThat( errorStream.getColor() ).isEqualTo( expectedColor );
+    assertThat( errorStream.getColor() ).isEqualTo( getColor( ERROR_COLOR ) );
+  }
+
+  @Test
+  public void testGetPromptStream() throws GitAPIException {
+    DefaultConsoleIOProvider consoleIOProvider = createConsoleIOProvider();
+
+    IOConsoleOutputStream promptStream = ( IOConsoleOutputStream )consoleIOProvider.getPromptStream();
+
+    assertThat( promptStream.getColor() ).isEqualTo( getColor( PROMPT_COLOR ) );
   }
 
   @Test
@@ -74,6 +84,10 @@ public class DefaultConsoleIOProviderPDETest {
 
     assertThat( outStream.isClosed() ).isTrue();
     assertThat( errorStream.isClosed() ).isTrue();
+  }
+
+  private Color getColor( int colorCode ) {
+    return displayHelper.getDisplay().getSystemColor( colorCode );
   }
 
   private DefaultConsoleIOProvider createConsoleIOProvider() throws GitAPIException {

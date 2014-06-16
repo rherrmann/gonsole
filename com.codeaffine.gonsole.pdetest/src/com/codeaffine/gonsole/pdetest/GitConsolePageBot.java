@@ -3,17 +3,20 @@ package com.codeaffine.gonsole.pdetest;
 import static com.codeaffine.test.util.swt.SWTEventHelper.trigger;
 
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.console.TextConsoleViewer;
 
 class GitConsolePageBot {
 
-  private final StyledText styledText;
   private final TextConsoleViewer viewer;
+  private final StyledText styledText;
+  private final StyleRangeCollector styleRangeCollector;
 
   GitConsolePageBot( TextConsolePage textConsolePage ) {
     styledText = ( StyledText )textConsolePage.getControl();
     viewer = textConsolePage.getViewer();
+    styleRangeCollector = new StyleRangeCollector( styledText );
   }
 
   void waitForChange() {
@@ -38,6 +41,10 @@ class GitConsolePageBot {
 
   String getLineDelimiter() {
     return styledText.getLineDelimiter();
+  }
+
+  Color getForegroundAt( final int offset ) {
+    return styleRangeCollector.getStyleRangeAt( offset ).foreground;
   }
 
   void append( String text ) {

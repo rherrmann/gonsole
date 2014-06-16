@@ -1,5 +1,8 @@
 package com.codeaffine.gonsole.internal;
 
+import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
+import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -10,7 +13,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.gonsole.internal.ConsoleOutput.ConsoleWriter;
-import com.codeaffine.gonsole.pdetest.GitConsoleAssert;
 import com.codeaffine.gonsole.pdetest.GitConsoleBot;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 import com.google.common.base.Charsets;
@@ -32,9 +34,9 @@ public class ConsoleOutputPDETest {
       }
     } );
 
-    GitConsoleAssert.assertThat( consoleBot )
+    assertThat( consoleBot )
       .hasProcessedCommandLine()
-      .containsLines( "repo>foo" );
+      .containsLines( line( "repo", "foo" ) );
   }
 
   @Test
@@ -44,9 +46,9 @@ public class ConsoleOutputPDETest {
     ConsoleOutput consoleOutput = createConsoleOutput( console );
     consoleOutput.write( "foo" );
 
-    GitConsoleAssert.assertThat( consoleBot )
+    assertThat( consoleBot )
       .hasProcessedCommandLine()
-      .containsLines( "repo>foo" );
+      .containsLines( line( "repo", "foo" ) );
   }
 
   private static ConsoleOutput createConsoleOutput( GitConsole console ) {

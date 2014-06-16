@@ -1,6 +1,8 @@
 package com.codeaffine.gonsole.acceptance;
 
+import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.PROMPT_POSTFIX;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
+import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Rule;
@@ -11,31 +13,33 @@ import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 
 public class GitConsoleInputPDETest {
 
+  private static final int NEXT_LINE_OFFSET = 3;
+
   @Rule public final GitConsoleBot console = new GitConsoleBot();
   @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
 
   @Test
   public void testEnterSimpleGitCommand() throws GitAPIException {
-    console.open( repositories.create( "repo-1" ) );
+    console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "status" );
 
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( "repo-1>status", "# On branch master", "repo-1>" );
+      .containsLines( line( "repo", "status" ), "# On branch master", line( "repo" ) );
   }
 
   @Test
   public void testEnterChangeRepositoryCommand() throws GitAPIException {
-    console.open( repositories.create( "repo-1", "repo-2" ) );
+    console.open( repositories.create( "rep1", "rep2" ) );
 
-    console.enterCommandLine( "cr repo-2" );
+    console.enterCommandLine( "cr rep2" );
 
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( "repo-1>cr repo-2", "Current repository is: repo-2", "repo-2>" );
+      .containsLines( line( "rep1", "cr rep2" ), "Current repository is: rep2", line( "rep2" ) );
   }
 
   @Test
@@ -47,7 +51,7 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( "repo>log  -M", "repo>" );
+      .containsLines( line( "repo", "log  -M" ), line( "repo" ) );
   }
 
   @Test
@@ -59,7 +63,7 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( "repo>git status", "# On branch master", "repo>" );
+      .containsLines( line( "repo", "git status" ), "# On branch master" , line( "repo" ) );
   }
 
   @Test
@@ -71,7 +75,7 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( "repo>foo", "Unrecognized command: foo", "repo>" );
+      .containsLines( line( "repo", "foo" ), "Unrecognized command: foo", line( "repo" ) );
   }
 
   @Test
@@ -83,7 +87,7 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( "repo>git unknown", "Unrecognized command: git", "repo>" );
+      .containsLines( line( "repo", "git unknown" ), "Unrecognized command: git", line( "repo" ) );
   }
 
   @Test
@@ -93,33 +97,38 @@ public class GitConsoleInputPDETest {
     console.typeText( "abc" );
 
     assertThat( console )
-      .containsLines( "repo>abc" )
+      .containsLines( line( "repo", "abc" ) )
       .caretIsAtEnd();
   }
 
   @Test
   public void testTypeWithCaretBeforeEnd() throws GitAPIException {
-    console.open( repositories.create( "repo" ) );
+    String repositoryName = "repo";
+    int insertCaretPosition = ( repositoryName + PROMPT_POSTFIX ).length();
+    int expectedCaretPosition = ( repositoryName + PROMPT_POSTFIX + "a" ).length();
+    console.open( repositories.create( repositoryName ) );
 
     console.typeText( "bc" );
-    console.positionCaret( 5 );
+    console.positionCaret( insertCaretPosition );
     console.typeText( "a" );
 
     assertThat( console )
-      .containsLines( "repo>abc" )
-      .caretIsAt( 6 );
+      .containsLines( line( repositoryName, "abc" ) )
+      .caretIsAt( expectedCaretPosition );
   }
 
   @Test
   public void testTypeWithCaretBeforePrompt() throws GitAPIException {
-    console.open( repositories.create( "repo" ) );
+    String repositoryName = "repo";
+    int insertCaretPosition = repositoryName.length() / 2;
+    console.open( repositories.create( repositoryName ) );
 
     console.typeText( "ab" );
-    console.positionCaret( 2 );
+    console.positionCaret( insertCaretPosition );
     console.typeText( "c" );
 
     assertThat( console )
-      .containsLines( "repo>abc" )
+      .containsLines( line( repositoryName, "abc" ) )
       .caretIsAtEnd();
   }
 
@@ -132,7 +141,7 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( "repo>", "repo>" );
+      .containsLines( line( "repo" ), line( "repo" ) );
   }
 
   @Test
@@ -144,6 +153,48 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( "repo>status äöü", "fatal: No argument is allowed: äöü", "repo>" );
+      .containsLines( line( "repo", "status äöü" ),
+                      "fatal: No argument is allowed: äöü",
+                      line( "repo" ) );
+  }
+
+  @Test
+  public void testPromptColor() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    assertThat( console ).hasPromptColorAt( 0 );
+  }
+
+  @Test
+  public void testInputColor() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "status" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .hasInputColorAt( line( "repo", "status" ).length() );
+  }
+
+  @Test
+  public void testOutputColor() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "status" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .hasOutputColorAt( line( "repo", "status" ).length() + NEXT_LINE_OFFSET );
+  }
+
+  @Test
+  public void testErrorColor() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "foo" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .hasErrorColorAt( line( "repo", "foo" ).length() + NEXT_LINE_OFFSET );
   }
 }

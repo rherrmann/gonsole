@@ -9,8 +9,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.IOConsoleInputStream;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
-class DefaultConsoleIOProvider implements ConsoleIOProvider {
+public class DefaultConsoleIOProvider implements ConsoleIOProvider {
+  public static final int INPUT_COLOR = SWT.COLOR_BLUE;
+  public static final int OUTPUT_COLOR = SWT.COLOR_WIDGET_FOREGROUND;
+  public static final int PROMPT_COLOR = SWT.COLOR_DARK_GRAY;
+  public static final int ERROR_COLOR = SWT.COLOR_RED;
+
   private final IOConsoleOutputStream outputStream;
+  private final IOConsoleOutputStream promptStream;
   private final IOConsoleOutputStream errorStream;
   private final IOConsoleInputStream inputStream;
   private final Charset encoding;
@@ -18,19 +24,27 @@ class DefaultConsoleIOProvider implements ConsoleIOProvider {
   DefaultConsoleIOProvider( Display display, GitConsole console ) {
     inputStream = console.getInputStream();
     outputStream = console.newOutputStream();
+    promptStream = console.newOutputStream();
     errorStream = console.newOutputStream();
     encoding = Charset.forName( console.getEncoding() );
     initialize( display );
   }
 
   private void initialize( Display display ) {
-    errorStream.setColor( display.getSystemColor( SWT.COLOR_RED ) );
-    inputStream.setColor( display.getSystemColor( SWT.COLOR_BLUE ) );
+    inputStream.setColor( display.getSystemColor( INPUT_COLOR ) );
+    outputStream.setColor( display.getSystemColor( OUTPUT_COLOR ) );
+    promptStream.setColor( display.getSystemColor( PROMPT_COLOR ) );
+    errorStream.setColor( display.getSystemColor( ERROR_COLOR ) );
   }
 
   @Override
   public OutputStream getOutputStream() {
     return outputStream;
+  }
+
+  @Override
+  public OutputStream getPromptStream() {
+    return promptStream;
   }
 
   @Override

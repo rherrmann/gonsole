@@ -1,11 +1,20 @@
 package com.codeaffine.gonsole.pdetest;
 
+import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.INPUT_COLOR;
+import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.OUTPUT_COLOR;
+import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.PROMPT_COLOR;
 import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+import com.codeaffine.gonsole.internal.DefaultConsoleIOProvider;
 
 public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsolePageBot> {
+
+  public static final String PROMPT_POSTFIX = "> ";
 
   private GitConsoleAssert( GitConsolePageBot actual ) {
     super( actual, GitConsoleAssert.class );
@@ -13,6 +22,14 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
 
   public static GitConsoleAssert assertThat( GitConsoleBot consoleBot ) {
     return new GitConsoleAssert( consoleBot.gitConsolePageBot );
+  }
+
+  public static String line( String promptPrefix, String... commands ) {
+    String result = promptPrefix + PROMPT_POSTFIX;
+    for( String command : commands ) {
+      result += command;
+    }
+    return result;
   }
 
   public GitConsoleAssert hasProcessedCommandLine() {
@@ -39,5 +56,31 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
     }
     assertEquals( expectedText, actual.getText() );
     return this;
+  }
+
+  public GitConsoleAssert hasPromptColorAt( int offset ) {
+    hasColorAt( offset, PROMPT_COLOR );
+    return this;
+  }
+
+  public GitConsoleAssert hasInputColorAt( int offset ) {
+    hasColorAt( offset, INPUT_COLOR );
+    return this;
+  }
+
+  public GitConsoleAssert hasOutputColorAt( int offset ) {
+    hasColorAt( offset, OUTPUT_COLOR );
+    return this;
+  }
+
+  public GitConsoleAssert hasErrorColorAt( int offset ) {
+    hasColorAt( offset, DefaultConsoleIOProvider.ERROR_COLOR );
+    return this;
+  }
+
+  private void hasColorAt( int offset, int colorIndex ) {
+    Color expectedColor = Display.getCurrent().getSystemColor( colorIndex );
+    Color actualColor = actual.getForegroundAt( offset );
+    Assertions.assertThat( actualColor ).isEqualTo( expectedColor );
   }
 }

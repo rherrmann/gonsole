@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 
 public interface ConsoleIOProvider {
 
+  OutputStream getPromptStream();
   OutputStream getOutputStream();
   OutputStream getErrorStream();
   InputStream getInputStream();

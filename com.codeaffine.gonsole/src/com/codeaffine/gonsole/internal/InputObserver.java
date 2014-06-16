@@ -17,6 +17,7 @@ import com.google.common.base.Throwables;
 public class InputObserver {
 
   private final ConsoleOutput consoleStandardOutput;
+  private final ConsoleOutput consolePromptOutput;
   private final ConsoleOutput consoleErrorOutput;
   private final ConsoleInput consoleInput;
   private final CompositeRepositoryProvider repositoryProvider;
@@ -25,6 +26,7 @@ public class InputObserver {
   public InputObserver( ConsoleIOProvider consoleIOProvider,
                         CompositeRepositoryProvider repositoryProvider )
   {
+    this.consolePromptOutput = createConsoleOutput( consoleIOProvider.getPromptStream(), consoleIOProvider );
     this.consoleStandardOutput = createConsoleOutput( consoleIOProvider.getOutputStream(), consoleIOProvider );
     this.consoleErrorOutput = createConsoleOutput( consoleIOProvider.getErrorStream(), consoleIOProvider );
     this.consoleInput = new ConsoleInput( consoleIOProvider );
@@ -82,7 +84,7 @@ public class InputObserver {
         File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
         String repositoryName = ControlCommandInterpreter.getRepositoryName( gitDirectory );
 
-        consoleStandardOutput.write( repositoryName + ">" );
+        consolePromptOutput.write( repositoryName + "> " );
 
         line = consoleInput.readLine();
         if( line != null && line.trim().length() > 0 ) {
@@ -107,7 +109,7 @@ public class InputObserver {
               consoleErrorOutput.writeLine( "Unrecognized command: " + commandLine[ 0 ] );
             }
           } catch( Exception exception ) {
-            printStackTrace( consoleStandardOutput, exception );
+            printStackTrace( consoleErrorOutput, exception );
           }
         }
       } while( line != null );
