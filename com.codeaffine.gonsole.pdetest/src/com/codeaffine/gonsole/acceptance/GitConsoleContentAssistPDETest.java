@@ -10,15 +10,19 @@ import org.junit.Test;
 
 import com.codeaffine.gonsole.pdetest.GitConsoleBot;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
+import com.codeaffine.test.util.ConditionalIgnoreRule;
+import com.codeaffine.test.util.GtkPlatform;
+import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 
 public class GitConsoleContentAssistPDETest {
 
-  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final GitConsoleBot console = new GitConsoleBot();
   @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testShowContentAssist() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
@@ -28,6 +32,7 @@ public class GitConsoleContentAssistPDETest {
     assertThat( console ).showsContentAssist().withProposal( "add" );
   }
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testShowContentAssistWithFilter() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
@@ -38,6 +43,7 @@ public class GitConsoleContentAssistPDETest {
     assertThat( console ).showsContentAssist().withProposal( "show" );
   }
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testShowContentAssistWithFilterAndOngoingTyping() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
@@ -45,7 +51,7 @@ public class GitConsoleContentAssistPDETest {
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
     console.typeText( "t" );
-    displayHelper.flushPendingEvents();
+    new DisplayHelper().flushPendingEvents();
 
     assertThat( console ).showsContentAssist().withProposal( "status" );
   }
@@ -60,6 +66,7 @@ public class GitConsoleContentAssistPDETest {
     assertThat( console ).showsNoContentAssist();
   }
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testApplyContentProposal() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
@@ -71,6 +78,7 @@ public class GitConsoleContentAssistPDETest {
       .containsLines( line( "repo", "add" ) );
   }
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testApplyFilteredContentProposal() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
@@ -83,6 +91,7 @@ public class GitConsoleContentAssistPDETest {
       .containsLines( line( "repo", "show" ) );
   }
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testApplyFilteredContentProposalWithSelectedText() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
