@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.internal;
 
+import static com.codeaffine.gonsole.test.helper.CompositeRepositoryProviderHelper.createWithSingleChildProvider;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 import com.codeaffine.test.util.concurrency.RunInThread;
 import com.codeaffine.test.util.concurrency.RunInThreadRule;
@@ -42,6 +44,7 @@ public class GitCommandInterpreterPDETest {
   public void setUp() throws GitAPIException {
     new PgmResourceBundle().reset();
     File gitDirectory = repositories.create( "repo" )[ 0 ];
-    interpreter = new GitCommandInterpreter( mock( ConsoleOutput.class ), gitDirectory );
+    CompositeRepositoryProvider repositoryProvider = createWithSingleChildProvider( gitDirectory );
+    interpreter = new GitCommandInterpreter( mock( ConsoleOutput.class ), repositoryProvider );
   }
 }
