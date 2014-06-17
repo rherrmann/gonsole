@@ -15,13 +15,12 @@ import org.eclipse.jface.text.contentassist.CompletionProposal;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.contentassist.IContextInformationValidator;
-import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.graphics.Point;
@@ -133,22 +132,20 @@ class GitConsolePage implements IPageBookViewPage {
   public void createControl( Composite parent ) {
     consolePage.createControl( parent );
 
-    SourceViewerConfiguration configuration = new SourceViewerConfiguration() {
-      @Override
-      public IContentAssistant getContentAssistant( ISourceViewer sourceViewer ) {
-        ContentAssistant result = new ContentAssistant();
-        result.enablePrefixCompletion( true );
-        result.setRepeatedInvocationMode( true );
-        IContentAssistProcessor contentAssistProcessor = new ContentAssistProcessor();
-        result.setContentAssistProcessor( contentAssistProcessor, IOConsolePartition.INPUT_PARTITION_TYPE );
-        return result;
-      }
-    };
-
-
     TextConsoleViewer sourceViewer = consolePage.getViewer();
-    sourceViewer.configure( configuration );
 
+    final ContentAssistant contentAssistant = new ContentAssistant();
+    contentAssistant.enablePrefixCompletion( true );
+    contentAssistant.setRepeatedInvocationMode( true );
+    IContentAssistProcessor contentAssistProcessor = new ContentAssistProcessor();
+    contentAssistant.setContentAssistProcessor( contentAssistProcessor, IOConsolePartition.INPUT_PARTITION_TYPE );
+    contentAssistant.install( sourceViewer );
+    sourceViewer.getTextWidget().addDisposeListener( new DisposeListener() {
+      @Override
+      public void widgetDisposed( DisposeEvent event ) {
+        contentAssistant.uninstall();
+      }
+    } );
 
     sourceViewer.getTextWidget().addFocusListener( new FocusListener() {
       private IHandlerActivation activation;
@@ -177,7 +174,8 @@ class GitConsolePage implements IPageBookViewPage {
                 }
               }
               }
-            viewer.doOperation( ISourceViewer.CONTENTASSIST_PROPOSALS );
+//            viewer.doOperation( ISourceViewer.CONTENTASSIST_PROPOSALS );
+            contentAssistant.showPossibleCompletions();
           }
         };
         action.setActionDefinitionId( ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS );
