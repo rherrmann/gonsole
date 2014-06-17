@@ -51,7 +51,15 @@ class GitConsolePageBot {
     styledText.append( text );
   }
 
-  void triggerEvent( int eventType, char character ) {
-     trigger( eventType ).withKeyCode( character ).withCharacter( character ).on( styledText );
+  void triggerEvent( int eventType, int modifiers, char character ) {
+    trigger( eventType )
+      .withKeyCode( character )
+      .withStateMask( modifiers )
+      .withCharacter( character )
+      .on( styledText );
+  }
+
+  void selectText( int start, int length ) {
+    styledText.setSelectionRange( start, length );
   }
 }

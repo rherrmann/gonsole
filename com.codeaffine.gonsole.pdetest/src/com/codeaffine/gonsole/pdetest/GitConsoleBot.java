@@ -6,6 +6,8 @@ import static com.google.common.base.Preconditions.checkState;
 import java.io.File;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
@@ -16,6 +18,7 @@ import org.junit.runners.model.Statement;
 
 import com.codeaffine.gonsole.internal.GitConsole;
 import com.codeaffine.test.util.swt.DisplayHelper;
+import com.codeaffine.test.util.swt.SWTEventHelper;
 
 public class GitConsoleBot implements MethodRule {
 
@@ -23,10 +26,12 @@ public class GitConsoleBot implements MethodRule {
   private static final String INTRO_VIEW_ID = "org.eclipse.ui.internal.introview";
 
   private final ViewHelper viewHelper;
+  final DisplayHelper displayHelper;
   GitConsolePageBot gitConsolePageBot;
 
   public GitConsoleBot() {
     viewHelper = new ViewHelper();
+    displayHelper = new DisplayHelper();
   }
 
   @Override
@@ -36,10 +41,18 @@ public class GitConsoleBot implements MethodRule {
 
   public GitConsoleBot typeText( String text ) {
     for( int i = 0; i < text.length(); i++ ) {
-      gitConsolePageBot.triggerEvent( SWT.KeyDown, text.charAt( i ) );
-      gitConsolePageBot.triggerEvent( SWT.KeyUp, text.charAt( i ) );
+      gitConsolePageBot.triggerEvent( SWT.KeyDown, SWT.NONE, text.charAt( i ) );
+      gitConsolePageBot.triggerEvent( SWT.KeyUp, SWT.NONE, text.charAt( i ) );
     }
     return this;
+  }
+
+  public void typeKey( int modifiers, char character ) {
+    gitConsolePageBot.triggerEvent( SWT.KeyDown, modifiers, character );
+  }
+
+  public void selectText( int start, int length ) {
+    gitConsolePageBot.selectText( start, length );
   }
 
   public GitConsoleBot positionCaret( int caretOffset ) {
@@ -52,6 +65,15 @@ public class GitConsoleBot implements MethodRule {
 
     String lineDelimiter = gitConsolePageBot.getLineDelimiter();
     gitConsolePageBot.append( commandLine + lineDelimiter );
+  }
+
+  public void selectFirstContentProposal() {
+    Table table = getContentAssistTable();
+    SWTEventHelper
+      .trigger( SWT.DefaultSelection )
+      .withIndex( 0 )
+      .withItem( table.getItem( 0 ) )
+      .on( table );
   }
 
   public GitConsole open( File ... repositoryLocations ) {
@@ -67,6 +89,7 @@ public class GitConsoleBot implements MethodRule {
     removeGitConsoles();
     gitConsolePageBot = null;
     viewHelper.hideView( CONSOLE_VIEW_ID );
+    displayHelper.dispose();
   }
 
   private static GitConsole registerNewGitConsole( File[] repositoryLocations ) {
@@ -89,5 +112,10 @@ public class GitConsoleBot implements MethodRule {
         consoleManager.removeConsoles( new IConsole[] { console } );
       }
     }
+  }
+
+  private Table getContentAssistTable() {
+    Shell shell = displayHelper.getNewShells()[ 0 ];
+    return ( Table )shell.getChildren()[ 0 ];
   }
 }

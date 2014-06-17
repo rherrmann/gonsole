@@ -2,7 +2,6 @@ package com.codeaffine.gonsole.internal;
 
 import static com.codeaffine.gonsole.internal.activator.IconRegistry.GONSOLE;
 
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.IConsoleView;

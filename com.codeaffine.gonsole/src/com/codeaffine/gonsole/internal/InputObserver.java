@@ -71,7 +71,7 @@ public class InputObserver {
 
       viewer.getDocument().addDocumentListener( new IDocumentListener() {
         @Override
-        public void documentChanged( DocumentEvent event ) {
+        public void documentChanged( DocumentEvent evt ) {
           textWidget.setCaretOffset( textWidget.getCharCount() );
         }
 

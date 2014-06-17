@@ -10,17 +10,23 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
 
 import com.codeaffine.gonsole.internal.InputObserver;
+import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsolePageBot> {
 
-  private GitConsoleAssert( GitConsolePageBot actual ) {
+  private final DisplayHelper displayHelper;
+
+  private GitConsoleAssert( GitConsolePageBot actual, DisplayHelper displayHelper ) {
     super( actual, GitConsoleAssert.class );
+    this.displayHelper = displayHelper;
   }
 
   public static GitConsoleAssert assertThat( GitConsoleBot consoleBot ) {
-    return new GitConsoleAssert( consoleBot.gitConsolePageBot );
+    return new GitConsoleAssert( consoleBot.gitConsolePageBot, consoleBot.displayHelper );
   }
 
   public static String line( String promptPrefix, String... commands ) {
@@ -54,6 +60,23 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
       }
     }
     assertEquals( expectedText, actual.getText() );
+    return this;
+  }
+
+  public GitConsoleAssert showsNoContentAssist() {
+    Assertions.assertThat( displayHelper.getNewShells() ).isEmpty();
+    return this;
+  }
+
+  public GitConsoleAssert showsContentAssist() {
+    Assertions.assertThat( displayHelper.getNewShells() ).hasSize( 1 );
+    return this;
+  }
+
+  public GitConsoleAssert withProposal( String proposal ) {
+    Shell shell = displayHelper.getNewShells()[ 0 ];
+    Table table = ( Table )shell.getChildren()[ 0 ];
+    Assertions.assertThat( table.getItem( 0 ).getText() ).isEqualTo( proposal );
     return this;
   }
 
