@@ -32,7 +32,7 @@ class CommandExecutor {
     try {
       CommandAccessor commandAccessor = new CommandAccessor( commandInfo );
       commandAccessor.init( repositoryContext.getRepository(), outputStream );
-      return commandAccessor.execute( commandInfo );
+      return commandAccessor.execute();
     } finally {
       repositoryContext.dispose();
     }

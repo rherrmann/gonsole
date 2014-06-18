@@ -74,10 +74,14 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
   }
 
   public GitConsoleAssert withProposal( String proposal ) {
-    Shell shell = displayHelper.getNewShells()[ 0 ];
-    Table table = ( Table )shell.getChildren()[ 0 ];
+    Table table = getContentProposalTable();
     Assertions.assertThat( table.getItem( 0 ).getText() ).isEqualTo( proposal );
     return this;
+  }
+
+  public void withImage() {
+    Table table = getContentProposalTable();
+    Assertions.assertThat( table.getItem( 0 ).getImage() ).isNotNull();
   }
 
   public GitConsoleAssert hasPromptColorAt( int offset ) {
@@ -104,5 +108,10 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
     Color expectedColor = Display.getCurrent().getSystemColor( colorIndex );
     Color actualColor = actual.getForegroundAt( offset );
     Assertions.assertThat( actualColor ).isEqualTo( expectedColor );
+  }
+
+  private Table getContentProposalTable() {
+    Shell shell = displayHelper.getNewShells()[ 0 ];
+    return ( Table )shell.getChildren()[ 0 ];
   }
 }

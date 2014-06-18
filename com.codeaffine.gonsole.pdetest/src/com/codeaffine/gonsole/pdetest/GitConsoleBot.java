@@ -6,6 +6,7 @@ import static com.google.common.base.Preconditions.checkState;
 import java.io.File;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -51,6 +52,11 @@ public class GitConsoleBot implements MethodRule {
     gitConsolePageBot.triggerEvent( SWT.KeyDown, modifiers, character );
   }
 
+  public void typeEnter() {
+    enterCommandLine( "" );
+    gitConsolePageBot.waitForChange();
+  }
+
   public void selectText( int start, int length ) {
     gitConsolePageBot.selectText( start, length );
   }
@@ -68,12 +74,17 @@ public class GitConsoleBot implements MethodRule {
   }
 
   public void selectFirstContentProposal() {
-    Table table = getContentAssistTable();
+    Table table = getContentProposalTable();
     SWTEventHelper
       .trigger( SWT.DefaultSelection )
       .withIndex( 0 )
       .withItem( table.getItem( 0 ) )
       .on( table );
+  }
+
+  public Image getContentProposalImage( int index ) {
+    Table table = getContentProposalTable();
+    return table.getItem( index ).getImage();
   }
 
   public GitConsole open( File ... repositoryLocations ) {
@@ -114,7 +125,7 @@ public class GitConsoleBot implements MethodRule {
     }
   }
 
-  private Table getContentAssistTable() {
+  private Table getContentProposalTable() {
     Shell shell = displayHelper.getNewShells()[ 0 ];
     return ( Table )shell.getChildren()[ 0 ];
   }

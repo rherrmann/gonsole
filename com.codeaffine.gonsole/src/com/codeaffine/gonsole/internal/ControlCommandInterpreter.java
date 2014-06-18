@@ -17,13 +17,13 @@ public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
 
   @Override
   public boolean isRecognized( String... commandLine ) {
-    return commandLine.length > 0 && "cr".equals( commandLine[ 0 ] );
+    return commandLine.length > 0 && "use".equals( commandLine[ 0 ] );
   }
 
   @Override
   public String execute( String... parts ) {
     String result = "Unkown repository";
-    if( parts.length == 2 && parts[ 0 ].equals( "cr" ) ) {
+    if( parts.length == 2 && parts[ 0 ].equals( "use" ) ) {
       String newRepositoryName = parts[ 1 ];
       File[] repositoryLocations = repositoryProvider.getRepositoryLocations();
       for( File repositoryLocation : repositoryLocations ) {
@@ -33,8 +33,8 @@ public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
         }
       }
       String changedRepositoryName = getRepositoryName( repositoryProvider.getCurrentRepositoryLocation() );
-      String message = String.format( "Current repository is: %s%n", changedRepositoryName );
-      consoleOutput.write( message );
+      String message = String.format( "Current repository is: %s", changedRepositoryName );
+      consoleOutput.writeLine( message );
     }
     return result;
   }

@@ -17,17 +17,19 @@ import com.google.common.base.Throwables;
 
 public class CommandAccessor {
 
-  private final Object command;
-  private final Class<?> type;
-  final ByteArrayOutputStream errorStream;
+  private static final String FATAL_PREFIX = "fatal: ";
+
+  private static final Class<TextBuiltin> COMMAND_TYPE = TextBuiltin.class;
+
+  private final CommandInfo commandInfo;
+  private final ByteArrayOutputStream errorStream;
 
   public CommandAccessor( CommandInfo commandInfo ) {
-    this( commandInfo.getCommand(), TextBuiltin.class, new ByteArrayOutputStream() );
+    this( commandInfo, new ByteArrayOutputStream() );
   }
 
-  CommandAccessor( Object command, Class<?> type, ByteArrayOutputStream errorStream ) {
-    this.command = command;
-    this.type = type;
+  CommandAccessor( CommandInfo commandInfo, ByteArrayOutputStream errorStream ) {
+    this.commandInfo = commandInfo;
     this.errorStream = errorStream;
   }
 
@@ -37,7 +39,7 @@ public class CommandAccessor {
     init( repository );
   }
 
-  public String execute( CommandInfo commandInfo ) {
+  public String execute() {
     try {
       commandInfo.getCommand().execute( commandInfo.getArguments() );
     } catch( Die ignore ) {
@@ -50,16 +52,23 @@ public class CommandAccessor {
   }
 
   private String readErrorStream() {
+    String result = null;
     byte[] bytes = errorStream.toByteArray();
-    return bytes.length == 0 ? null : new String( bytes, Charsets.UTF_8 );
+    if( bytes.length != 0 ) {
+      result = new String( bytes, Charsets.UTF_8 ).trim();
+      if( result.startsWith( FATAL_PREFIX ) ) {
+        result = result.substring( FATAL_PREFIX.length() );
+      }
+    }
+    return result;
   }
 
   void flush() {
     try {
-      for( Field field : type.getDeclaredFields() ) {
+      for( Field field : COMMAND_TYPE.getDeclaredFields() ) {
         if( "outw".equals( field.getName() ) || "errw".equals( field.getName() ) ) {
           field.setAccessible( true );
-          Writer writer = ( Writer )field.get( command );
+          Writer writer = ( Writer )field.get( commandInfo.getCommand() );
           writer.flush();
         }
       }
@@ -70,9 +79,9 @@ public class CommandAccessor {
 
   private void init( Repository repository ) {
     try {
-      Method initMethod = type.getDeclaredMethod( "init", Repository.class, String.class );
+      Method initMethod = COMMAND_TYPE.getDeclaredMethod( "init", Repository.class, String.class );
       initMethod.setAccessible( true );
-      initMethod.invoke( command, repository, null );
+      initMethod.invoke( commandInfo.getCommand(), repository, null );
     } catch( InvocationTargetException exception ) {
       Throwables.propagate( exception.getCause() );
     } catch( Exception exception ) {
@@ -81,11 +90,11 @@ public class CommandAccessor {
   }
 
   private void assignStream( String fieldName, OutputStream outputStream ) {
-    for( Field field : type.getDeclaredFields() ) {
+    for( Field field : COMMAND_TYPE.getDeclaredFields() ) {
       if( fieldName.equals( field.getName() ) ) {
         field.setAccessible( true );
         try {
-          field.set( command, outputStream );
+          field.set( commandInfo.getCommand(), outputStream );
         } catch( IllegalAccessException e ) {
           Throwables.propagate( e );
         }

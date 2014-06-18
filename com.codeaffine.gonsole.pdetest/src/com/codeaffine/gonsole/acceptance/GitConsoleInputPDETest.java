@@ -32,12 +32,12 @@ public class GitConsoleInputPDETest {
   public void testEnterChangeRepositoryCommand() throws GitAPIException {
     console.open( repositories.create( "rep1", "rep2" ) );
 
-    console.enterCommandLine( "cr rep2" );
+    console.enterCommandLine( "use rep2" );
 
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( line( "rep1", "cr rep2" ), "Current repository is: rep2", line( "rep2" ) );
+      .containsLines( line( "rep1", "use rep2" ), "Current repository is: rep2", line( "rep2" ) );
   }
 
   @Test
@@ -62,6 +62,20 @@ public class GitConsoleInputPDETest {
       .hasProcessedCommandLine()
       .caretIsAtEnd()
       .containsLines( line( "repo", "git status" ), "# On branch master" , line( "repo" ) );
+  }
+
+  @Test
+  public void testEnterGitCommandWithIllegalArguments() throws GitAPIException {
+    console.open( repositories.create( "repo" ) );
+
+    console.enterCommandLine( "commit" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( line( "repo", "commit" ),
+                      "Option \"--message (-m)\" is required" ,
+                      line( "repo" ) );
   }
 
   @Test
@@ -152,7 +166,7 @@ public class GitConsoleInputPDETest {
       .hasProcessedCommandLine()
       .caretIsAtEnd()
       .containsLines( line( "repo", "status äöü" ),
-                      "fatal: No argument is allowed: äöü",
+                      "No argument is allowed: äöü",
                       line( "repo" ) );
   }
 }

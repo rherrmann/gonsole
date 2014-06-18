@@ -101,7 +101,7 @@ public class InputObserver {
               if( interpreters[ i ].isRecognized( commandLine ) ) {
                 String errorOutput = interpreters[ i ].execute( commandLine );
                 if( errorOutput != null ) {
-                  consoleErrorOutput.write( errorOutput );
+                  consoleErrorOutput.writeLine( errorOutput );
                 }
                 commandExecuted = true;
               }
