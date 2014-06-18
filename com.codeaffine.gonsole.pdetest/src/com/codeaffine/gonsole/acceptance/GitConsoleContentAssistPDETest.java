@@ -10,12 +10,11 @@ import org.eclipse.swt.graphics.Image;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.GitConsole;
 import com.codeaffine.gonsole.pdetest.GitConsoleBot;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 import com.codeaffine.test.util.ConditionalIgnoreRule;
-import com.codeaffine.test.util.GtkPlatform;
 import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
+import com.codeaffine.test.util.GtkPlatform;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 
@@ -119,6 +118,7 @@ public class GitConsoleContentAssistPDETest {
       .containsLines( line( "repo", "show" ) );
   }
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testContentAssistHasGitCommandImage() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
@@ -129,6 +129,7 @@ public class GitConsoleContentAssistPDETest {
     assertThat( console ).showsContentAssist().withImage();
   }
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testContentAssistHasControlCommandImage() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
@@ -139,6 +140,7 @@ public class GitConsoleContentAssistPDETest {
     assertThat( console ).showsContentAssist().withImage();
   }
 
+  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
   public void testProposalImagesDifferForProposalTypes() throws GitAPIException {
     console.open( repositories.create( "repo" ) );
