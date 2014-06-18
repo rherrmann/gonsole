@@ -26,6 +26,11 @@ p, ul, ol {
   text-align: center;
 }
 
+ul
+{
+  list-style-type: none;
+}
+
 a {
   color: #F34F29;
   text-decoration: none;
