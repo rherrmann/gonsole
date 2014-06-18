@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class GitCommandInterpreterPDETest {
   }
 
   @Before
-  public void setUp() throws GitAPIException {
+  public void setUp() {
     new PgmResourceBundle().reset();
     File gitDirectory = repositories.create( "repo" )[ 0 ];
     CompositeRepositoryProvider repositoryProvider = createWithSingleChildProvider( gitDirectory );

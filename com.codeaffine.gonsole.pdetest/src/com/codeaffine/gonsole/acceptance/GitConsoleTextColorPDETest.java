@@ -3,7 +3,6 @@ package com.codeaffine.gonsole.acceptance;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -19,14 +18,14 @@ public class GitConsoleTextColorPDETest {
   @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
 
   @Test
-  public void testPromptColor() throws GitAPIException {
+  public void testPromptColor() {
     console.open( repositories.create( "repo" ) );
 
     assertThat( console ).hasPromptColorAt( 0 );
   }
 
   @Test
-  public void testInputColor() throws GitAPIException {
+  public void testInputColor() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "status" );
@@ -37,7 +36,7 @@ public class GitConsoleTextColorPDETest {
   }
 
   @Test
-  public void testOutputColor() throws GitAPIException {
+  public void testOutputColor() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "status" );
@@ -48,7 +47,7 @@ public class GitConsoleTextColorPDETest {
   }
 
   @Test
-  public void testErrorColor() throws GitAPIException {
+  public void testErrorColor() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "foo" );

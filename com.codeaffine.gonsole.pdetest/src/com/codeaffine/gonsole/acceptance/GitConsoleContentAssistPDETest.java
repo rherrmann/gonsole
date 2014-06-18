@@ -4,7 +4,6 @@ import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Rule;
@@ -26,7 +25,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testShowContentAssist() throws GitAPIException {
+  public void testShowContentAssist() {
     console.open( repositories.create( "repo" ) );
 
     console.typeKey( SWT.CTRL, ' ' );
@@ -36,7 +35,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testShowContentAssistWithFilter() throws GitAPIException {
+  public void testShowContentAssistWithFilter() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "s" );
@@ -47,7 +46,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testShowContentAssistWithFilterAndOngoingTyping() throws GitAPIException {
+  public void testShowContentAssistWithFilterAndOngoingTyping() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "s" );
@@ -59,7 +58,7 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  public void testShowContentAssistOnCompletedCommand() throws GitAPIException {
+  public void testShowContentAssistOnCompletedCommand() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "status " );
@@ -70,7 +69,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testShowContentForControlCommand() throws GitAPIException {
+  public void testShowContentForControlCommand() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "use" );
@@ -81,7 +80,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testApplyContentProposal() throws GitAPIException {
+  public void testApplyContentProposal() {
     console.open( repositories.create( "repo" ) );
 
     console.typeKey( SWT.CTRL, ' ' );
@@ -93,7 +92,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testApplyFilteredContentProposal() throws GitAPIException {
+  public void testApplyFilteredContentProposal() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "s" );
@@ -106,7 +105,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testApplyFilteredContentProposalWithSelectedText() throws GitAPIException {
+  public void testApplyFilteredContentProposalWithSelectedText() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "sx" );
@@ -120,7 +119,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testContentAssistHasGitCommandImage() throws GitAPIException {
+  public void testContentAssistHasGitCommandImage() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "status" );
@@ -131,7 +130,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testContentAssistHasControlCommandImage() throws GitAPIException {
+  public void testContentAssistHasControlCommandImage() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "use" );
@@ -142,7 +141,7 @@ public class GitConsoleContentAssistPDETest {
 
   @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
-  public void testProposalImagesDifferForProposalTypes() throws GitAPIException {
+  public void testProposalImagesDifferForProposalTypes() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "status" );

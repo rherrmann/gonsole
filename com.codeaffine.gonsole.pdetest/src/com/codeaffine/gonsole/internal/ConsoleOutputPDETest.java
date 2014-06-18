@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.swt.widgets.Display;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,7 +22,7 @@ public class ConsoleOutputPDETest {
   @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
 
   @Test
-  public void testWrite() throws GitAPIException {
+  public void testWrite() {
     GitConsole console = consoleBot.open( repositories.create( "repo" ) );
 
     ConsoleOutput consoleOutput = createConsoleOutput( console );
@@ -40,7 +39,7 @@ public class ConsoleOutputPDETest {
   }
 
   @Test
-  public void testWriteText() throws GitAPIException {
+  public void testWriteText() {
     GitConsole console = consoleBot.open( repositories.create( "repo" ) );
 
     ConsoleOutput consoleOutput = createConsoleOutput( console );

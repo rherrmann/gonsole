@@ -6,7 +6,6 @@ import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.OUTPUT_CO
 import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.PROMPT_COLOR;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.console.IOConsoleInputStream;
 import org.eclipse.ui.console.IOConsoleOutputStream;
@@ -27,7 +26,7 @@ public class DefaultConsoleIOProviderPDETest {
   public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
-  public void testGetLineDelimiter() throws GitAPIException {
+  public void testGetLineDelimiter() {
     GitConsole console = consoleBot.open( repositories.create( "repo" ) );
     DefaultConsoleIOProvider consoleIOProvider = createConsoleIOProvider( console );
 
@@ -38,7 +37,7 @@ public class DefaultConsoleIOProviderPDETest {
   }
 
   @Test
-  public void testGetInputStream() throws GitAPIException {
+  public void testGetInputStream() {
     DefaultConsoleIOProvider consoleIOProvider = createConsoleIOProvider();
 
     IOConsoleInputStream inputStream = ( IOConsoleInputStream )consoleIOProvider.getInputStream();
@@ -47,7 +46,7 @@ public class DefaultConsoleIOProviderPDETest {
   }
 
   @Test
-  public void testGetOutputStream() throws GitAPIException {
+  public void testGetOutputStream() {
     DefaultConsoleIOProvider consoleIOProvider = createConsoleIOProvider();
 
     IOConsoleOutputStream outStream = ( IOConsoleOutputStream )consoleIOProvider.getOutputStream();
@@ -56,7 +55,7 @@ public class DefaultConsoleIOProviderPDETest {
   }
 
   @Test
-  public void testGetErrorStream() throws GitAPIException {
+  public void testGetErrorStream() {
     DefaultConsoleIOProvider consoleIOProvider = createConsoleIOProvider();
 
     IOConsoleOutputStream errorStream = ( IOConsoleOutputStream )consoleIOProvider.getErrorStream();
@@ -65,7 +64,7 @@ public class DefaultConsoleIOProviderPDETest {
   }
 
   @Test
-  public void testGetPromptStream() throws GitAPIException {
+  public void testGetPromptStream() {
     DefaultConsoleIOProvider consoleIOProvider = createConsoleIOProvider();
 
     IOConsoleOutputStream promptStream = ( IOConsoleOutputStream )consoleIOProvider.getPromptStream();
@@ -74,7 +73,7 @@ public class DefaultConsoleIOProviderPDETest {
   }
 
   @Test
-  public void testDestroyingConsoleClosesStreams() throws GitAPIException {
+  public void testDestroyingConsoleClosesStreams() {
     GitConsole console = consoleBot.open( repositories.create( "repo" ) );
     DefaultConsoleIOProvider consoleIOProvider = createConsoleIOProvider( console );
     IOConsoleOutputStream outStream = ( IOConsoleOutputStream )consoleIOProvider.getOutputStream();
@@ -90,7 +89,7 @@ public class DefaultConsoleIOProviderPDETest {
     return displayHelper.getDisplay().getSystemColor( colorCode );
   }
 
-  private DefaultConsoleIOProvider createConsoleIOProvider() throws GitAPIException {
+  private DefaultConsoleIOProvider createConsoleIOProvider() {
     GitConsole console = consoleBot.open( repositories.create( "repo" ) );
     return createConsoleIOProvider( console );
   }

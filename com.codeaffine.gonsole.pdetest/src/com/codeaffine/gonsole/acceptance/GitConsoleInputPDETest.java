@@ -3,7 +3,6 @@ package com.codeaffine.gonsole.acceptance;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -17,7 +16,7 @@ public class GitConsoleInputPDETest {
   @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
 
   @Test
-  public void testEnterSimpleGitCommand() throws GitAPIException {
+  public void testEnterSimpleGitCommand() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "status" );
@@ -29,7 +28,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testEnterChangeRepositoryCommand() throws GitAPIException {
+  public void testEnterChangeRepositoryCommand() {
     console.open( repositories.create( "rep1", "rep2" ) );
 
     console.enterCommandLine( "use rep2" );
@@ -41,7 +40,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testEnterGitCommandWithMultipleSpaces() throws GitAPIException {
+  public void testEnterGitCommandWithMultipleSpaces() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "log  -M" );
@@ -53,7 +52,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testEnterGitCommandWithGitPrefix() throws GitAPIException {
+  public void testEnterGitCommandWithGitPrefix() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "git status" );
@@ -65,7 +64,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testEnterGitCommandWithIllegalArguments() throws GitAPIException {
+  public void testEnterGitCommandWithIllegalArguments() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "commit" );
@@ -79,7 +78,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testEnterUnrecognizedCommand() throws GitAPIException {
+  public void testEnterUnrecognizedCommand() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "foo" );
@@ -91,7 +90,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testEnterUnrecognizedCommandWithGitPrefix() throws GitAPIException {
+  public void testEnterUnrecognizedCommandWithGitPrefix() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "git foo" );
@@ -103,7 +102,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testType() throws GitAPIException {
+  public void testType() {
     console.open( repositories.create( "repo" ) );
 
     console.typeText( "abc" );
@@ -114,7 +113,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testTypeWithCaretBeforeEnd() throws GitAPIException {
+  public void testTypeWithCaretBeforeEnd() {
     String repositoryName = "repo";
     int insertCaretPosition = ( repositoryName + InputObserver.PROMPT_POSTFIX ).length();
     int expectedCaretPosition = ( repositoryName + InputObserver.PROMPT_POSTFIX + "a" ).length();
@@ -130,7 +129,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testTypeWithCaretBeforePrompt() throws GitAPIException {
+  public void testTypeWithCaretBeforePrompt() {
     String repositoryName = "repo";
     int insertCaretPosition = repositoryName.length() / 2;
     console.open( repositories.create( repositoryName ) );
@@ -145,7 +144,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testTypeNewline() throws GitAPIException {
+  public void testTypeNewline() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "" );
@@ -157,7 +156,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testEncoding() throws GitAPIException {
+  public void testEncoding() {
     console.open( repositories.create( "repo" ) );
 
     console.enterCommandLine( "status äöü" );
