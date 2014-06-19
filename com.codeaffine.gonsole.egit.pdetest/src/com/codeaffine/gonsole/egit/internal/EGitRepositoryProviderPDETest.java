@@ -3,6 +3,7 @@ package com.codeaffine.gonsole.egit.internal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.egit.core.Activator;
@@ -25,7 +26,7 @@ public class EGitRepositoryProviderPDETest {
   private RepositoryUtil repositoryUtil;
 
   @Test
-  public void testGetRepositoryLocations() throws GitAPIException {
+  public void testGetRepositoryLocations() throws Exception {
     File repositoryDir = createRepository( tempFolder.getRoot() );
     repositoryUtil.addConfiguredRepository( repositoryDir );
 
@@ -47,11 +48,10 @@ public class EGitRepositoryProviderPDETest {
     }
   }
 
-  private static File createRepository( File file ) throws GitAPIException {
+  private static File createRepository( File file ) throws GitAPIException, IOException {
     Git git = Git.init().setDirectory( file ).call();
     File result = git.getRepository().getDirectory();
     git.getRepository().close();
-    return result;
+    return result.getCanonicalFile();
   }
-
 }
