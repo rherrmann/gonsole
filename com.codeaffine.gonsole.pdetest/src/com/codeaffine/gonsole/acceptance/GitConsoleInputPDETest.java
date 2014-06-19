@@ -3,17 +3,21 @@ package com.codeaffine.gonsole.acceptance;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
 import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
 
+import java.util.Locale;
+
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.gonsole.internal.InputObserver;
+import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
 import com.codeaffine.gonsole.pdetest.GitConsoleBot;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 
 public class GitConsoleInputPDETest {
 
-  @Rule public final GitConsoleBot console = new GitConsoleBot();
+  @Rule public final DefaultLocaleRule defaultLocaleRule = new DefaultLocaleRule( Locale.ENGLISH );
   @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
+  @Rule public final GitConsoleBot console = new GitConsoleBot();
 
   @Test
   public void testEnterSimpleGitCommand() {
