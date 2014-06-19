@@ -1,6 +1,6 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferencesHelper.newWorkspaceScopePreferences;
+import static com.codeaffine.gonsole.internal.gitconsole.preference.WorkspaceScopePreferencesHelper.newWorkspaceScopePreferences;
 import static org.eclipse.core.runtime.preferences.InstanceScope.INSTANCE;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -8,8 +8,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
-import com.codeaffine.gonsole.internal.preference.RepositoryPreferencePage;
-import com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferences;
+import com.codeaffine.gonsole.internal.gitconsole.preference.RepositoryPreferencePage;
+import com.codeaffine.gonsole.internal.gitconsole.preference.WorkspaceScopePreferences;
 
 class RepositoryPreferencePageHelper {
 

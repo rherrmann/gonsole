@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferences;
+import com.codeaffine.gonsole.internal.gitconsole.preference.WorkspaceScopePreferences;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class PreferencePagePDETest {

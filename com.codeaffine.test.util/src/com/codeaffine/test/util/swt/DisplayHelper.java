@@ -8,6 +8,7 @@ import java.util.Collection;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.rules.TestRule;
@@ -71,6 +72,10 @@ public class DisplayHelper implements TestRule {
     return result;
   }
 
+  public RGB getColorDefinition( int systemColorId ) {
+    return getDisplay().getSystemColor( systemColorId ).getRGB();
+  }
+
   public void dispose() {
     flushPendingEvents();
     disposeNewShells();
@@ -117,7 +122,7 @@ public class DisplayHelper implements TestRule {
 
   private void disposeDisplay() {
     if( display != null && displayOwner ) {
-      if( display.isDisposed() ) {
+      if( !display.isDisposed() ) {
         display.dispose();
       }
       display = null;

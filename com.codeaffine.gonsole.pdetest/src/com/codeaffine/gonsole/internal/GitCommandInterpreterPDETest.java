@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.gonsole.internal.gitconsole.repository.CompositeRepositoryProvider;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 import com.codeaffine.test.util.concurrency.RunInThread;
 import com.codeaffine.test.util.concurrency.RunInThreadRule;
@@ -44,6 +44,6 @@ public class GitCommandInterpreterPDETest {
     new PgmResourceBundle().reset();
     File gitDirectory = repositories.create( "repo" )[ 0 ];
     CompositeRepositoryProvider repositoryProvider = createWithSingleChildProvider( gitDirectory );
-    interpreter = new GitCommandInterpreter( mock( ConsoleOutput.class ), repositoryProvider );
+    interpreter = new GitCommandInterpreter( mock( Output.class ), repositoryProvider );
   }
 }

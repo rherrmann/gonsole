@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 
 import com.codeaffine.gonsole.RepositoryProvider;
-import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.gonsole.internal.gitconsole.repository.CompositeRepositoryProvider;
 
 public class CompositeRepositoryProviderHelper {
 

@@ -10,19 +10,17 @@ import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.IPageSite;
 
-import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.gonsole.ConsoleComponentFactory;
+import com.codeaffine.gonsole.internal.resource.ConsoleIoProvider;
 
 class GitConsolePage implements IPageBookViewPage {
 
   final TextConsolePage consolePage;
   private final InputObserver inputObserver;
 
-  GitConsolePage( TextConsolePage consolePage,
-                  ConsoleIOProvider consoleIOProvider,
-                  CompositeRepositoryProvider repositoryProvider )
-  {
+  GitConsolePage( TextConsolePage consolePage, ConsoleIoProvider ioProvider, ConsoleComponentFactory factory  ) {
+    this.inputObserver = new InputObserver( ioProvider, factory );
     this.consolePage = consolePage;
-    this.inputObserver = new InputObserver( consoleIOProvider, repositoryProvider );
   }
 
   @Override

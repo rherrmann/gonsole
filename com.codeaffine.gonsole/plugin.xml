@@ -9,7 +9,7 @@
    <extension
          point="org.eclipse.ui.console.consoleFactories">
       <consoleFactory
-            class="com.codeaffine.gonsole.internal.GitConsoleFactory"
+            class="com.codeaffine.gonsole.internal.gitconsole.GitConsoleFactory"
             icon="icons/etool16/gonsole.png"
             label="Git Console">
       </consoleFactory>
@@ -17,14 +17,14 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferencesInitializer">
+            class="com.codeaffine.gonsole.internal.gitconsole.preference.WorkspaceScopePreferencesInitializer">
       </initializer>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="org.eclipse.team.ui.TeamPreferences"
-            class="com.codeaffine.gonsole.internal.preference.ConsolePreferencePage"
+            class="com.codeaffine.gonsole.internal.gitconsole.preference.ConsolePreferencePage"
             id="com.codeaffine.gonsole.internal.preference.ConsolePreferencePage"
             name="Git Console">
          <keywordReference
@@ -33,7 +33,7 @@
       </page>
       <page
             category="com.codeaffine.gonsole.internal.preference.ConsolePreferencePage"
-            class="com.codeaffine.gonsole.internal.preference.RepositoryPreferencePage"
+            class="com.codeaffine.gonsole.internal.gitconsole.preference.RepositoryPreferencePage"
             id="com.codeaffine.gonsole.internal.preference.RepositoryPreferencePage"
             name="Repository Locations">
          <keywordReference
@@ -51,7 +51,7 @@
    <extension
          point="com.codeaffine.gonsole.repositoryProviders">
       <repositoryProvider
-            class="com.codeaffine.gonsole.internal.repository.PreferenceRepositoryProvider">
+            class="com.codeaffine.gonsole.internal.gitconsole.repository.PreferenceRepositoryProvider">
       </repositoryProvider>
    </extension>
 

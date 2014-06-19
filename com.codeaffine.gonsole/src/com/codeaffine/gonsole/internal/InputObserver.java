@@ -1,5 +1,7 @@
 package com.codeaffine.gonsole.internal;
 
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -8,26 +10,29 @@ import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.console.TextConsoleViewer;
 
-import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.gonsole.ConsoleCommandInterpreter;
+import com.codeaffine.gonsole.ConsoleComponentFactory;
+import com.codeaffine.gonsole.ConsoleOutput;
+import com.codeaffine.gonsole.ConsolePrompt;
+import com.codeaffine.gonsole.internal.resource.ConsoleIoProvider;
 import com.google.common.base.Throwables;
 
 public class InputObserver {
 
+  private final ConsoleComponentFactory consoleComponentFactory;
   private final ConsoleOutput consoleStandardOutput;
   private final ConsoleOutput consolePromptOutput;
   private final ConsoleOutput consoleErrorOutput;
-  private final ConsoleInput consoleInput;
-  private final CompositeRepositoryProvider repositoryProvider;
+  private final Input consoleInput;
   private final ExecutorService executorService;
 
-  public InputObserver( ConsoleIOProvider consoleIOProvider,
-                        CompositeRepositoryProvider repositoryProvider )
-  {
-    this.consolePromptOutput = ConsoleOutput.create( consoleIOProvider.getPromptStream(), consoleIOProvider );
-    this.consoleStandardOutput = ConsoleOutput.create( consoleIOProvider.getOutputStream(), consoleIOProvider );
-    this.consoleErrorOutput = ConsoleOutput.create( consoleIOProvider.getErrorStream(), consoleIOProvider );
-    this.consoleInput = new ConsoleInput( consoleIOProvider );
-    this.repositoryProvider = repositoryProvider;
+
+  public InputObserver( ConsoleIoProvider consoleIoProvider, ConsoleComponentFactory consoleComponentFactory ) {
+    this.consoleComponentFactory = consoleComponentFactory;
+    this.consolePromptOutput = createConsoleOutput( consoleIoProvider.getPromptStream(), consoleIoProvider );
+    this.consoleStandardOutput = createConsoleOutput( consoleIoProvider.getOutputStream(), consoleIoProvider );
+    this.consoleErrorOutput = createConsoleOutput( consoleIoProvider.getErrorStream(), consoleIoProvider );
+    this.consoleInput = new Input( consoleIoProvider );
     this.executorService = Executors.newSingleThreadExecutor();
   }
 
@@ -37,6 +42,12 @@ public class InputObserver {
 
   public void stop() {
     executorService.shutdownNow();
+  }
+
+  private static ConsoleOutput createConsoleOutput( OutputStream outputStream, ConsoleIoProvider consoleIOProvider ) {
+    Charset encoding = consoleIOProvider.getEncoding();
+    String lineDelimiter = consoleIOProvider.getLineDelimiter();
+    return new Output( outputStream, encoding, lineDelimiter );
   }
 
   private class InputScanner implements Runnable {
@@ -70,15 +81,14 @@ public class InputObserver {
 
       String line;
       do {
-        new PromptWriter( consolePromptOutput, repositoryProvider ).write();
+        ConsolePrompt consolePrompt = consoleComponentFactory.createConsolePrompt( consolePromptOutput );
+        consolePrompt.writePrompt();
 
         line = consoleInput.readLine();
         if( line != null && line.trim().length() > 0 ) {
           String[] commandLine = new CommandLineSplitter( line ).split();
-          ConsoleCommandInterpreter[] interpreters = {
-            new ControlCommandInterpreter( consoleStandardOutput, repositoryProvider ),
-            new GitCommandInterpreter( consoleStandardOutput, repositoryProvider )
-          };
+
+          ConsoleCommandInterpreter[] interpreters = consoleComponentFactory.createCommandInterpreters( consoleStandardOutput );
           try {
             boolean commandExecuted = false;
             for( int i = 0; !commandExecuted && i < interpreters.length; i++ ) {

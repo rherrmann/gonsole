@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.codeaffine.gonsole.internal.ConsoleOutput.ConsoleWriter;
+import com.codeaffine.gonsole.ConsoleOutput;
+import com.codeaffine.gonsole.ConsoleOutput.ConsoleWriter;
 
 class CommandExecutor {
 

@@ -1,9 +1,5 @@
 package com.codeaffine.gonsole.pdetest;
 
-import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.ERROR_COLOR;
-import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.INPUT_COLOR;
-import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.OUTPUT_COLOR;
-import static com.codeaffine.gonsole.internal.DefaultConsoleIOProvider.PROMPT_COLOR;
 import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.AbstractAssert;
@@ -13,7 +9,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
-import com.codeaffine.gonsole.internal.PromptWriter;
+import com.codeaffine.gonsole.internal.gitconsole.Constants;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsolePageBot> {
@@ -30,7 +26,7 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
   }
 
   public static String line( String promptPrefix, String... commands ) {
-    String result = promptPrefix + PromptWriter.PROMPT_POSTFIX;
+    String result = promptPrefix + Constants.PROMPT_POSTFIX;
     for( String command : commands ) {
       result += command;
     }
@@ -85,22 +81,22 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
   }
 
   public GitConsoleAssert hasPromptColorAt( int offset ) {
-    hasColorAt( offset, PROMPT_COLOR );
+    hasColorAt( offset, Constants.PROMPT_COLOR );
     return this;
   }
 
   public GitConsoleAssert hasInputColorAt( int offset ) {
-    hasColorAt( offset, INPUT_COLOR );
+    hasColorAt( offset, Constants.INPUT_COLOR );
     return this;
   }
 
   public GitConsoleAssert hasOutputColorAt( int offset ) {
-    hasColorAt( offset, OUTPUT_COLOR );
+    hasColorAt( offset, Constants.OUTPUT_COLOR );
     return this;
   }
 
   public GitConsoleAssert hasErrorColorAt( int offset ) {
-    hasColorAt( offset, ERROR_COLOR );
+    hasColorAt( offset, Constants.ERROR_COLOR );
     return this;
   }
 

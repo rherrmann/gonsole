@@ -7,6 +7,7 @@ import java.io.File;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -17,7 +18,9 @@ import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
-import com.codeaffine.gonsole.internal.GitConsole;
+import com.codeaffine.gonsole.internal.Console;
+import com.codeaffine.gonsole.internal.gitconsole.GitConsoleDefinition;
+import com.codeaffine.gonsole.internal.gitconsole.repository.CompositeRepositoryProvider;
 import com.codeaffine.test.util.swt.DisplayHelper;
 import com.codeaffine.test.util.swt.SWTEventHelper;
 
@@ -48,20 +51,17 @@ public class GitConsoleBot implements MethodRule {
     return this;
   }
 
-  public GitConsoleBot typeKey( int modifiers, char character ) {
+  public void typeKey( int modifiers, char character ) {
     gitConsolePageBot.triggerEvent( SWT.KeyDown, modifiers, character );
-    return this;
   }
 
-  public GitConsoleBot typeEnter() {
+  public void typeEnter() {
     enterCommandLine( "" );
     gitConsolePageBot.waitForChange();
-    return this;
   }
 
-  public GitConsoleBot selectText( int start, int length ) {
+  public void selectText( int start, int length ) {
     gitConsolePageBot.selectText( start, length );
-    return this;
   }
 
   public GitConsoleBot positionCaret( int caretOffset ) {
@@ -69,17 +69,11 @@ public class GitConsoleBot implements MethodRule {
     return this;
   }
 
-  public GitConsoleBot enterCommandLine( String commandLine ) {
+  public void enterCommandLine( String commandLine ) {
     checkState( gitConsolePageBot != null, "GitConsole has not been opened yet." );
 
     String lineDelimiter = gitConsolePageBot.getLineDelimiter();
     gitConsolePageBot.append( commandLine + lineDelimiter );
-    return this;
-  }
-
-  public GitConsoleBot runToolBarAction( String text ) {
-    gitConsolePageBot.runToolBarAction( text );
-    return this;
   }
 
   public void selectFirstContentProposal() {
@@ -96,9 +90,9 @@ public class GitConsoleBot implements MethodRule {
     return table.getItem( index ).getImage();
   }
 
-  public GitConsole open( File ... repositoryLocations ) {
+  public Console open( File ... repositoryLocations ) {
     viewHelper.hideView( INTRO_VIEW_ID );
-    GitConsole result = registerNewGitConsole( repositoryLocations );
+    Console result = registerNewGitConsole( repositoryLocations );
     showInView( result );
     gitConsolePageBot = new GitConsolePageBot( result.getPage() );
     gitConsolePageBot.waitForChange();
@@ -112,8 +106,11 @@ public class GitConsoleBot implements MethodRule {
     displayHelper.dispose();
   }
 
-  private static GitConsole registerNewGitConsole( File[] repositoryLocations ) {
-    GitConsole result = new GitConsole( createWithSingleChildProvider( repositoryLocations ) );
+  private Console registerNewGitConsole( File[] repositoryLocations ) {
+    Display display = displayHelper.getDisplay();
+    CompositeRepositoryProvider repositoryProvider = createWithSingleChildProvider( repositoryLocations );
+    GitConsoleDefinition gitConsoleDefinition = new GitConsoleDefinition( display, repositoryProvider );
+    Console result = new Console( gitConsoleDefinition );
     ConsolePlugin.getDefault().getConsoleManager().addConsoles( new IConsole[] { result } );
     return result;
   }
@@ -128,7 +125,7 @@ public class GitConsoleBot implements MethodRule {
   private static void removeGitConsoles() {
     IConsoleManager consoleManager = ConsolePlugin.getDefault().getConsoleManager();
     for( IConsole console : consoleManager.getConsoles() ) {
-      if( console instanceof GitConsole ) {
+      if( console instanceof Console ) {
         consoleManager.removeConsoles( new IConsole[] { console } );
       }
     }

@@ -2,7 +2,9 @@ package com.codeaffine.gonsole.internal;
 
 import java.io.File;
 
-import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.gonsole.ConsoleCommandInterpreter;
+import com.codeaffine.gonsole.ConsoleOutput;
+import com.codeaffine.gonsole.internal.gitconsole.repository.CompositeRepositoryProvider;
 
 
 public class ControlCommandInterpreter implements ConsoleCommandInterpreter {

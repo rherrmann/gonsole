@@ -16,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.codeaffine.gonsole.ConsoleOutput;
 import com.google.common.base.Charsets;
 
 public class CommandExecutorPDETest {
@@ -66,7 +67,7 @@ public class CommandExecutorPDETest {
     new PgmResourceBundle().initialize();
     gitDirectory = createRepository();
     outputStream = new ByteArrayOutputStream();
-    ConsoleOutput consoleOutput = new ConsoleOutput( outputStream, Charsets.UTF_8, "\n" );
+    ConsoleOutput consoleOutput = new Output( outputStream, Charsets.UTF_8, "\n" );
     executor = new CommandExecutor( consoleOutput, gitDirectory );
   }
 

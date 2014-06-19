@@ -9,6 +9,8 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.codeaffine.gonsole.internal.gitconsole.GitConsoleFactory;
+
 
 public class GitConsoleFactoryExtensionPDETest {
 
