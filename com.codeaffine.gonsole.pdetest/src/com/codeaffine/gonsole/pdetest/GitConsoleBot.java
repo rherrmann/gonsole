@@ -76,6 +76,10 @@ public class GitConsoleBot implements MethodRule {
     gitConsolePageBot.append( commandLine + lineDelimiter );
   }
 
+  public void runToolBarAction( String text ) {
+    gitConsolePageBot.runToolBarAction( text );
+  }
+
   public void selectFirstContentProposal() {
     Table table = getContentProposalTable();
     SWTEventHelper

@@ -1,7 +1,5 @@
 package com.codeaffine.gonsole.internal;
 
-import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,9 +27,9 @@ public class InputObserver {
 
   public InputObserver( ConsoleIoProvider consoleIoProvider, ConsoleComponentFactory consoleComponentFactory ) {
     this.consoleComponentFactory = consoleComponentFactory;
-    this.consolePromptOutput = createConsoleOutput( consoleIoProvider.getPromptStream(), consoleIoProvider );
-    this.consoleStandardOutput = createConsoleOutput( consoleIoProvider.getOutputStream(), consoleIoProvider );
-    this.consoleErrorOutput = createConsoleOutput( consoleIoProvider.getErrorStream(), consoleIoProvider );
+    this.consolePromptOutput = Output.create( consoleIoProvider.getPromptStream(), consoleIoProvider );
+    this.consoleStandardOutput = Output.create( consoleIoProvider.getOutputStream(), consoleIoProvider );
+    this.consoleErrorOutput = Output.create( consoleIoProvider.getErrorStream(), consoleIoProvider );
     this.consoleInput = new Input( consoleIoProvider );
     this.executorService = Executors.newSingleThreadExecutor();
   }
@@ -44,11 +42,6 @@ public class InputObserver {
     executorService.shutdownNow();
   }
 
-  private static ConsoleOutput createConsoleOutput( OutputStream outputStream, ConsoleIoProvider consoleIOProvider ) {
-    Charset encoding = consoleIOProvider.getEncoding();
-    String lineDelimiter = consoleIOProvider.getLineDelimiter();
-    return new Output( outputStream, encoding, lineDelimiter );
-  }
 
   private class InputScanner implements Runnable {
     private final TextConsoleViewer viewer;

@@ -7,6 +7,7 @@ import org.eclipse.ui.part.IPageBookViewPage;
 
 import com.codeaffine.gonsole.ConsoleComponentFactory;
 import com.codeaffine.gonsole.ConsoleDefinition;
+import com.codeaffine.gonsole.ConsoleOutput;
 import com.codeaffine.gonsole.internal.resource.ColorDefinition;
 import com.codeaffine.gonsole.internal.resource.ConsoleIoProvider;
 
@@ -44,6 +45,13 @@ public class Console extends IOConsole {
   protected void dispose() {
     super.dispose();
     colorDefinition.dispose();
+  }
+
+  @Override
+  public void clearConsole() {
+    super.clearConsole();
+    ConsoleOutput consoleOutput = Output.create( consoleIoProvider.getPromptStream(), consoleIoProvider );
+    consoleComponentFactory.createConsolePrompt( consoleOutput ).writePrompt();
   }
 
   private ConsoleIoProvider createConsoleIoProvider( ConsoleDefinition definition, ColorDefinition colorDefinition ) {

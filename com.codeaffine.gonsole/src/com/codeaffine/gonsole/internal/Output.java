@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 import com.codeaffine.gonsole.ConsoleOutput;
+import com.codeaffine.gonsole.internal.resource.ConsoleIoProvider;
 
 public class Output implements ConsoleOutput {
 
@@ -12,10 +13,16 @@ public class Output implements ConsoleOutput {
   private final Charset encoding;
   private final String lineDelimiter;
 
-  public Output( OutputStream outputStream, Charset encoding, String lineDelimiter ) {
+  Output( OutputStream outputStream, Charset encoding, String lineDelimiter ) {
     this.outputStream = outputStream;
     this.encoding = encoding;
     this.lineDelimiter = lineDelimiter;
+  }
+
+  public static ConsoleOutput create( OutputStream outputStream, ConsoleIoProvider consoleIOProvider ) {
+    Charset encoding = consoleIOProvider.getEncoding();
+    String lineDelimiter = consoleIOProvider.getLineDelimiter();
+    return new Output( outputStream, encoding, lineDelimiter );
   }
 
   @Override
