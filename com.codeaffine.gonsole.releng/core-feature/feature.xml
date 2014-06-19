@@ -48,6 +48,20 @@
    </requires>
 
    <plugin
+         id="com.codeaffine.console.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.codeaffine.console.core.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.codeaffine.gonsole"
          download-size="0"
          install-size="0"
