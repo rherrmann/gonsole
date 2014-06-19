@@ -8,7 +8,7 @@ import java.util.Locale;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.InputObserver;
+import com.codeaffine.gonsole.internal.PromptWriter;
 import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
 import com.codeaffine.gonsole.pdetest.GitConsoleBot;
 import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
@@ -119,8 +119,8 @@ public class GitConsoleInputPDETest {
   @Test
   public void testTypeWithCaretBeforeEnd() {
     String repositoryName = "repo";
-    int insertCaretPosition = ( repositoryName + InputObserver.PROMPT_POSTFIX ).length();
-    int expectedCaretPosition = ( repositoryName + InputObserver.PROMPT_POSTFIX + "a" ).length();
+    int insertCaretPosition = ( repositoryName + PromptWriter.PROMPT_POSTFIX ).length();
+    int expectedCaretPosition = ( repositoryName + PromptWriter.PROMPT_POSTFIX + "a" ).length();
     console.open( repositories.create( repositoryName ) );
 
     console.typeText( "bc" );

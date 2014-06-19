@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
-import com.codeaffine.gonsole.internal.InputObserver;
+import com.codeaffine.gonsole.internal.PromptWriter;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsolePageBot> {
@@ -30,7 +30,7 @@ public class GitConsoleAssert extends AbstractAssert<GitConsoleAssert, GitConsol
   }
 
   public static String line( String promptPrefix, String... commands ) {
-    String result = promptPrefix + InputObserver.PROMPT_POSTFIX;
+    String result = promptPrefix + PromptWriter.PROMPT_POSTFIX;
     for( String command : commands ) {
       result += command;
     }

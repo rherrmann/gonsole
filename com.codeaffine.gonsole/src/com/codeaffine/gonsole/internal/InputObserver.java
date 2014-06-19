@@ -1,8 +1,5 @@
 package com.codeaffine.gonsole.internal;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,8 +13,6 @@ import com.google.common.base.Throwables;
 
 public class InputObserver {
 
-  public static final String PROMPT_POSTFIX = "> ";
-
   private final ConsoleOutput consoleStandardOutput;
   private final ConsoleOutput consolePromptOutput;
   private final ConsoleOutput consoleErrorOutput;
@@ -28,9 +23,9 @@ public class InputObserver {
   public InputObserver( ConsoleIOProvider consoleIOProvider,
                         CompositeRepositoryProvider repositoryProvider )
   {
-    this.consolePromptOutput = createConsoleOutput( consoleIOProvider.getPromptStream(), consoleIOProvider );
-    this.consoleStandardOutput = createConsoleOutput( consoleIOProvider.getOutputStream(), consoleIOProvider );
-    this.consoleErrorOutput = createConsoleOutput( consoleIOProvider.getErrorStream(), consoleIOProvider );
+    this.consolePromptOutput = ConsoleOutput.create( consoleIOProvider.getPromptStream(), consoleIOProvider );
+    this.consoleStandardOutput = ConsoleOutput.create( consoleIOProvider.getOutputStream(), consoleIOProvider );
+    this.consoleErrorOutput = ConsoleOutput.create( consoleIOProvider.getErrorStream(), consoleIOProvider );
     this.consoleInput = new ConsoleInput( consoleIOProvider );
     this.repositoryProvider = repositoryProvider;
     this.executorService = Executors.newSingleThreadExecutor();
@@ -42,14 +37,6 @@ public class InputObserver {
 
   public void stop() {
     executorService.shutdownNow();
-  }
-
-  private static ConsoleOutput createConsoleOutput( OutputStream outputStream,
-                                                    ConsoleIOProvider consoleIOProvider )
-  {
-    Charset encoding = consoleIOProvider.getCharacterEncoding();
-    String lineDelimiter = consoleIOProvider.getLineDelimiter();
-    return new ConsoleOutput( outputStream, encoding, lineDelimiter );
   }
 
   private class InputScanner implements Runnable {
@@ -83,10 +70,7 @@ public class InputObserver {
 
       String line;
       do {
-        File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
-        String repositoryName = ControlCommandInterpreter.getRepositoryName( gitDirectory );
-
-        consolePromptOutput.write( repositoryName + PROMPT_POSTFIX );
+        new PromptWriter( consolePromptOutput, repositoryProvider ).write();
 
         line = consoleInput.readLine();
         if( line != null && line.trim().length() > 0 ) {

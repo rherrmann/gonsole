@@ -48,17 +48,20 @@ public class GitConsoleBot implements MethodRule {
     return this;
   }
 
-  public void typeKey( int modifiers, char character ) {
+  public GitConsoleBot typeKey( int modifiers, char character ) {
     gitConsolePageBot.triggerEvent( SWT.KeyDown, modifiers, character );
+    return this;
   }
 
-  public void typeEnter() {
+  public GitConsoleBot typeEnter() {
     enterCommandLine( "" );
     gitConsolePageBot.waitForChange();
+    return this;
   }
 
-  public void selectText( int start, int length ) {
+  public GitConsoleBot selectText( int start, int length ) {
     gitConsolePageBot.selectText( start, length );
+    return this;
   }
 
   public GitConsoleBot positionCaret( int caretOffset ) {
@@ -66,11 +69,17 @@ public class GitConsoleBot implements MethodRule {
     return this;
   }
 
-  public void enterCommandLine( String commandLine ) {
+  public GitConsoleBot enterCommandLine( String commandLine ) {
     checkState( gitConsolePageBot != null, "GitConsole has not been opened yet." );
 
     String lineDelimiter = gitConsolePageBot.getLineDelimiter();
     gitConsolePageBot.append( commandLine + lineDelimiter );
+    return this;
+  }
+
+  public GitConsoleBot runToolBarAction( String text ) {
+    gitConsolePageBot.runToolBarAction( text );
+    return this;
   }
 
   public void selectFirstContentProposal() {

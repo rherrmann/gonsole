@@ -40,6 +40,12 @@ public class GitConsole extends IOConsole {
     return new GitConsolePage( consolePage, consoleIOProvider, repositoryProvider );
   }
 
+  @Override
+  public void clearConsole() {
+    super.clearConsole();
+    new PromptWriter( consoleIOProvider, repositoryProvider ).write();
+  }
+
   public TextConsolePage getPage() {
     return consolePage;
   }

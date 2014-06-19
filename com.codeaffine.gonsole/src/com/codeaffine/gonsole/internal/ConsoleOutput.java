@@ -11,6 +11,15 @@ public class ConsoleOutput {
     void write( OutputStream outputStream ) throws IOException;
   }
 
+  public static ConsoleOutput create( OutputStream outputStream,
+                                      ConsoleIOProvider consoleIOProvider )
+  {
+    Charset encoding = consoleIOProvider.getCharacterEncoding();
+    String lineDelimiter = consoleIOProvider.getLineDelimiter();
+    return new ConsoleOutput( outputStream, encoding, lineDelimiter );
+  }
+
+
   private final OutputStream outputStream;
   private final Charset encoding;
   private final String lineDelimiter;

@@ -5,7 +5,6 @@ import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 
 import org.eclipse.swt.widgets.Display;
 import org.junit.Rule;
@@ -54,8 +53,6 @@ public class ConsoleOutputPDETest {
     Display display = Display.getCurrent();
     DefaultConsoleIOProvider consoleIOProvider = new DefaultConsoleIOProvider( display, console );
     OutputStream outputStream = consoleIOProvider.getOutputStream();
-    Charset encoding = consoleIOProvider.getCharacterEncoding();
-    String lineDelimiter = consoleIOProvider.getLineDelimiter();
-    return new ConsoleOutput( outputStream, encoding, lineDelimiter );
+    return ConsoleOutput.create( outputStream, consoleIOProvider );
   }
 }
