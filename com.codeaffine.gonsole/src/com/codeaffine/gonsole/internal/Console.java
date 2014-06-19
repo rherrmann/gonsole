@@ -34,7 +34,7 @@ public class Console extends IOConsole {
   @Override
   public IPageBookViewPage createPage( IConsoleView view ) {
     consolePage = ( TextConsolePage )super.createPage( view );
-    return new GitConsolePage( consolePage, consoleIoProvider, consoleComponentFactory );
+    return new ConsolePage( consolePage, consoleIoProvider, consoleComponentFactory );
   }
 
   public TextConsolePage getPage() {

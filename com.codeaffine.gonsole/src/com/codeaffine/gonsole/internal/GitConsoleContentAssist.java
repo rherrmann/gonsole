@@ -20,19 +20,23 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.console.IOConsolePartition;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 
+import com.codeaffine.gonsole.ConsoleComponentFactory;
+
 class GitConsoleContentAssist {
 
+  private final ConsoleComponentFactory consoleComponentFactory;
   private final TextConsoleViewer textViewer;
 
-  public GitConsoleContentAssist( TextConsoleViewer textViewer ) {
+  public GitConsoleContentAssist( TextConsoleViewer textViewer, ConsoleComponentFactory consoleComponentFactory  ) {
     this.textViewer = textViewer;
+    this.consoleComponentFactory = consoleComponentFactory;
   }
 
   void install() {
     final ContentAssistant contentAssistant = new ContentAssistant();
     contentAssistant.enablePrefixCompletion( true );
     contentAssistant.setRepeatedInvocationMode( true );
-    final ContentAssistProcessor contentAssistProcessor = new ContentAssistProcessor();
+    final ContentAssistProcessor contentAssistProcessor = new ContentAssistProcessor( consoleComponentFactory );
     contentAssistant.setContentAssistProcessor( contentAssistProcessor, IOConsolePartition.INPUT_PARTITION_TYPE );
     contentAssistant.install( textViewer );
     textViewer.getTextWidget().addDisposeListener( new DisposeListener() {

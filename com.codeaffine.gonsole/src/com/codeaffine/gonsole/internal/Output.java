@@ -13,7 +13,7 @@ public class Output implements ConsoleOutput {
   private final Charset encoding;
   private final String lineDelimiter;
 
-  Output( OutputStream outputStream, Charset encoding, String lineDelimiter ) {
+  public Output( OutputStream outputStream, Charset encoding, String lineDelimiter ) {
     this.outputStream = outputStream;
     this.encoding = encoding;
     this.lineDelimiter = lineDelimiter;

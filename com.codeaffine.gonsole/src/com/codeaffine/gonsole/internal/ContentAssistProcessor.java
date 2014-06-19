@@ -21,14 +21,18 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
+import com.codeaffine.gonsole.ConsoleComponentFactory;
+import com.codeaffine.gonsole.ContentProposalProvider;
 import com.google.common.collect.Lists;
 
 public class ContentAssistProcessor implements IContentAssistProcessor {
 
+  private final ConsoleComponentFactory consoleComponentFactory;
   private final ResourceManager resourceManager;
 
-  public ContentAssistProcessor() {
-    resourceManager = new LocalResourceManager( JFaceResources.getResources() );
+  public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory ) {
+    this.consoleComponentFactory = consoleComponentFactory;
+    this.resourceManager = new LocalResourceManager( JFaceResources.getResources() );
   }
 
   @Override
@@ -58,10 +62,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 
   @Override
   public ICompletionProposal[] computeCompletionProposals( ITextViewer viewer, int offset ) {
-    ContentProposalProvider[] proposalProviders = {
-      new GitCommandContentProposalProvider(),
-      new ControlCommandContentProposalProvider()
-    };
+    ContentProposalProvider[] proposalProviders = consoleComponentFactory.createProposalProviders();
     List<ICompletionProposal> proposals = Lists.newArrayList();
     for( ContentProposalProvider contentProposalProvider : proposalProviders ) {
       String[] contentProposals = contentProposalProvider.getContentProposals();

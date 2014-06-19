@@ -4,8 +4,11 @@ import com.codeaffine.gonsole.ConsoleCommandInterpreter;
 import com.codeaffine.gonsole.ConsoleComponentFactory;
 import com.codeaffine.gonsole.ConsoleOutput;
 import com.codeaffine.gonsole.ConsolePrompt;
-import com.codeaffine.gonsole.internal.ControlCommandInterpreter;
-import com.codeaffine.gonsole.internal.GitCommandInterpreter;
+import com.codeaffine.gonsole.ContentProposalProvider;
+import com.codeaffine.gonsole.internal.gitconsole.contentassist.ControlCommandContentProposalProvider;
+import com.codeaffine.gonsole.internal.gitconsole.contentassist.GitCommandContentProposalProvider;
+import com.codeaffine.gonsole.internal.gitconsole.interpreter.ControlCommandInterpreter;
+import com.codeaffine.gonsole.internal.gitconsole.interpreter.GitCommandInterpreter;
 import com.codeaffine.gonsole.internal.gitconsole.repository.CompositeRepositoryProvider;
 
 class GitConsoleComponentFactory implements ConsoleComponentFactory {
@@ -27,5 +30,13 @@ class GitConsoleComponentFactory implements ConsoleComponentFactory {
   @Override
   public ConsolePrompt createConsolePrompt( final ConsoleOutput consoleOutput ) {
     return new GitConsolePrompt( repositoryProvider, consoleOutput );
+  }
+
+  @Override
+  public ContentProposalProvider[] createProposalProviders() {
+    return new ContentProposalProvider[] {
+      new GitCommandContentProposalProvider(),
+      new ControlCommandContentProposalProvider()
+    };
   }
 }

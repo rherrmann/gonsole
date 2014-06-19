@@ -13,6 +13,7 @@ import com.codeaffine.gonsole.ConsoleComponentFactory;
 import com.codeaffine.gonsole.ConsoleDefinition;
 import com.codeaffine.gonsole.ConsoleOutput;
 import com.codeaffine.gonsole.ConsolePrompt;
+import com.codeaffine.gonsole.ContentProposalProvider;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.google.common.base.Charsets;
 
@@ -75,6 +76,11 @@ public class TestConsoleDefinition implements ConsoleDefinition {
 
       @Override
       public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput consoleOutput ) {
+        return null;
+      }
+
+      @Override
+      public ContentProposalProvider[] createProposalProviders() {
         return null;
       }
     };
