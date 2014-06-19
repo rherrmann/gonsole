@@ -14,8 +14,8 @@ import java.nio.charset.Charset;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.ConsoleOutput;
-import com.codeaffine.gonsole.ConsoleOutput.ConsoleWriter;
+import com.codeaffine.console.core.ConsoleOutput;
+import com.codeaffine.console.core.ConsoleOutput.ConsoleWriter;
 import com.google.common.base.Charsets;
 
 

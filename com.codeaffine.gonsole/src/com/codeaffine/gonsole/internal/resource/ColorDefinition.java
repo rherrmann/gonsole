@@ -3,7 +3,7 @@ package com.codeaffine.gonsole.internal.resource;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
-import com.codeaffine.gonsole.ColorScheme;
+import com.codeaffine.console.core.ColorScheme;
 import com.google.common.base.Preconditions;
 
 public class ColorDefinition {

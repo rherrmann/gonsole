@@ -8,10 +8,10 @@ import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.console.TextConsoleViewer;
 
-import com.codeaffine.gonsole.ConsoleCommandInterpreter;
-import com.codeaffine.gonsole.ConsoleComponentFactory;
-import com.codeaffine.gonsole.ConsoleOutput;
-import com.codeaffine.gonsole.ConsolePrompt;
+import com.codeaffine.console.core.ConsoleCommandInterpreter;
+import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.ConsoleOutput;
+import com.codeaffine.console.core.ConsolePrompt;
 import com.codeaffine.gonsole.internal.resource.ConsoleIoProvider;
 import com.google.common.base.Throwables;
 

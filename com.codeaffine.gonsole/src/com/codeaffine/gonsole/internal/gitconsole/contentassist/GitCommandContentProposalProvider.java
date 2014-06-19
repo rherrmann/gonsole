@@ -8,7 +8,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
 
-import com.codeaffine.gonsole.ContentProposalProvider;
+import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;

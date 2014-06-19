@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.ColorScheme;
+import com.codeaffine.console.core.ColorScheme;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class DefaultColorSchemeTest {

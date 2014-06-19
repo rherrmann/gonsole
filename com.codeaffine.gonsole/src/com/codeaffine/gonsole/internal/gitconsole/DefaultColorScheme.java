@@ -8,7 +8,7 @@ import static com.codeaffine.gonsole.internal.gitconsole.Constants.PROMPT_COLOR;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
-import com.codeaffine.gonsole.ColorScheme;
+import com.codeaffine.console.core.ColorScheme;
 
 class DefaultColorScheme implements ColorScheme {
 

@@ -22,17 +22,30 @@
   </prerequisites>
 
   <modules>
+  
+    <!-- features -->
     <module>core-feature</module>
     <module>egit-feature</module>
     <module>repository</module>
     
+    <!-- core -->
+    <module>../com.codeaffine.console.core</module>
+    <module>../com.codeaffine.console.core.pdetest</module>
+    <module>../com.codeaffine.console.core.test</module>
+
+    <!-- gonsole -->
     <module>../com.codeaffine.gonsole</module>
     <module>../com.codeaffine.gonsole.pdetest</module>
     <module>../com.codeaffine.gonsole.test</module>
     <module>../com.codeaffine.gonsole.test.helper</module>
+    
+    <!-- test util -->
+    <module>../com.codeaffine.test.util</module>
+
+    <!-- egit adapter -->
     <module>../com.codeaffine.gonsole.egit</module>
     <module>../com.codeaffine.gonsole.egit.pdetest</module>
-    <module>../com.codeaffine.test.util</module>
+    
   </modules>
 
   <pluginRepositories>

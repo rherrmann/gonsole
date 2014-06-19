@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Console Core PDETest
+Bundle-SymbolicName: com.codeaffine.console.core.pdetest
+Bundle-Version: 0.8.0.qualifier
+Bundle-Vendor: CODEAFFINE
+Fragment-Host: com.codeaffine.console.core;bundle-version="0.8.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
+ org.mockito.mockito-all;bundle-version="[1.9.5,2.0.0)",
+ org.assertj.core;bundle-version="[1.6.0,2.0.0)",
+ com.codeaffine.test.util;bundle-version="[0.8.0,2.0.0)",
+ junitparams;bundle-version="1.0.0"

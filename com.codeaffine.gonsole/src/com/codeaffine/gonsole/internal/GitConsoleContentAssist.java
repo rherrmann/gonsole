@@ -20,7 +20,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.console.IOConsolePartition;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 
-import com.codeaffine.gonsole.ConsoleComponentFactory;
+import com.codeaffine.console.core.ConsoleComponentFactory;
 
 class GitConsoleContentAssist {
 

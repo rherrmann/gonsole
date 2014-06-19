@@ -5,9 +5,9 @@ import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.part.IPageBookViewPage;
 
-import com.codeaffine.gonsole.ConsoleComponentFactory;
-import com.codeaffine.gonsole.ConsoleDefinition;
-import com.codeaffine.gonsole.ConsoleOutput;
+import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.ConsoleDefinition;
+import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.gonsole.internal.resource.ColorDefinition;
 import com.codeaffine.gonsole.internal.resource.ConsoleIoProvider;
 

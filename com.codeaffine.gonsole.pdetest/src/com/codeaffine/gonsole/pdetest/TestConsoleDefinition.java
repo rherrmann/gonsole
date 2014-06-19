@@ -7,13 +7,13 @@ import java.nio.charset.Charset;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.RGB;
 
-import com.codeaffine.gonsole.ColorScheme;
-import com.codeaffine.gonsole.ConsoleCommandInterpreter;
-import com.codeaffine.gonsole.ConsoleComponentFactory;
-import com.codeaffine.gonsole.ConsoleDefinition;
-import com.codeaffine.gonsole.ConsoleOutput;
-import com.codeaffine.gonsole.ConsolePrompt;
-import com.codeaffine.gonsole.ContentProposalProvider;
+import com.codeaffine.console.core.ColorScheme;
+import com.codeaffine.console.core.ConsoleCommandInterpreter;
+import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.ConsoleDefinition;
+import com.codeaffine.console.core.ConsoleOutput;
+import com.codeaffine.console.core.ConsolePrompt;
+import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.google.common.base.Charsets;
 

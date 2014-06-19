@@ -21,8 +21,8 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
-import com.codeaffine.gonsole.ConsoleComponentFactory;
-import com.codeaffine.gonsole.ContentProposalProvider;
+import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.ContentProposalProvider;
 import com.google.common.collect.Lists;
 
 public class ContentAssistProcessor implements IContentAssistProcessor {

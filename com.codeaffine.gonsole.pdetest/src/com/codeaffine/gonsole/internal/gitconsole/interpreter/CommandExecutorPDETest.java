@@ -16,7 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.codeaffine.gonsole.ConsoleOutput;
+import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.gonsole.internal.Output;
 import com.google.common.base.Charsets;
 

@@ -7,9 +7,9 @@ import java.nio.charset.Charset;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 
-import com.codeaffine.gonsole.ColorScheme;
-import com.codeaffine.gonsole.ConsoleComponentFactory;
-import com.codeaffine.gonsole.ConsoleDefinition;
+import com.codeaffine.console.core.ColorScheme;
+import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.ConsoleDefinition;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.codeaffine.gonsole.internal.gitconsole.repository.CompositeRepositoryProvider;
 import com.codeaffine.gonsole.internal.gitconsole.repository.CompositeRepositoryProviderFactory;

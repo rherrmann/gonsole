@@ -2,7 +2,7 @@ package com.codeaffine.gonsole.internal.gitconsole.contentassist;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 
-import com.codeaffine.gonsole.ContentProposalProvider;
+import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 
 public class ControlCommandContentProposalProvider implements ContentProposalProvider {

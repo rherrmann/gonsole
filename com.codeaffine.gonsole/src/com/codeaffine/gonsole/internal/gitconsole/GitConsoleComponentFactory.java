@@ -1,10 +1,10 @@
 package com.codeaffine.gonsole.internal.gitconsole;
 
-import com.codeaffine.gonsole.ConsoleCommandInterpreter;
-import com.codeaffine.gonsole.ConsoleComponentFactory;
-import com.codeaffine.gonsole.ConsoleOutput;
-import com.codeaffine.gonsole.ConsolePrompt;
-import com.codeaffine.gonsole.ContentProposalProvider;
+import com.codeaffine.console.core.ConsoleCommandInterpreter;
+import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.ConsoleOutput;
+import com.codeaffine.console.core.ConsolePrompt;
+import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.gonsole.internal.gitconsole.contentassist.ControlCommandContentProposalProvider;
 import com.codeaffine.gonsole.internal.gitconsole.contentassist.GitCommandContentProposalProvider;
 import com.codeaffine.gonsole.internal.gitconsole.interpreter.ControlCommandInterpreter;

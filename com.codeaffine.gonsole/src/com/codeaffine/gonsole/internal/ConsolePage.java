@@ -8,7 +8,7 @@ import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.IPageSite;
 
-import com.codeaffine.gonsole.ConsoleComponentFactory;
+import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.gonsole.internal.resource.ConsoleIoProvider;
 
 class ConsolePage implements IPageBookViewPage {

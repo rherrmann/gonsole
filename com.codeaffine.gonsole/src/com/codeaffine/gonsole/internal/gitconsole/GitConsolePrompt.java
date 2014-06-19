@@ -2,8 +2,8 @@ package com.codeaffine.gonsole.internal.gitconsole;
 
 import java.io.File;
 
-import com.codeaffine.gonsole.ConsoleOutput;
-import com.codeaffine.gonsole.ConsolePrompt;
+import com.codeaffine.console.core.ConsoleOutput;
+import com.codeaffine.console.core.ConsolePrompt;
 import com.codeaffine.gonsole.internal.gitconsole.interpreter.ControlCommandInterpreter;
 import com.codeaffine.gonsole.internal.gitconsole.repository.CompositeRepositoryProvider;
 

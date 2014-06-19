@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
-import com.codeaffine.gonsole.ConsoleOutput;
+import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.gonsole.internal.resource.ConsoleIoProvider;
 
 public class Output implements ConsoleOutput {
