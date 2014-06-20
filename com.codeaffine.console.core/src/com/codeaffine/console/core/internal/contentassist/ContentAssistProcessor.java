@@ -13,7 +13,6 @@ import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITypedRegion;
-import org.eclipse.jface.text.contentassist.CompletionProposal;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContextInformation;
@@ -29,10 +28,12 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 
   private final ConsoleComponentFactory consoleComponentFactory;
   private final ResourceManager resourceManager;
+  private final ProposalComputer proposalComputer;
 
   public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory ) {
     this.consoleComponentFactory = consoleComponentFactory;
     this.resourceManager = new LocalResourceManager( JFaceResources.getResources() );
+    this.proposalComputer = new ProposalComputer();
   }
 
   @Override
@@ -70,9 +71,10 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
         String name = contentProposals[ i ];
         String prefix = computePrefix( viewer, offset );
         if( name.startsWith( prefix ) ) {
-          ImageDescriptor image = contentProposalProvider.getImageDescriptor();
-          ICompletionProposal proposal = addProposal( viewer, image, prefix, name );
-          proposals.add( proposal );
+          ImageDescriptor imageDescriptor = contentProposalProvider.getImageDescriptor();
+          Image image = imageDescriptor == null ? null : resourceManager.createImage( imageDescriptor );
+          Point selectedRange = viewer.getSelectedRange();
+          proposals.add( proposalComputer.compute( prefix, selectedRange.x, selectedRange.y, name, image ) );
         }
       }
     }
@@ -100,18 +102,4 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
     }
     return result;
   }
-
-  private ICompletionProposal addProposal( ITextViewer textViewer, ImageDescriptor image, String prefix, String proposalString ) {
-    Point selectedRange = textViewer.getSelectedRange();
-    int offset = selectedRange.x;
-    int length = selectedRange.y;
-    return createProposal( proposalString, proposalString.substring( prefix.length() ), image, offset, length );
-  }
-
-  private ICompletionProposal createProposal( String displayString, String replacementString, ImageDescriptor imageDescriptor, int offset, int length ) {
-    int cursorPos = replacementString.length();
-    Image image = imageDescriptor == null ? null : resourceManager.createImage( imageDescriptor );
-    return new CompletionProposal( replacementString, offset, length, cursorPos, image, displayString, null, null );
-  }
-
 }
