@@ -9,6 +9,7 @@ import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.IPageSite;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.internal.contentassist.ConsoleContentAssist;
 import com.codeaffine.console.core.internal.resource.ConsoleIoProvider;
 
 class ConsolePage implements IPageBookViewPage {
@@ -31,7 +32,7 @@ class ConsolePage implements IPageBookViewPage {
   @Override
   public void createControl( Composite parent ) {
     consolePage.createControl( parent );
-    new GitConsoleContentAssist( consolePage.getViewer(), consoleComponentFactory ).install();
+    new ConsoleContentAssist( consolePage.getViewer(), consoleComponentFactory ).install();
     inputObserver.start( consolePage.getViewer() );
   }
 
