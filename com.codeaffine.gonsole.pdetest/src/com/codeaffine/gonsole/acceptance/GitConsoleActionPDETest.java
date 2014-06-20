@@ -1,24 +1,22 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
-import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
+import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
+import static com.codeaffine.gonsole.acceptance.GitConsolePrompts.line;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.pdetest.GitConsoleBot;
-import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
+import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.test.util.swt.DisplayHelper;
-
 
 public class GitConsoleActionPDETest {
 
-  @Rule public final GitConsoleBot console = new GitConsoleBot();
-  @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
+  @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
+  @Rule public final ConsoleBot console = new ConsoleBot();
 
   @Test
   public void testClearAction() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.runToolBarAction( "Clear" );
     new DisplayHelper().flushPendingEvents();

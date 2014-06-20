@@ -7,13 +7,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.gitconsole.preference.WorkspaceScopePreferences;
+import com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferences;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class PreferencePagePDETest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private RepositoryPreferencePageHelper pageHelper;
   private WorkspaceScopePreferences preferences;

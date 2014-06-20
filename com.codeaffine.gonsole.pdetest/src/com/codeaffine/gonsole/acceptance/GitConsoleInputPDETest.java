@@ -1,27 +1,26 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
-import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
+import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
+import static com.codeaffine.gonsole.acceptance.GitConsolePrompts.line;
 
 import java.util.Locale;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.gitconsole.Constants;
+import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
+import com.codeaffine.gonsole.internal.Constants;
 import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
-import com.codeaffine.gonsole.pdetest.GitConsoleBot;
-import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
 
 public class GitConsoleInputPDETest {
 
   @Rule public final DefaultLocaleRule defaultLocaleRule = new DefaultLocaleRule( Locale.ENGLISH );
-  @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
-  @Rule public final GitConsoleBot console = new GitConsoleBot();
+  @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
+  @Rule public final ConsoleBot console = new ConsoleBot();
 
   @Test
   public void testEnterSimpleGitCommand() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "status" );
 
@@ -33,7 +32,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterChangeRepositoryCommand() {
-    console.open( repositories.create( "rep1", "rep2" ) );
+    console.open( configurer.create( "rep1", "rep2" ) );
 
     console.enterCommandLine( "use rep2" );
 
@@ -45,7 +44,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterGitCommandWithMultipleSpaces() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "log  -M" );
 
@@ -57,7 +56,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterGitCommandWithGitPrefix() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "git status" );
 
@@ -69,7 +68,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterGitCommandWithIllegalArguments() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "commit" );
 
@@ -83,7 +82,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterUnrecognizedCommand() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "foo" );
 
@@ -95,7 +94,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterUnrecognizedCommandWithGitPrefix() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "git foo" );
 
@@ -107,7 +106,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testType() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.typeText( "abc" );
 
@@ -121,7 +120,7 @@ public class GitConsoleInputPDETest {
     String repositoryName = "repo";
     int insertCaretPosition = ( repositoryName + Constants.PROMPT_POSTFIX ).length();
     int expectedCaretPosition = ( repositoryName + Constants.PROMPT_POSTFIX + "a" ).length();
-    console.open( repositories.create( repositoryName ) );
+    console.open( configurer.create( repositoryName ) );
 
     console.typeText( "bc" );
     console.positionCaret( insertCaretPosition );
@@ -136,7 +135,7 @@ public class GitConsoleInputPDETest {
   public void testTypeWithCaretBeforePrompt() {
     String repositoryName = "repo";
     int insertCaretPosition = repositoryName.length() / 2;
-    console.open( repositories.create( repositoryName ) );
+    console.open( configurer.create( repositoryName ) );
 
     console.typeText( "ab" );
     console.positionCaret( insertCaretPosition );
@@ -149,7 +148,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testTypeNewline() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "" );
 
@@ -161,7 +160,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEncoding() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "status äöü" );
 

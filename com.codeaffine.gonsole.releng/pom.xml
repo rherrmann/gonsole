@@ -28,7 +28,7 @@
     <module>egit-feature</module>
     <module>repository</module>
     
-    <!-- core -->
+    <!-- console core -->
     <module>../com.codeaffine.console.core</module>
     <module>../com.codeaffine.console.core.pdetest</module>
     <module>../com.codeaffine.console.core.test</module>

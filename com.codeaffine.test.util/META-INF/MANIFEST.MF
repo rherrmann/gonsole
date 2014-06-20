@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test Utilities
-Bundle-SymbolicName: com.codeaffine.test.util
+Bundle-SymbolicName: com.codeaffine.test.util;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: codeaffine.com
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -1,0 +1,34 @@
+package com.codeaffine.console.core.pdetest.console;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Collections.unmodifiableCollection;
+
+import java.util.Collection;
+
+import com.codeaffine.console.core.ConsoleCommandInterpreter;
+import com.codeaffine.console.core.ConsoleOutput;
+
+class TestConsoleCommandInterpreter implements ConsoleCommandInterpreter {
+
+  public static final String DONE = "done";
+  public final static Collection<String> COMMANDS = unmodifiableCollection( newArrayList(
+    "simple", "parameterized"
+  ) );
+
+  private final ConsoleOutput consoleOutput;
+
+  TestConsoleCommandInterpreter( ConsoleOutput consoleOutput ) {
+    this.consoleOutput = consoleOutput;
+  }
+
+  @Override
+  public boolean isRecognized( String... commandLine ) {
+    return COMMANDS.contains( commandLine[ 0 ] );
+  }
+
+  @Override
+  public String execute( String... commandLine ) {
+    consoleOutput.write( DONE + commandLine[ 0 ] );
+    return null;
+  }
+}

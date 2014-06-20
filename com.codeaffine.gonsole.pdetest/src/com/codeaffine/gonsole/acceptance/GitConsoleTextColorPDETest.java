@@ -1,32 +1,31 @@
 package com.codeaffine.gonsole.acceptance;
 
-import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.assertThat;
-import static com.codeaffine.gonsole.pdetest.GitConsoleAssert.line;
+import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
+import static com.codeaffine.gonsole.acceptance.GitConsolePrompts.line;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.pdetest.GitConsoleBot;
-import com.codeaffine.gonsole.pdetest.TemporaryRepositoryRule;
+import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 
 
 public class GitConsoleTextColorPDETest {
 
   private static final int NEXT_LINE_OFFSET = 3;
 
-  @Rule public final GitConsoleBot console = new GitConsoleBot();
-  @Rule public final TemporaryRepositoryRule repositories = new TemporaryRepositoryRule();
+  @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
+  @Rule public final ConsoleBot console = new ConsoleBot();
 
   @Test
   public void testPromptColor() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     assertThat( console ).hasPromptColorAt( 0 );
   }
 
   @Test
   public void testInputColor() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "status" );
 
@@ -37,7 +36,7 @@ public class GitConsoleTextColorPDETest {
 
   @Test
   public void testOutputColor() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "status" );
 
@@ -48,7 +47,7 @@ public class GitConsoleTextColorPDETest {
 
   @Test
   public void testErrorColor() {
-    console.open( repositories.create( "repo" ) );
+    console.open( configurer.create( "repo" ) );
 
     console.enterCommandLine( "foo" );
 

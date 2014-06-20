@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.gitconsole.repository.PreferenceRepositoryProvider;
+import com.codeaffine.gonsole.internal.repository.PreferenceRepositoryProvider;
 
 
 public class PreferenceRepositoryProviderExtensionPDETest {
