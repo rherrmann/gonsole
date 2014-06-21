@@ -1,7 +1,6 @@
 package com.codeaffine.console.core.internal.contentassist;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assertions;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.swt.graphics.Image;
 
@@ -20,36 +19,48 @@ public class ProposalComputerAssert extends AbstractAssert<ProposalComputerAsser
 
   public ProposalComputerAssert hasReplacement( String expected ) {
     valueCaptor.captureReplacementValues();
-    Assertions.assertThat( valueCaptor.getReplacement() ).isEqualTo( expected );
+    if( !expected.equals( valueCaptor.getReplacement() ) ) {
+      failWithMessage( "Expected replacement to be <%s> but was <%s>", expected, valueCaptor.getReplacement() );
+    }
     return this;
   }
 
   public ProposalComputerAssert hasOffset( int expected ) {
     valueCaptor.captureReplacementValues();
-    Assertions.assertThat( valueCaptor.getOffset() ).isEqualTo( expected );
+    if( expected != valueCaptor.getOffset() ) {
+      failWithMessage( "Expected offset to be <%s> but was <%s>", expected, valueCaptor.getOffset() );
+    }
     return this;
   }
 
   public ProposalComputerAssert hasLength( int expected ) {
     valueCaptor.captureReplacementValues();
-    Assertions.assertThat( valueCaptor.getLength() ).isEqualTo( expected );
+    if( expected != valueCaptor.getLength() ) {
+      failWithMessage( "Expected length to be <%s> but was <%s>", expected, valueCaptor.getLength() );
+    }
     return this;
   }
 
   public ProposalComputerAssert hasImage( Image expected ) {
-    Assertions.assertThat( actual.getImage() ).isSameAs( expected );
+    if( actual.getImage() != expected ) {
+      failWithMessage( "Expected image be <%s> but was <%s>", expected, actual.getImage() );
+    }
     return this;
   }
 
   public ProposalComputerAssert hasDisplayString( String expected ) {
-    Assertions.assertThat( actual.getDisplayString() ).isSameAs( expected );
+    if( !expected.equals( actual.getDisplayString() ) ) {
+      failWithMessage( "Expected displayString to be <%s> but was <%s>", expected, actual.getDisplayString() );
+    }
     return this;
   }
 
   public ProposalComputerAssert hasCursorPosition( int expected ) {
     valueCaptor.captureReplacementValues();
     int cursorPosition = actual.getSelection( null ).x - valueCaptor.getOffset();
-    Assertions.assertThat( cursorPosition ).isEqualTo( expected );
+    if( expected != cursorPosition ) {
+      failWithMessage( "Expected cursorPosition to be <%s> but was <%s>", expected, cursorPosition );
+    }
     return this;
   }
 }
