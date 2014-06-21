@@ -1,7 +1,6 @@
 package com.codeaffine.console.core.internal.contentassist;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -13,10 +12,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.TextConsoleViewer;
-import org.eclipse.ui.handlers.IHandlerActivation;
-import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.console.IOConsolePartition;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 
@@ -47,8 +43,10 @@ public class ConsoleContentAssist {
       }
     } );
 
+
     textViewer.getTextWidget().addFocusListener( new FocusListener() {
-      private IHandlerActivation activation;
+
+      ActionActivation actionActivation = new ActionActivation();
 
       @Override
       public void focusGained( FocusEvent event ) {
@@ -77,21 +75,15 @@ public class ConsoleContentAssist {
         };
         action.setActionDefinitionId( ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS );
         action.setEnabled( true );
-        String actionId = action.getActionDefinitionId();
-        ActionHandler handler = new ActionHandler( action );
-        IHandlerService handlerService = ( IHandlerService )PlatformUI.getWorkbench().getService( IHandlerService.class );
-        activation = handlerService.activateHandler( actionId, handler, null );
+
+        actionActivation.activate( action );
       }
 
       @Override
       public void focusLost( FocusEvent event ) {
-        if( activation != null ) {
-          IHandlerService handlerService
-            = ( IHandlerService )PlatformUI.getWorkbench().getService( IHandlerService.class );
-          handlerService.deactivateHandler( activation );
-          activation = null;
-        }
+        actionActivation.deactivate();
       }
+
     } );
   }
 }
