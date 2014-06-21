@@ -10,9 +10,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.resource.ResourceManager;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContextInformation;
@@ -29,11 +27,13 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   private final ConsoleComponentFactory consoleComponentFactory;
   private final ResourceManager resourceManager;
   private final ProposalComputer proposalComputer;
+  private final PrefixComputer prefixComputer;
 
   public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory ) {
     this.consoleComponentFactory = consoleComponentFactory;
     this.resourceManager = new LocalResourceManager( JFaceResources.getResources() );
     this.proposalComputer = new ProposalComputer();
+    this.prefixComputer = new PrefixComputer();
   }
 
   @Override
@@ -69,7 +69,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
       String[] contentProposals = contentProposalProvider.getContentProposals();
       for( int i = 0; i < contentProposals.length; i++ ) {
         String name = contentProposals[ i ];
-        String prefix = computePrefix( viewer, offset );
+        String prefix = prefixComputer.compute( viewer, offset );
         if( name.startsWith( prefix ) ) {
           ImageDescriptor imageDescriptor = contentProposalProvider.getImageDescriptor();
           Image image = imageDescriptor == null ? null : resourceManager.createImage( imageDescriptor );
@@ -89,17 +89,5 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 
   public void dispose() {
     resourceManager.dispose();
-  }
-
-  private static String computePrefix( ITextViewer textViewer, int documentOffset ) {
-    String result = "";
-    try {
-      ITypedRegion region = textViewer.getDocument().getPartition( documentOffset );
-      int partitionOffset = region.getOffset();
-      int length = documentOffset - partitionOffset;
-      result = textViewer.getDocument().get( partitionOffset, length );
-    } catch( BadLocationException ignore ) {
-    }
-    return result;
   }
 }
