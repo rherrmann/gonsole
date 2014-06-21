@@ -21,7 +21,7 @@ class ProposalCalculator {
     this.proposalCreator = new ProposalCreator();
   }
 
-  List<ICompletionProposal> calculate( ContentProposalProvider[] providers , String prefix , int start , int length  ) {
+  List<ICompletionProposal> calculate( String prefix , int start , int length, ContentProposalProvider ... providers ) {
     List<ICompletionProposal> result = newLinkedList();
     for( ContentProposalProvider proposalProvider : providers ) {
       result.addAll( calculate( proposalProvider, prefix, start, length ) );

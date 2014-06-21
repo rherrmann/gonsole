@@ -5,7 +5,7 @@ import com.codeaffine.console.core.ConsolePrompt;
 
 public class TestConsolePrompt implements ConsolePrompt {
 
-  private static final String PROMPT = "prompt$ ";
+  public static final String PROMPT = "prompt$ ";
 
   private final ConsoleOutput consoleOutput;
 

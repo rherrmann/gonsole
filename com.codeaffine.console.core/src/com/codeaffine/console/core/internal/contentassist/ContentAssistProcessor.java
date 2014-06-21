@@ -56,7 +56,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
     Point range = viewer.getSelectedRange();
     String prefix = prefixComputer.compute( viewer, offset );
     ContentProposalProvider[] proposalProviders = consoleComponentFactory.createProposalProviders();
-    List<ICompletionProposal> proposals = proposalCalculator.calculate( proposalProviders, prefix, range.x, range.y );
+    List<ICompletionProposal> proposals = proposalCalculator.calculate( prefix, range.x, range.y, proposalProviders );
     return toArray( proposals, ICompletionProposal.class );
   }
 

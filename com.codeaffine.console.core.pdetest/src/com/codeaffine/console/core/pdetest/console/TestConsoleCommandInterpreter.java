@@ -8,7 +8,7 @@ import java.util.Collection;
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
 import com.codeaffine.console.core.ConsoleOutput;
 
-class TestConsoleCommandInterpreter implements ConsoleCommandInterpreter {
+public class TestConsoleCommandInterpreter implements ConsoleCommandInterpreter {
 
   public static final String DONE = "done";
   public final static Collection<String> COMMANDS = unmodifiableCollection( newArrayList(

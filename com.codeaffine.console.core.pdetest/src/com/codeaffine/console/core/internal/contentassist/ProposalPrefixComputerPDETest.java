@@ -1,6 +1,6 @@
 package com.codeaffine.console.core.internal.contentassist;
 
-import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.line;
+import static com.codeaffine.console.core.internal.contentassist.TextInputBot.offset;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jface.text.ITextViewer;
@@ -8,9 +8,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.console.core.internal.Console;
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.console.core.pdetest.console.TestConsoleDefinition;
 
 public class ProposalPrefixComputerPDETest {
 
@@ -20,10 +18,11 @@ public class ProposalPrefixComputerPDETest {
 
   private ProposalPrefixComputer computer;
   private ITextViewer viewer;
+  private TextInputBot bot;
 
   @Test
   public void testComputeWithOffsetAtLineEnd() {
-    viewer = performTextInput( TEXT );
+    viewer = bot.performTextInput( TEXT );
 
     String actual = computer.compute( viewer, offset( TEXT.length() ) );
 
@@ -32,7 +31,7 @@ public class ProposalPrefixComputerPDETest {
 
   @Test
   public void testComputeWithOffsetAtCommandStart() {
-    viewer = performTextInput( TEXT );
+    viewer = bot.performTextInput( TEXT );
 
     String actual = computer.compute( viewer, offset( 0 ) );
 
@@ -41,7 +40,7 @@ public class ProposalPrefixComputerPDETest {
 
   @Test
   public void testComputeWithOffsetInText() {
-    viewer = performTextInput( TEXT );
+    viewer = bot.performTextInput( TEXT );
 
     String actual = computer.compute( viewer, offset( 2 ) );
 
@@ -50,7 +49,7 @@ public class ProposalPrefixComputerPDETest {
 
   @Test
   public void testComputeWithOffsetInBadLocation() {
-    viewer = performTextInput( TEXT );
+    viewer = bot.performTextInput( TEXT );
 
     String actual = computer.compute( viewer, offset( TEXT.length() + 1 ) );
 
@@ -60,15 +59,6 @@ public class ProposalPrefixComputerPDETest {
   @Before
   public void setUp() {
     computer = new ProposalPrefixComputer();
-  }
-
-  private static int offset( int promptOffSet ) {
-    return line( "" ).length() + promptOffSet;
-  }
-
-  private ITextViewer performTextInput( String text ) {
-    Console console = consoleBot.open( new TestConsoleDefinition() );
-    consoleBot.typeText( text );
-    return console.getPage().getViewer();
+    bot = new TextInputBot( consoleBot );
   }
 }
