@@ -1,23 +1,22 @@
 package com.codeaffine.console.core.internal.resource;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 import com.codeaffine.console.core.ColorScheme;
 import com.google.common.base.Preconditions;
 
 public class ColorDefinition {
 
-  private final ColorRegistry colorRegistry;
+  private final ResourceRegistry colorRegistry;
   private final ColorScheme colorScheme;
 
   private boolean disposed;
 
   public ColorDefinition( ColorScheme colorScheme ) {
-    this( colorScheme, new ColorRegistry( Display.getCurrent() ) );
+    this( colorScheme, new ResourceRegistry() );
   }
 
-  ColorDefinition( ColorScheme colorScheme, ColorRegistry colorRegistry ) {
+  ColorDefinition( ColorScheme colorScheme, ResourceRegistry colorRegistry ) {
     this.colorScheme = colorScheme;
     this.colorRegistry = colorRegistry;
   }
@@ -43,7 +42,7 @@ public class ColorDefinition {
   }
 
   public void dispose() {
-    colorRegistry.clear();
+    colorRegistry.dispose();
     disposed = true;
   }
 

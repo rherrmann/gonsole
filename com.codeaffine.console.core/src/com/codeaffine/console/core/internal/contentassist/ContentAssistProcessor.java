@@ -6,10 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.resource.LocalResourceManager;
-import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
@@ -20,18 +16,19 @@ import org.eclipse.swt.graphics.Point;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ContentProposalProvider;
+import com.codeaffine.console.core.internal.resource.ResourceRegistry;
 import com.google.common.collect.Lists;
 
 public class ContentAssistProcessor implements IContentAssistProcessor {
 
   private final ConsoleComponentFactory consoleComponentFactory;
-  private final ResourceManager resourceManager;
+  private final ResourceRegistry imageRegistry;
   private final ProposalComputer proposalComputer;
   private final PrefixComputer prefixComputer;
 
   public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory ) {
+    this.imageRegistry = new ResourceRegistry();
     this.consoleComponentFactory = consoleComponentFactory;
-    this.resourceManager = new LocalResourceManager( JFaceResources.getResources() );
     this.proposalComputer = new ProposalComputer();
     this.prefixComputer = new PrefixComputer();
   }
@@ -65,14 +62,13 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   public ICompletionProposal[] computeCompletionProposals( ITextViewer viewer, int offset ) {
     ContentProposalProvider[] proposalProviders = consoleComponentFactory.createProposalProviders();
     List<ICompletionProposal> proposals = Lists.newArrayList();
-    for( ContentProposalProvider contentProposalProvider : proposalProviders ) {
-      String[] contentProposals = contentProposalProvider.getContentProposals();
+    for( ContentProposalProvider proposalProvider : proposalProviders ) {
+      String[] contentProposals = proposalProvider.getContentProposals();
       for( int i = 0; i < contentProposals.length; i++ ) {
         String name = contentProposals[ i ];
         String prefix = prefixComputer.compute( viewer, offset );
         if( name.startsWith( prefix ) ) {
-          ImageDescriptor imageDescriptor = contentProposalProvider.getImageDescriptor();
-          Image image = imageDescriptor == null ? null : resourceManager.createImage( imageDescriptor );
+          Image image = imageRegistry.getImage( proposalProvider.getImageDescriptor() );
           Point selectedRange = viewer.getSelectedRange();
           proposals.add( proposalComputer.compute( prefix, selectedRange.x, selectedRange.y, name, image ) );
         }
@@ -88,6 +84,6 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   }
 
   public void dispose() {
-    resourceManager.dispose();
+    imageRegistry.dispose();
   }
 }

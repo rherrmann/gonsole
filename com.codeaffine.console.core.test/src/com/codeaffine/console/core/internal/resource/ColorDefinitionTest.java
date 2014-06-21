@@ -22,7 +22,7 @@ public class ColorDefinitionTest {
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ColorDefinition colorDefinition;
-  private ColorRegistry colorRegistry;
+  private ResourceRegistry colorRegistry;
   private ColorScheme colorScheme;
 
   @Test
@@ -65,7 +65,7 @@ public class ColorDefinitionTest {
   public void testDispose() {
     colorDefinition.dispose();
 
-    verify( colorRegistry ).clear();
+    verify( colorRegistry ).dispose();
   }
 
   @Test( expected = IllegalStateException.class )
@@ -104,8 +104,8 @@ public class ColorDefinitionTest {
 
   }
 
-  private ColorRegistry stubColorRegistry( RGB rgb, int systemColorId ) {
-    ColorRegistry result = mock( ColorRegistry.class );
+  private ResourceRegistry stubColorRegistry( RGB rgb, int systemColorId ) {
+    ResourceRegistry result = mock( ResourceRegistry.class );
     Color color = displayHelper.getDisplay().getSystemColor( systemColorId );
     when( result.getColor( rgb ) ).thenReturn( color );
     return result;
