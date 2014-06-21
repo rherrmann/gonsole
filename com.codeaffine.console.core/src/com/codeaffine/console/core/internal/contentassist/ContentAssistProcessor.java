@@ -1,9 +1,8 @@
 package com.codeaffine.console.core.internal.contentassist;
 
 import static com.google.common.collect.Iterables.toArray;
+import static java.util.Collections.sort;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jface.text.ITextViewer;
@@ -24,13 +23,13 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   private final ConsoleComponentFactory consoleComponentFactory;
   private final ResourceRegistry imageRegistry;
   private final ProposalComputer proposalComputer;
-  private final PrefixComputer prefixComputer;
+  private final ProposalPrefixComputer prefixComputer;
 
   public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory ) {
     this.imageRegistry = new ResourceRegistry();
     this.consoleComponentFactory = consoleComponentFactory;
     this.proposalComputer = new ProposalComputer();
-    this.prefixComputer = new PrefixComputer();
+    this.prefixComputer = new ProposalPrefixComputer();
   }
 
   @Override
@@ -74,12 +73,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
         }
       }
     }
-    Collections.sort( proposals, new Comparator<ICompletionProposal>() {
-      @Override
-      public int compare( ICompletionProposal proposal1, ICompletionProposal proposal2 ) {
-        return proposal1.getDisplayString().compareTo( proposal2.getDisplayString() );
-      }
-    } );
+    sort( proposals, new ProposalComparator() );
     return toArray( proposals, ICompletionProposal.class );
   }
 
