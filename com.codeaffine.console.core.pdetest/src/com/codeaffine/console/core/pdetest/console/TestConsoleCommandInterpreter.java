@@ -10,9 +10,12 @@ import com.codeaffine.console.core.ConsoleOutput;
 
 public class TestConsoleCommandInterpreter implements ConsoleCommandInterpreter {
 
+  public static final String COMMAND_SIMPLE = "simple";
+  public static final String COMMAND_COMPLEX = "complex";
+  public static final String COMMAND_COMPLETE = "complete";
   public static final String DONE = "done";
   public final static Collection<String> COMMANDS = unmodifiableCollection( newArrayList(
-    "simple", "parameterized"
+    COMMAND_SIMPLE, COMMAND_COMPLEX, COMMAND_COMPLETE
   ) );
 
   private final ConsoleOutput consoleOutput;

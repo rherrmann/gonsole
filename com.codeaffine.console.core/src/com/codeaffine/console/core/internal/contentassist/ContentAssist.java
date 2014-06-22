@@ -7,7 +7,7 @@ import org.eclipse.ui.console.TextConsoleViewer;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
 
-public class ContentAssist implements ConsoleContentAssist {
+public class ContentAssist implements ConsoleContentAssist, DisposeListener {
 
   private final ContentAssistProcessor contentAssistProcessor;
   private final ContentAssistant contentAssistant;
@@ -25,20 +25,19 @@ public class ContentAssist implements ConsoleContentAssist {
     contentAssistant.enablePrefixCompletion( true );
     contentAssistant.setRepeatedInvocationMode( true );
     contentAssistant.setContentAssistProcessor( contentAssistProcessor, PartitionType.INPUT );
-
     contentAssistant.install( textViewer );
-    textViewer.getTextWidget().addDisposeListener( new DisposeListener() {
-      @Override
-      public void widgetDisposed( DisposeEvent event ) {
-        contentAssistant.uninstall();
-        contentAssistProcessor.dispose();
-      }
-    } );
+    textViewer.getTextWidget().addDisposeListener( this );
     textViewer.getTextWidget().addFocusListener( editor );
   }
 
   @Override
   public void showPossibleCompletions() {
     contentAssistant.showPossibleCompletions();
+  }
+
+  @Override
+  public void widgetDisposed( DisposeEvent e ) {
+    contentAssistant.uninstall();
+    contentAssistProcessor.dispose();
   }
 }

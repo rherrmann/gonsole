@@ -21,29 +21,33 @@ public class GitConsoleContentAssistPDETest {
   @Rule public final ConsoleBot console = new ConsoleBot();
   @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssist() {
     console.open( configurer.create( "repo" ) );
 
     console.typeKey( SWT.CTRL, ' ' );
 
-    assertThat( console ).showsContentAssist().withProposal( "add" );
+    assertThat( console )
+      .showsContentAssist()
+      .withProposal( "add" );
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilter() {
     console.open( configurer.create( "repo" ) );
 
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
 
-    assertThat( console ).showsContentAssist().withProposal( "show" );
+    assertThat( console )
+      .showsContentAssist()
+      .withProposal( "show" );
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilterAndOngoingTyping() {
     console.open( configurer.create( "repo" ) );
 
@@ -52,7 +56,9 @@ public class GitConsoleContentAssistPDETest {
     console.typeText( "t" );
     new DisplayHelper().flushPendingEvents();
 
-    assertThat( console ).showsContentAssist().withProposal( "status" );
+    assertThat( console )
+      .showsContentAssist()
+      .withProposal( "status" );
   }
 
   @Test
@@ -65,19 +71,21 @@ public class GitConsoleContentAssistPDETest {
     assertThat( console ).showsNoContentAssist();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentForControlCommand() {
     console.open( configurer.create( "repo" ) );
 
     console.typeText( "use" );
     console.typeKey( SWT.CTRL, ' ' );
 
-    assertThat( console ).showsContentAssist().withProposal( "use" );
+    assertThat( console )
+      .showsContentAssist()
+      .withProposal( "use" );
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyContentProposal() {
     console.open( configurer.create( "repo" ) );
 
@@ -88,8 +96,8 @@ public class GitConsoleContentAssistPDETest {
       .containsLines( line( "repo", "add" ) );
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposal() {
     console.open( configurer.create( "repo" ) );
 
@@ -101,8 +109,8 @@ public class GitConsoleContentAssistPDETest {
       .containsLines( line( "repo", "show" ) );
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposalWithSelectedText() {
     console.open( configurer.create( "repo" ) );
 
@@ -115,30 +123,34 @@ public class GitConsoleContentAssistPDETest {
       .containsLines( line( "repo", "show" ) );
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testContentAssistHasGitCommandImage() {
     console.open( configurer.create( "repo" ) );
 
     console.typeText( "status" );
     console.typeKey( SWT.CTRL, ' ' );
 
-    assertThat( console ).showsContentAssist().withImage();
+    assertThat( console )
+      .showsContentAssist()
+      .withImage();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testContentAssistHasControlCommandImage() {
     console.open( configurer.create( "repo" ) );
 
     console.typeText( "use" );
     console.typeKey( SWT.CTRL, ' ' );
 
-    assertThat( console ).showsContentAssist().withImage();
+    assertThat( console )
+      .showsContentAssist()
+      .withImage();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
   @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testProposalImagesDifferForProposalTypes() {
     console.open( configurer.create( "repo" ) );
 

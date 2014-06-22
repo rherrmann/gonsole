@@ -3,6 +3,7 @@ package com.codeaffine.console.core.internal.contentassist;
 import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.offset;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -49,6 +50,16 @@ public class ContentAssistProcessorPDETest {
     ICompletionProposal[] actual = processor.computeCompletionProposals( viewer, offset( "unknown".length() ) );
 
     assertThat( actual ).isEmpty();
+  }
+
+  @Test
+  public void testDispose() {
+    ProposalCalculator calculator = mock( ProposalCalculator.class );
+    ContentAssistProcessor contentAssistProcessor = new ContentAssistProcessor( calculator, null );
+
+    contentAssistProcessor.dispose();
+
+    verify( calculator ).dispose();
   }
 
   @Before

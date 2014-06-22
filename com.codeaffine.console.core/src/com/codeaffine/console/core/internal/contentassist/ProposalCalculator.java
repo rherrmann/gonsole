@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.internal.resource.ResourceRegistry;
 
-class ProposalCalculator {
+public class ProposalCalculator {
 
   private final ContentProposalProvider[] proposalProviders;
   private final ProposalCreator proposalCreator;
@@ -24,7 +24,11 @@ class ProposalCalculator {
     this.proposalProviders = proposalProviders;
   }
 
-  ICompletionProposal[] calculate( String prefix , int start , int length ) {
+  public void dispose() {
+    imageRegistry.dispose();
+  }
+
+  public ICompletionProposal[] calculate( String prefix , int start , int length ) {
     List<ICompletionProposal> result = newLinkedList();
     for( ContentProposalProvider proposalProvider : proposalProviders ) {
       result.addAll( calculate( proposalProvider, prefix, start, length ) );
@@ -43,9 +47,5 @@ class ProposalCalculator {
       }
     }
     return result;
-  }
-
-  public void dispose() {
-    imageRegistry.dispose();
   }
 }

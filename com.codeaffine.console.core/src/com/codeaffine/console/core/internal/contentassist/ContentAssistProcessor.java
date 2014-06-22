@@ -15,8 +15,23 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   private final Editor editor;
 
   public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory, Editor editor ) {
-    this.proposalCalculator = new ProposalCalculator( consoleComponentFactory.createProposalProviders() );
+    this( new ProposalCalculator( consoleComponentFactory.createProposalProviders() ), editor );
+  }
+
+  ContentAssistProcessor( ProposalCalculator proposalCalculator, Editor editor ) {
+    this.proposalCalculator = proposalCalculator;
     this.editor = editor;
+  }
+
+  public void dispose() {
+    proposalCalculator.dispose();
+  }
+
+  @Override
+  public ICompletionProposal[] computeCompletionProposals( ITextViewer viewer, int offset ) {
+    Point range = viewer.getSelectedRange();
+    String prefix = editor.computePrefix( offset );
+    return proposalCalculator.calculate( prefix, range.x, range.y );
   }
 
   @Override
@@ -42,16 +57,5 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   @Override
   public IContextInformation[] computeContextInformation( ITextViewer viewer, int offset ) {
     return null;
-  }
-
-  @Override
-  public ICompletionProposal[] computeCompletionProposals( ITextViewer viewer, int offset ) {
-    Point range = viewer.getSelectedRange();
-    String prefix = editor.computePrefix( offset );
-    return proposalCalculator.calculate( prefix, range.x, range.y );
-  }
-
-  public void dispose() {
-    proposalCalculator.dispose();
   }
 }
