@@ -7,9 +7,11 @@ import com.codeaffine.gonsole.internal.activator.IconRegistry;
 
 public class ControlCommandContentProposalProvider implements ContentProposalProvider {
 
+  static final String[] COMMANDS = new String[] { "use" };
+
   @Override
   public String[] getContentProposals() {
-    return new String[] { "use" };
+    return COMMANDS.clone();
   }
 
   @Override
