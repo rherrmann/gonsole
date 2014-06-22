@@ -7,20 +7,22 @@ import org.eclipse.ui.console.TextConsoleViewer;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
 
-public class ContentAssist {
+public class ContentAssist implements ConsoleContentAssist {
 
   private final ConsoleComponentFactory consoleComponentFactory;
+  private final ContentAssistant contentAssistant;
   private final TextConsoleViewer textViewer;
 
   public ContentAssist( TextConsoleViewer textViewer, ConsoleComponentFactory consoleComponentFactory  ) {
-    this.textViewer = textViewer;
     this.consoleComponentFactory = consoleComponentFactory;
+    this.contentAssistant = new ContentAssistant();
+    this.textViewer = textViewer;
   }
 
   public void install() {
-    final ContentAssistant contentAssistant = new ContentAssistant();
     contentAssistant.enablePrefixCompletion( true );
     contentAssistant.setRepeatedInvocationMode( true );
+
     final ContentAssistProcessor contentAssistProcessor = new ContentAssistProcessor( consoleComponentFactory );
     contentAssistant.setContentAssistProcessor( contentAssistProcessor, PartitionType.INPUT );
     contentAssistant.install( textViewer );
@@ -32,6 +34,11 @@ public class ContentAssist {
       }
     } );
 
-    textViewer.getTextWidget().addFocusListener( new ContentAssistActivation( contentAssistant, textViewer ) );
+    textViewer.getTextWidget().addFocusListener( new Editor( textViewer, this ) );
+  }
+
+  @Override
+  public void showPossibleCompletions() {
+    contentAssistant.showPossibleCompletions();
   }
 }

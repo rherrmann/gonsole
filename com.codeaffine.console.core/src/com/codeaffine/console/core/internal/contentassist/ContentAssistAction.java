@@ -1,33 +1,45 @@
 package com.codeaffine.console.core.internal.contentassist;
 
+import static com.codeaffine.console.core.internal.contentassist.PartitionType.INPUT;
+
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 
 class ContentAssistAction extends Action {
 
-  private final ContentAssistant contentAssistant;
-  private final DocumentHolder documentHolder;
+  static final String ACTION_DEFINITION_ID = ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS;
 
-  ContentAssistAction( ContentAssistant contentAssistant, DocumentHolder documentHolder ) {
-    this.contentAssistant = contentAssistant;
-    this.documentHolder = documentHolder;
-    setActionDefinitionId( ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS );
+  private final Editor editor;
+
+  ContentAssistAction( Editor editor ) {
+    this.editor = editor;
+    setActionDefinitionId( ACTION_DEFINITION_ID );
     setEnabled( true );
   }
 
   @Override
   public void run() {
-    ensureInputPartitionIfCaretIsAtPromptEnd();
-    contentAssistant.showPossibleCompletions();
+    ensureInputPartitionIfCaretAtEnd();
+    showPossibleCompletions();
   }
 
-  private void ensureInputPartitionIfCaretIsAtPromptEnd() {
-    if( documentHolder.isCaretAtDocumentEnd()
-        && !documentHolder.hasInputPartionAtCaretOffset()
-        && documentHolder.hasCorrectPartitioner() )
-    {
-      documentHolder.createInputPartitionAtCaret();
+  private void ensureInputPartitionIfCaretAtEnd() {
+    if( mustChangePartitionType() ) {
+      createInputPartition();
     }
+  }
+
+  private boolean mustChangePartitionType() {
+    return    editor.getCaretOffset() == editor.getDocumentLength()
+           && !INPUT.equals( editor.getPartitionType() )
+           && editor.isDocumentChangeAllowed();
+  }
+
+  private void createInputPartition() {
+    editor.fireDocumentChange();
+  }
+
+  private void showPossibleCompletions() {
+    editor.showPossibleCompletions();
   }
 }

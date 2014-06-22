@@ -18,6 +18,10 @@ public class TestConsolePrompt implements ConsolePrompt {
     consoleOutput.write( PROMPT );
   }
 
+  public static int offset( int promptOffSet ) {
+    return line( "" ).length() + promptOffSet;
+  }
+
   public static String line( String... commands ) {
     String result = PROMPT;
     for( String command : commands ) {

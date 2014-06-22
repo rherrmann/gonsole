@@ -1,28 +1,45 @@
 package com.codeaffine.console.core.internal.contentassist;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.text.TextViewer;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
+import org.eclipse.jface.commands.ActionHandler;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.IHandlerActivation;
+import org.eclipse.ui.handlers.IHandlerService;
 
-class ContentAssistActivation implements FocusListener {
+public class ContentAssistActivation {
 
-  private final ActionActivation actionActivation;
+  private final IHandlerService handlerService;
   private final Action action;
 
-  ContentAssistActivation( ContentAssistant contentAssistant, TextViewer textViewer ) {
-    this.action = new ContentAssistAction( contentAssistant, new DocumentHolder( textViewer ) );
-    this.actionActivation = new ActionActivation();
+  private IHandlerActivation activation;
+
+  ContentAssistActivation( Editor editor ) {
+    this( new ContentAssistAction( editor ) );
   }
 
-  @Override
-  public void focusGained( FocusEvent event ) {
-    actionActivation.activate( action );
+  ContentAssistActivation( Action action ) {
+    this.action = action;
+    this.handlerService = ( IHandlerService )PlatformUI.getWorkbench().getService( IHandlerService.class );
   }
 
-  @Override
-  public void focusLost( FocusEvent event ) {
-    actionActivation.deactivate();
+  boolean isActive() {
+    return activation != null;
+  }
+
+  public void activate() {
+    checkState( !isActive(), "Action has already been activated." );
+
+    String actionId = action.getActionDefinitionId();
+    ActionHandler handler = new ActionHandler( action );
+    activation = handlerService.activateHandler( actionId, handler, null );
+  }
+
+  public void deactivate() {
+    checkState( isActive(), "Action has not been activated." );
+
+    handlerService.deactivateHandler( activation );
+    activation = null;
   }
 }

@@ -1,6 +1,6 @@
 package com.codeaffine.console.core.internal.contentassist;
 
-import static com.codeaffine.console.core.internal.contentassist.TextInputBot.offset;
+import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.offset;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jface.text.ITextViewer;
@@ -17,14 +17,14 @@ public class ContentAssistProcessorPDETest {
 
   private static final String COMMAND = TestConsoleCommandInterpreter.COMMANDS.iterator().next();
 
-  @Rule public final ConsoleBot consoleBot = new ConsoleBot();
+  @Rule public final ConsoleBot console = new ConsoleBot();
 
   private ContentAssistProcessor processor;
-  private TextInputBot bot;
+  private ITextViewer viewer;
 
   @Test
   public void testComputeCompletionWithOffsetOnLineEnd() {
-    ITextViewer viewer = bot.performTextInput( COMMAND );
+    console.typeText( COMMAND );
 
     ICompletionProposal[] actual = processor.computeCompletionProposals( viewer, offset( COMMAND.length() ) );
 
@@ -33,7 +33,7 @@ public class ContentAssistProcessorPDETest {
 
   @Test
   public void testComputeCompletionProposalsWithOffsetOnLineStart() {
-    ITextViewer viewer = bot.performTextInput( COMMAND );
+    console.typeText( COMMAND );
 
     ICompletionProposal[] actual = processor.computeCompletionProposals( viewer, offset( 0 ) );
 
@@ -42,7 +42,7 @@ public class ContentAssistProcessorPDETest {
 
   @Test
   public void testComputeCompletionProposalsWithNonMatchingCommand() {
-    ITextViewer viewer = bot.performTextInput( "unknown" );
+    console.typeText( "unknown" );
 
     ICompletionProposal[] actual = processor.computeCompletionProposals( viewer, offset( "unknown".length() ) );
 
@@ -52,6 +52,6 @@ public class ContentAssistProcessorPDETest {
   @Before
   public void setUp() {
     processor = new ContentAssistProcessor( new TestConsoleDefinition().getConsoleComponentFactory() );
-    bot = new TextInputBot( consoleBot );
+    viewer = console.open( new TestConsoleDefinition() ).getPage().getViewer();
   }
 }

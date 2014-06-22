@@ -1,6 +1,6 @@
 package com.codeaffine.console.core.internal.contentassist;
 
-import static com.codeaffine.console.core.internal.contentassist.TextInputBot.offset;
+import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.offset;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jface.text.ITextViewer;
@@ -9,20 +9,20 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
+import com.codeaffine.console.core.pdetest.console.TestConsoleDefinition;
 
 public class ProposalPrefixComputerPDETest {
 
   private static final String TEXT = "stat";
 
-  @Rule public final ConsoleBot consoleBot = new ConsoleBot();
+  @Rule public final ConsoleBot console = new ConsoleBot();
 
   private ProposalPrefixComputer computer;
   private ITextViewer viewer;
-  private TextInputBot bot;
 
   @Test
   public void testComputeWithOffsetAtLineEnd() {
-    viewer = bot.performTextInput( TEXT );
+    console.typeText( TEXT );
 
     String actual = computer.compute( viewer, offset( TEXT.length() ) );
 
@@ -31,7 +31,7 @@ public class ProposalPrefixComputerPDETest {
 
   @Test
   public void testComputeWithOffsetAtCommandStart() {
-    viewer = bot.performTextInput( TEXT );
+    console.typeText( TEXT );
 
     String actual = computer.compute( viewer, offset( 0 ) );
 
@@ -40,7 +40,7 @@ public class ProposalPrefixComputerPDETest {
 
   @Test
   public void testComputeWithOffsetInText() {
-    viewer = bot.performTextInput( TEXT );
+    console.typeText( TEXT );
 
     String actual = computer.compute( viewer, offset( 2 ) );
 
@@ -49,7 +49,7 @@ public class ProposalPrefixComputerPDETest {
 
   @Test
   public void testComputeWithOffsetInBadLocation() {
-    viewer = bot.performTextInput( TEXT );
+    console.typeText( TEXT );
 
     String actual = computer.compute( viewer, offset( TEXT.length() + 1 ) );
 
@@ -59,6 +59,6 @@ public class ProposalPrefixComputerPDETest {
   @Before
   public void setUp() {
     computer = new ProposalPrefixComputer();
-    bot = new TextInputBot( consoleBot );
+    viewer = console.open( new TestConsoleDefinition() ).getPage().getViewer();
   }
 }
