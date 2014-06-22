@@ -40,7 +40,7 @@ public class ContentAssistProcessorPDETest {
 
     ICompletionProposal[] actual = processor.computeCompletionProposals( viewer, offset( 0 ) );
 
-    assertThat( actual ).hasSize( 2 );
+    assertThat( actual ).hasSize( 3 );
   }
 
   @Test
