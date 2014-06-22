@@ -20,8 +20,8 @@ public class ContentAssistActivation {
   }
 
   ContentAssistActivation( Action action ) {
-    this.action = action;
     this.handlerService = ( IHandlerService )PlatformUI.getWorkbench().getService( IHandlerService.class );
+    this.action = action;
   }
 
   boolean isActive() {

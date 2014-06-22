@@ -44,7 +44,7 @@ public class Editor implements FocusListener {
   }
 
   String getPartitionType() {
-    return getPartition().getType();
+    return getPartition( getCaretOffset() ).getType();
   }
 
   boolean isDocumentChangeAllowed() {
@@ -60,14 +60,31 @@ public class Editor implements FocusListener {
     contentAssist.showPossibleCompletions();
   }
 
-  private ITypedRegion getPartition() {
-    ITypedRegion result = null;
+  String computePrefix( int offset ) {
+    String result = "";
+    if( offset >= 0 && offset <= getDocument().getLength() ) {
+      ITypedRegion region = getPartition( offset );
+      int partitionOffset = region.getOffset();
+      int length = offset - partitionOffset;
+      result = getText( partitionOffset, length );
+    }
+    return result;
+  }
+
+  private String getText( int partitionOffset, int length ) {
     try {
-      result = getDocument().getPartition( getCaretOffset() );
+      return getDocument().get( partitionOffset, length );
+    } catch( BadLocationException shouldNotHappen ) {
+      throw new IllegalStateException( shouldNotHappen );
+    }
+  }
+
+  private ITypedRegion getPartition( int caretOffset ) {
+    try {
+      return getDocument().getPartition( caretOffset );
     } catch( BadLocationException shoultNotHappen ) {
       throw new IllegalStateException( shoultNotHappen );
     }
-    return result;
   }
 
   private IDocument getDocument() {

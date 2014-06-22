@@ -1,5 +1,6 @@
 package com.codeaffine.console.core.internal.contentassist;
 
+import static com.google.common.collect.Iterables.toArray;
 import static com.google.common.collect.Lists.newLinkedList;
 import static java.util.Collections.sort;
 
@@ -13,30 +14,30 @@ import com.codeaffine.console.core.internal.resource.ResourceRegistry;
 
 class ProposalCalculator {
 
+  private final ContentProposalProvider[] proposalProviders;
   private final ProposalCreator proposalCreator;
   private final ResourceRegistry imageRegistry;
 
-  ProposalCalculator() {
-    this.imageRegistry = new ResourceRegistry();
+  ProposalCalculator( ContentProposalProvider ... proposalProviders ) {
     this.proposalCreator = new ProposalCreator();
+    this.imageRegistry = new ResourceRegistry();
+    this.proposalProviders = proposalProviders;
   }
 
-  List<ICompletionProposal> calculate( String prefix , int start , int length, ContentProposalProvider ... providers ) {
+  ICompletionProposal[] calculate( String prefix , int start , int length ) {
     List<ICompletionProposal> result = newLinkedList();
-    for( ContentProposalProvider proposalProvider : providers ) {
+    for( ContentProposalProvider proposalProvider : proposalProviders ) {
       result.addAll( calculate( proposalProvider, prefix, start, length ) );
     }
     sort( result, new ProposalComparator() );
-    return result;
+    return toArray( result, ICompletionProposal.class );
   }
 
-  private List<ICompletionProposal> calculate(
-    ContentProposalProvider proposalProvider, String prefix, int start, int length )
-  {
+  private List<ICompletionProposal> calculate( ContentProposalProvider provider, String prefix, int start, int len ) {
     List<ICompletionProposal> result = newLinkedList();
-    Image image = imageRegistry.getImage( proposalProvider.getImageDescriptor() );
-    for( String proposal : proposalProvider.getContentProposals() ) {
-      ICompletionProposal completionProposal = proposalCreator.create( prefix, proposal, start, length, image );
+    Image image = imageRegistry.getImage( provider.getImageDescriptor() );
+    for( String proposal : provider.getContentProposals() ) {
+      ICompletionProposal completionProposal = proposalCreator.create( prefix, proposal, start, len, image );
       if( completionProposal != null ) {
         result.add( completionProposal );
       }

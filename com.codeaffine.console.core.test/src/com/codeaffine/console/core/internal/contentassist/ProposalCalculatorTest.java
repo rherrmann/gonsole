@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,12 +21,10 @@ public class ProposalCalculatorTest {
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ProposalCalculator calculator;
-  private ContentProposalProvider numbersProvider;
-  private ContentProposalProvider colorsProvider;
 
   @Test
   public void testCalculate() {
-    List<ICompletionProposal> actual = calculator.calculate( "", 0, 0, numbersProvider, colorsProvider );
+    ICompletionProposal[] actual = calculator.calculate( "", 0, 0 );
 
     assertThat( actual )
       .hasSize( NUMBERS.length + COLORS.length )
@@ -37,26 +33,26 @@ public class ProposalCalculatorTest {
 
   @Test
   public void testCalculateWithUnkownPrefix() {
-    List<ICompletionProposal> actual = calculator.calculate( "xxx", 0, 0, numbersProvider, colorsProvider );
+    ICompletionProposal[] actual = calculator.calculate( "xxx", 0, 0 );
 
     assertThat( actual ).isEmpty();
   }
 
   @Test
   public void testDispose() {
-    List<ICompletionProposal> proposals = calculator.calculate( "", 0, 0, numbersProvider, colorsProvider );
+    ICompletionProposal[] proposals = calculator.calculate( "", 0, 0 );
 
     calculator.dispose();
 
-    assertThat( proposals.get( 0 ).getImage().isDisposed() ).isTrue();
+    assertThat( proposals[ 0 ].getImage().isDisposed() ).isTrue();
   }
 
   @Before
   public void setUp() {
     displayHelper.ensureDisplay();
-    calculator = new ProposalCalculator();
-    numbersProvider = stubProposalProvider( NUMBERS );
-    colorsProvider = stubProposalProvider( COLORS );
+    ContentProposalProvider numbersProvider = stubProposalProvider( NUMBERS );
+    ContentProposalProvider colorsProvider = stubProposalProvider( COLORS );
+    calculator = new ProposalCalculator( numbersProvider, colorsProvider );
   }
 
   private static ContentProposalProvider stubProposalProvider( String[] proposals ) {

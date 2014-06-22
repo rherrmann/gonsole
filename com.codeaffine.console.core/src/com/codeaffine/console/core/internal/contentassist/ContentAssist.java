@@ -9,12 +9,14 @@ import com.codeaffine.console.core.ConsoleComponentFactory;
 
 public class ContentAssist implements ConsoleContentAssist {
 
-  private final ConsoleComponentFactory consoleComponentFactory;
+  private final ContentAssistProcessor contentAssistProcessor;
   private final ContentAssistant contentAssistant;
   private final TextConsoleViewer textViewer;
+  private final Editor editor;
 
   public ContentAssist( TextConsoleViewer textViewer, ConsoleComponentFactory consoleComponentFactory  ) {
-    this.consoleComponentFactory = consoleComponentFactory;
+    this.editor = new Editor( textViewer, this );
+    this.contentAssistProcessor = new ContentAssistProcessor( consoleComponentFactory, editor );
     this.contentAssistant = new ContentAssistant();
     this.textViewer = textViewer;
   }
@@ -22,9 +24,8 @@ public class ContentAssist implements ConsoleContentAssist {
   public void install() {
     contentAssistant.enablePrefixCompletion( true );
     contentAssistant.setRepeatedInvocationMode( true );
-
-    final ContentAssistProcessor contentAssistProcessor = new ContentAssistProcessor( consoleComponentFactory );
     contentAssistant.setContentAssistProcessor( contentAssistProcessor, PartitionType.INPUT );
+
     contentAssistant.install( textViewer );
     textViewer.getTextWidget().addDisposeListener( new DisposeListener() {
       @Override
@@ -33,8 +34,7 @@ public class ContentAssist implements ConsoleContentAssist {
         contentAssistProcessor.dispose();
       }
     } );
-
-    textViewer.getTextWidget().addFocusListener( new Editor( textViewer, this ) );
+    textViewer.getTextWidget().addFocusListener( editor );
   }
 
   @Override

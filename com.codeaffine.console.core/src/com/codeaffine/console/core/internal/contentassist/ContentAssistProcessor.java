@@ -1,9 +1,5 @@
 package com.codeaffine.console.core.internal.contentassist;
 
-import static com.google.common.collect.Iterables.toArray;
-
-import java.util.List;
-
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
@@ -12,18 +8,15 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 import org.eclipse.swt.graphics.Point;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
-import com.codeaffine.console.core.ContentProposalProvider;
 
 public class ContentAssistProcessor implements IContentAssistProcessor {
 
-  private final ConsoleComponentFactory consoleComponentFactory;
-  private final ProposalPrefixComputer prefixComputer;
   private final ProposalCalculator proposalCalculator;
+  private final Editor editor;
 
-  public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory ) {
-    this.consoleComponentFactory = consoleComponentFactory;
-    this.prefixComputer = new ProposalPrefixComputer();
-    this.proposalCalculator = new ProposalCalculator();
+  public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory, Editor editor ) {
+    this.proposalCalculator = new ProposalCalculator( consoleComponentFactory.createProposalProviders() );
+    this.editor = editor;
   }
 
   @Override
@@ -54,10 +47,8 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   @Override
   public ICompletionProposal[] computeCompletionProposals( ITextViewer viewer, int offset ) {
     Point range = viewer.getSelectedRange();
-    String prefix = prefixComputer.compute( viewer, offset );
-    ContentProposalProvider[] proposalProviders = consoleComponentFactory.createProposalProviders();
-    List<ICompletionProposal> proposals = proposalCalculator.calculate( prefix, range.x, range.y, proposalProviders );
-    return toArray( proposals, ICompletionProposal.class );
+    String prefix = editor.computePrefix( offset );
+    return proposalCalculator.calculate( prefix, range.x, range.y );
   }
 
   public void dispose() {

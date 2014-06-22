@@ -92,6 +92,42 @@ public class EditorPDETest {
     verify( activation ).deactivate();
   }
 
+  @Test
+  public void testComputePrefixWithOffsetAtLineEnd() {
+    console.typeText( TEXT );
+
+    String actual = editor.computePrefix( offset( TEXT.length() ) );
+
+    assertThat( actual ).isEqualTo( TEXT );
+  }
+
+  @Test
+  public void testComputePrefixWithOffsetAtCommandStart() {
+    console.typeText( TEXT );
+
+    String actual = editor.computePrefix( offset( 0 ) );
+
+    assertThat( actual ).isEqualTo( "" );
+  }
+
+  @Test
+  public void testComputePrefixWithOffsetInText() {
+    console.typeText( TEXT );
+
+    String actual = editor.computePrefix( offset( 2 ) );
+
+    assertThat( actual ).isEqualTo( TEXT.substring( 0, 2 ) );
+  }
+
+  @Test
+  public void testComputePrefixWithOffsetInBadLocation() {
+    console.typeText( TEXT );
+
+    String actual = editor.computePrefix( offset( TEXT.length() + 1 ) );
+
+    assertThat( actual ).isEqualTo( "" );
+  }
+
   @Before
   public void setUp() {
     contentAssistant = mock( ConsoleContentAssist.class );

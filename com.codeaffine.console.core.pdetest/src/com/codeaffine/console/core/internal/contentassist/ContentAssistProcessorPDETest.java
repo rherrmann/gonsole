@@ -2,6 +2,7 @@ package com.codeaffine.console.core.internal.contentassist;
 
 import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.offset;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -9,6 +10,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.console.core.pdetest.console.TestConsoleCommandInterpreter;
 import com.codeaffine.console.core.pdetest.console.TestConsoleDefinition;
@@ -51,7 +53,8 @@ public class ContentAssistProcessorPDETest {
 
   @Before
   public void setUp() {
-    processor = new ContentAssistProcessor( new TestConsoleDefinition().getConsoleComponentFactory() );
+    ConsoleComponentFactory factory = new TestConsoleDefinition().getConsoleComponentFactory();
     viewer = console.open( new TestConsoleDefinition() ).getPage().getViewer();
+    processor = new ContentAssistProcessor( factory, new Editor( viewer, mock( ConsoleContentAssist.class ) ) );
   }
 }
