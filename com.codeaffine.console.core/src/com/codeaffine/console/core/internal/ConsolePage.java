@@ -16,10 +16,10 @@ class ConsolePage implements IPageBookViewPage {
 
   private final ConsoleComponentFactory consoleComponentFactory;
   private final TextConsolePage consolePage;
-  private final InputObserver inputObserver;
+  private final Processor processor;
 
   ConsolePage( TextConsolePage consolePage, ConsoleIoProvider ioProvider, ConsoleComponentFactory factory  ) {
-    this.inputObserver = new InputObserver( ioProvider, factory );
+    this.processor = new Processor( consolePage, ioProvider, factory );
     this.consoleComponentFactory = factory;
     this.consolePage = consolePage;
   }
@@ -33,7 +33,7 @@ class ConsolePage implements IPageBookViewPage {
   public void createControl( Composite parent ) {
     consolePage.createControl( parent );
     new ContentAssist( consolePage.getViewer(), consoleComponentFactory ).install();
-    inputObserver.start( consolePage.getViewer() );
+    processor.start();
   }
 
   @Override
@@ -58,7 +58,7 @@ class ConsolePage implements IPageBookViewPage {
 
   @Override
   public void dispose() {
-    inputObserver.stop();
+    processor.stop();
     consolePage.dispose();
   }
 }
