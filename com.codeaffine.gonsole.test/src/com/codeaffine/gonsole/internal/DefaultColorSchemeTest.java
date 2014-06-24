@@ -1,9 +1,9 @@
 package com.codeaffine.gonsole.internal;
 
-import static com.codeaffine.gonsole.internal.Constants.ERROR_COLOR;
-import static com.codeaffine.gonsole.internal.Constants.INPUT_COLOR;
-import static com.codeaffine.gonsole.internal.Constants.OUTPUT_COLOR;
-import static com.codeaffine.gonsole.internal.Constants.PROMPT_COLOR;
+import static com.codeaffine.gonsole.internal.GitConsoleConstants.ERROR_COLOR;
+import static com.codeaffine.gonsole.internal.GitConsoleConstants.INPUT_COLOR;
+import static com.codeaffine.gonsole.internal.GitConsoleConstants.OUTPUT_COLOR;
+import static com.codeaffine.gonsole.internal.GitConsoleConstants.PROMPT_COLOR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.graphics.RGB;

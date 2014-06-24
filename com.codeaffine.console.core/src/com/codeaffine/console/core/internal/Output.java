@@ -1,32 +1,23 @@
 package com.codeaffine.console.core.internal;
 
+import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
+import static com.codeaffine.console.core.ConsoleConstants.LINE_DELIMITER;
+
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 
 import com.codeaffine.console.core.ConsoleOutput;
-import com.codeaffine.console.core.internal.resource.ConsoleIoProvider;
 
 public class Output implements ConsoleOutput {
 
   private final OutputStream outputStream;
-  private final Charset encoding;
-  private final String lineDelimiter;
 
-  public Output( OutputStream outputStream, Charset encoding, String lineDelimiter ) {
+  public Output( OutputStream outputStream ) {
     this.outputStream = outputStream;
-    this.encoding = encoding;
-    this.lineDelimiter = lineDelimiter;
   }
 
-  public static ConsoleOutput create( OutputStream outputStream, ConsoleIoProvider consoleIOProvider ) {
-    Charset encoding = consoleIOProvider.getEncoding();
-    String lineDelimiter = consoleIOProvider.getLineDelimiter();
-    return create( outputStream, encoding, lineDelimiter );
-  }
-
-  public static ConsoleOutput create( OutputStream outputStream, Charset encoding, String lineDelimiter ) {
-    return new Output( outputStream, encoding, lineDelimiter );
+  public static ConsoleOutput create( OutputStream outputStream ) {
+    return new Output( outputStream );
   }
 
   @Override
@@ -41,7 +32,7 @@ public class Output implements ConsoleOutput {
 
   @Override
   public void writeLine( String text ) {
-    write( text + lineDelimiter );
+    write( text + LINE_DELIMITER );
   }
 
   private static void write( OutputStream outputStream, ConsoleWriter consoleWriter ) {
@@ -52,7 +43,7 @@ public class Output implements ConsoleOutput {
     }
   }
 
-  private class EncodingConsoleWriter implements ConsoleWriter {
+  private static class EncodingConsoleWriter implements ConsoleWriter {
     private final String text;
 
     EncodingConsoleWriter( String text ) {
@@ -61,7 +52,7 @@ public class Output implements ConsoleOutput {
 
     @Override
     public void write( OutputStream outputStream ) throws IOException {
-      outputStream.write( text.getBytes( encoding ) );
+      outputStream.write( text.getBytes( ENCODING ) );
     }
   }
 }

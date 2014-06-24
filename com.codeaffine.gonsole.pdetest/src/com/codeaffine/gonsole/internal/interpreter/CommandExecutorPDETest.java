@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
+import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
@@ -17,12 +18,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.codeaffine.console.core.ConsoleOutput;
-import com.codeaffine.console.core.pdetest.ConsoleOutputs;
-import com.codeaffine.gonsole.internal.interpreter.CommandExecutor;
-import com.codeaffine.gonsole.internal.interpreter.CommandInfo;
-import com.codeaffine.gonsole.internal.interpreter.CommandLineParser;
-import com.codeaffine.gonsole.internal.interpreter.PgmResourceBundle;
-import com.google.common.base.Charsets;
+import com.codeaffine.console.core.internal.Output;
 
 public class CommandExecutorPDETest {
 
@@ -38,7 +34,7 @@ public class CommandExecutorPDETest {
 
     String actual = executor.execute( commandInfo );
 
-    String expectedOutput = new String( outputStream.toByteArray(), Charsets.UTF_8 );
+    String expectedOutput = new String( outputStream.toByteArray(), ENCODING );
     assertThat( expectedOutput ).startsWith( "# On branch master" );
     assertThat( actual ).isNull();
   }
@@ -71,7 +67,7 @@ public class CommandExecutorPDETest {
     new PgmResourceBundle().initialize();
     gitDirectory = createRepository();
     outputStream = new ByteArrayOutputStream();
-    ConsoleOutput consoleOutput = ConsoleOutputs.create( outputStream, Charsets.UTF_8, "\n" );
+    ConsoleOutput consoleOutput = Output.create( outputStream );
     executor = new CommandExecutor( consoleOutput, gitDirectory );
   }
 

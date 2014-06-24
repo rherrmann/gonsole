@@ -20,9 +20,9 @@ class ProcessorWorker implements Runnable {
   AtomicBoolean shutdown = new AtomicBoolean();
 
   ProcessorWorker( ConsoleIoProvider ioProvider, ConsoleComponentFactory factory ) {
-    this.consolePromptOutput = Output.create( ioProvider.getPromptStream(), ioProvider );
-    this.consoleStandardOutput = Output.create( ioProvider.getOutputStream(), ioProvider );
-    this.consoleErrorOutput = Output.create( ioProvider.getErrorStream(), ioProvider );
+    this.consolePromptOutput = Output.create( ioProvider.getPromptStream() );
+    this.consoleStandardOutput = Output.create( ioProvider.getOutputStream() );
+    this.consoleErrorOutput = Output.create( ioProvider.getErrorStream() );
     this.consoleInput = new Input( ioProvider );
     this.consoleComponentFactory = factory;
   }

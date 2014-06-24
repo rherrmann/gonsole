@@ -1,5 +1,7 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
+import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
+
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -11,7 +13,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.Die;
 import org.eclipse.jgit.pgm.TextBuiltin;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 
 class CommandAccessor {
@@ -54,7 +55,7 @@ class CommandAccessor {
     String result = null;
     byte[] bytes = errorStream.toByteArray();
     if( bytes.length != 0 ) {
-      result = new String( bytes, Charsets.UTF_8 ).trim();
+      result = new String( bytes, ENCODING ).trim();
       if( result.startsWith( FATAL_PREFIX ) ) {
         result = result.substring( FATAL_PREFIX.length() );
       }

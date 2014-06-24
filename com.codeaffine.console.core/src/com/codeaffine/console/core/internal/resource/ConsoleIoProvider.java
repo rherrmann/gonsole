@@ -2,26 +2,21 @@ package com.codeaffine.console.core.internal.resource;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 
 import com.codeaffine.console.core.internal.IoStreamProvider;
 
 public class ConsoleIoProvider {
 
-  public static final String LINE_DELIMITER = System.getProperty( "line.separator" );
-
   private final OutputStream outputStream;
   private final OutputStream promptStream;
   private final OutputStream errorStream;
   private final InputStream inputStream;
-  private final Charset encoding;
 
-  public ConsoleIoProvider( ColorDefinition definition, IoStreamProvider ioStreamProvider, Charset encoding ) {
+  public ConsoleIoProvider( ColorDefinition definition, IoStreamProvider ioStreamProvider ) {
     this.inputStream = ioStreamProvider.getInputStream( definition.getInputColor() );
     this.outputStream = ioStreamProvider.newOutputStream( definition.getOutputColor() );
     this.promptStream = ioStreamProvider.newOutputStream( definition.getPromptColor() );
     this.errorStream = ioStreamProvider.newOutputStream( definition.getErrorColor() );
-    this.encoding = encoding;
   }
 
   public OutputStream getOutputStream() {
@@ -38,13 +33,5 @@ public class ConsoleIoProvider {
 
   public InputStream getInputStream() {
     return inputStream;
-  }
-
-  public String getLineDelimiter() {
-    return LINE_DELIMITER;
-  }
-
-  public Charset getEncoding() {
-    return encoding;
   }
 }

@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -18,7 +17,6 @@ import org.junit.Test;
 
 import com.codeaffine.console.core.internal.IoStreamProvider;
 import com.codeaffine.test.util.swt.DisplayHelper;
-import com.google.common.base.Charsets;
 
 public class ConsoleIoProviderTest {
 
@@ -26,7 +24,6 @@ public class ConsoleIoProviderTest {
   private static final int COLOR_OUTPUT = SWT.COLOR_BLACK;
   private static final int COLOR_PROMPT = SWT.COLOR_GRAY;
   private static final int COLOR_ERROR = SWT.COLOR_RED;
-  private static final Charset ENCODING = Charsets.UTF_8;
 
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -35,20 +32,6 @@ public class ConsoleIoProviderTest {
   private OutputStream outputStream;
   private OutputStream promptStream;
   private OutputStream errorStream;
-
-  @Test
-  public void testGetLineDelimiter() {
-    String lineDelimiter = consoleIoProvider.getLineDelimiter();
-
-    assertThat( lineDelimiter ).isEqualTo( ConsoleIoProvider.LINE_DELIMITER );
-  }
-
-  @Test
-  public void testEncoding() {
-    Charset actual = consoleIoProvider.getEncoding();
-
-    assertThat( actual ).isSameAs( ENCODING );
-  }
 
   @Test
   public void testGetInputStream() {
@@ -86,7 +69,7 @@ public class ConsoleIoProviderTest {
     errorStream = new ByteArrayOutputStream();
     ColorDefinition colorDefinition = stubColorDefinition();
     IoStreamProvider IoStreamProvider = stubIoProvider( inputStream, outputStream, promptStream, errorStream );
-    consoleIoProvider = new ConsoleIoProvider( colorDefinition, IoStreamProvider, ENCODING );
+    consoleIoProvider = new ConsoleIoProvider( colorDefinition, IoStreamProvider );
   }
 
   private ColorDefinition stubColorDefinition() {

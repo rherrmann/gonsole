@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
+import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doThrow;
@@ -21,9 +22,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.gonsole.acceptance.ConsoleConfigurer;
-import com.codeaffine.gonsole.internal.interpreter.CommandAccessor;
-import com.codeaffine.gonsole.internal.interpreter.CommandInfo;
-import com.google.common.base.Charsets;
 
 public class CommandAccessorPDETest {
 
@@ -90,7 +88,7 @@ public class CommandAccessorPDETest {
 
   @Test
   public void testExecuteTrimsExecutionResult() throws IOException {
-    errorStream.write( "message\n".getBytes( Charsets.UTF_8 ) );
+    errorStream.write( "message\n".getBytes( ENCODING ) );
     CommandAccessor accessor = createCommandAccessor( new TestCommand() );
 
     accessor.init( repository, outputStream );
@@ -101,7 +99,7 @@ public class CommandAccessorPDETest {
 
   @Test
   public void testExecuteRemovesFatalPrefixFromExecutionResult() throws IOException {
-    errorStream.write( "fatal: message".getBytes( Charsets.UTF_8 ) );
+    errorStream.write( "fatal: message".getBytes( ENCODING ) );
     CommandAccessor accessor = createCommandAccessor( new TestCommand() );
 
     accessor.init( repository, outputStream );

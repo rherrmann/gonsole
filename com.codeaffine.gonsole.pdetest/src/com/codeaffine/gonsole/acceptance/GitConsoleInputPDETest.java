@@ -2,6 +2,7 @@ package com.codeaffine.gonsole.acceptance;
 
 import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
 import static com.codeaffine.gonsole.acceptance.GitConsolePrompts.line;
+import static com.codeaffine.gonsole.internal.GitConsoleConstants.PROMPT_POSTFIX;
 
 import java.util.Locale;
 
@@ -9,7 +10,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.gonsole.internal.Constants;
 import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
 
 public class GitConsoleInputPDETest {
@@ -118,8 +118,8 @@ public class GitConsoleInputPDETest {
   @Test
   public void testTypeWithCaretBeforeEnd() {
     String repositoryName = "repo";
-    int insertCaretPosition = ( repositoryName + Constants.PROMPT_POSTFIX ).length();
-    int expectedCaretPosition = ( repositoryName + Constants.PROMPT_POSTFIX + "a" ).length();
+    int insertCaretPosition = ( repositoryName + PROMPT_POSTFIX ).length();
+    int expectedCaretPosition = ( repositoryName + PROMPT_POSTFIX + "a" ).length();
     console.open( configurer.create( repositoryName ) );
 
     console.typeText( "bc" );

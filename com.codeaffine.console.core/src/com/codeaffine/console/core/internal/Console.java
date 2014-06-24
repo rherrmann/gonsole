@@ -1,5 +1,7 @@
 package com.codeaffine.console.core.internal;
 
+import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
+
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.TextConsolePage;
@@ -21,9 +23,9 @@ public class Console extends IOConsole {
   private TextConsolePage consolePage;
 
   public Console( ConsoleDefinition definition ) {
-    super( definition.getTitle(), definition.getType(), definition.getImage(), definition.getEncoding().name(), true );
+    super( definition.getTitle(), definition.getClass().getName(), definition.getImage(), ENCODING.name(), true );
     this.colorDefinition = new ColorDefinition( definition.getColorScheme() );
-    this.consoleIoProvider = createConsoleIoProvider( definition, colorDefinition );
+    this.consoleIoProvider = createConsoleIoProvider();
     this.consoleComponentFactory = definition.getConsoleComponentFactory();
     this.processor = new Processor( consoleIoProvider, consoleComponentFactory );
   }
@@ -54,12 +56,12 @@ public class Console extends IOConsole {
   @Override
   public void clearConsole() {
     super.clearConsole();
-    ConsoleOutput consoleOutput = Output.create( consoleIoProvider.getPromptStream(), consoleIoProvider );
+    ConsoleOutput consoleOutput = Output.create( consoleIoProvider.getPromptStream() );
     consoleComponentFactory.createConsolePrompt( consoleOutput ).writePrompt();
   }
 
-  private ConsoleIoProvider createConsoleIoProvider( ConsoleDefinition definition, ColorDefinition colorDefinition ) {
+  private ConsoleIoProvider createConsoleIoProvider() {
     IoStreamProvider ioStreamProvider = new IoStreamProvider( this );
-    return new ConsoleIoProvider( colorDefinition, ioStreamProvider, definition.getEncoding() );
+    return new ConsoleIoProvider( colorDefinition, ioStreamProvider );
   }
 }

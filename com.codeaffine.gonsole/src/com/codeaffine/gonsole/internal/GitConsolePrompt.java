@@ -1,5 +1,7 @@
 package com.codeaffine.gonsole.internal;
 
+import static com.codeaffine.gonsole.internal.GitConsoleConstants.PROMPT_POSTFIX;
+
 import java.io.File;
 
 import com.codeaffine.console.core.ConsoleOutput;
@@ -21,6 +23,6 @@ class GitConsolePrompt implements ConsolePrompt {
   public void writePrompt() {
     File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
     String repositoryName = ControlCommandInterpreter.getRepositoryName( gitDirectory );
-    consoleOutput.write( repositoryName + Constants.PROMPT_POSTFIX );
+    consoleOutput.write( repositoryName + PROMPT_POSTFIX );
   }
 }

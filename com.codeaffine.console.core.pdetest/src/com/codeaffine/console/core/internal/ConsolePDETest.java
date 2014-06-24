@@ -1,5 +1,6 @@
 package com.codeaffine.console.core.internal;
 
+import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -20,7 +21,7 @@ public class ConsolePDETest {
   public void testGetEncoding() {
     String encoding = console.getEncoding();
 
-    assertThat( encoding ).isEqualTo( definition.getEncoding().name() );
+    assertThat( encoding ).isEqualTo( ENCODING.name() );
   }
 
   @Test
@@ -34,7 +35,7 @@ public class ConsolePDETest {
   public void testGetType() {
     String type = console.getType();
 
-    assertThat( type ).isSameAs( definition.getType() );
+    assertThat( type ).isSameAs( definition.getClass().getName() );
   }
 
   @Test
