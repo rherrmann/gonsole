@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -28,7 +27,7 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
   }
 
   public ConsoleAssert hasProcessedCommandLine() {
-    actual.waitForChange();
+    actual.waitForCommandLineProcessing();
     return this;
   }
 
@@ -49,6 +48,7 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
         expectedText += actual.getLineDelimiter();
       }
     }
+//    actual.waitForChange( expectedText );
     assertEquals( expectedText, actual.getText() );
     return this;
   }
@@ -95,8 +95,7 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
   }
 
   private void hasColorAt( int offset, RGB rgb ) {
-    Color actualColor = actual.getForegroundAt( offset );
-    Assertions.assertThat( actualColor.getRGB() ).isEqualTo( rgb );
+    actual.waitForColoring( offset, rgb );
   }
 
   private Table getContentProposalTable() {

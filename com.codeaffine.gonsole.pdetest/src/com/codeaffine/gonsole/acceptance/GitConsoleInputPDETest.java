@@ -171,4 +171,13 @@ public class GitConsoleInputPDETest {
                       "No argument is allowed: äöü",
                       line( "repo" ) );
   }
+
+  @Test
+  public void testPromptWithoutCurrentRepository() {
+    console.open( configurer.create( new String[ 0 ] ) );
+
+    assertThat( console )
+      .caretIsAtEnd()
+      .containsLines( line( "no repository" ) );
+  }
 }

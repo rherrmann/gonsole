@@ -30,6 +30,7 @@ public class ConsoleBot implements MethodRule {
 
   ConsolePageBot gitConsolePageBot;
   ConsoleDefinition consoleDefinition;
+  private Console console;
 
   public ConsoleBot() {
     viewHelper = new ViewHelper();
@@ -55,7 +56,7 @@ public class ConsoleBot implements MethodRule {
 
   public void typeEnter() {
     enterCommandLine( "" );
-    gitConsolePageBot.waitForChange();
+    gitConsolePageBot.waitForCommandLineProcessing();
   }
 
   public void selectText( int start, int length ) {
@@ -70,8 +71,7 @@ public class ConsoleBot implements MethodRule {
   public void enterCommandLine( String commandLine ) {
     checkState( gitConsolePageBot != null, "GitConsole has not been opened yet." );
 
-    String lineDelimiter = gitConsolePageBot.getLineDelimiter();
-    gitConsolePageBot.append( commandLine + lineDelimiter );
+    gitConsolePageBot.enterCommandLine( commandLine );
   }
 
   public void runToolBarAction( String text ) {
@@ -95,11 +95,19 @@ public class ConsoleBot implements MethodRule {
   public Console open( ConsoleDefinition consoleDefinition ) {
     this.consoleDefinition = consoleDefinition;
     viewHelper.hideView( INTRO_VIEW_ID );
-    Console result = registerNewGitConsole( consoleDefinition );
-    showInView( result );
-    gitConsolePageBot = new ConsolePageBot( result.getPage() );
-    gitConsolePageBot.waitForChange();
-    return result;
+    console = registerNewGitConsole( consoleDefinition );
+    showInView( console );
+    gitConsolePageBot = new ConsolePageBot( console.getPage() );
+    gitConsolePageBot.waitForInitialPrompt();
+    return console;
+  }
+
+  public void reopenConsoleView() {
+    viewHelper.hideView( CONSOLE_VIEW_ID );
+    viewHelper.showView( CONSOLE_VIEW_ID );
+    displayHelper.flushPendingEvents();
+    gitConsolePageBot = new ConsolePageBot( console.getPage() );
+    gitConsolePageBot.waitForInitialPrompt();
   }
 
   void cleanup() {
@@ -116,11 +124,10 @@ public class ConsoleBot implements MethodRule {
     return result;
   }
 
-  private IConsoleView showInView( IConsole console ) {
-    IConsoleView result = ( IConsoleView )viewHelper.showView( CONSOLE_VIEW_ID );
-    result.display( console );
+  private void showInView( IConsole console ) {
+    IConsoleView consoleView = ( IConsoleView )viewHelper.showView( CONSOLE_VIEW_ID );
+    consoleView.display( console );
     new DisplayHelper().flushPendingEvents();
-    return result;
   }
 
   private static void removeGitConsoles() {

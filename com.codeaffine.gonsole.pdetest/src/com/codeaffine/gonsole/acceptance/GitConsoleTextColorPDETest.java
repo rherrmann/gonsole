@@ -30,7 +30,6 @@ public class GitConsoleTextColorPDETest {
     console.enterCommandLine( "status" );
 
     assertThat( console )
-      .hasProcessedCommandLine()
       .hasInputColorAt( line( "repo", "status" ).length() );
   }
 
@@ -41,7 +40,6 @@ public class GitConsoleTextColorPDETest {
     console.enterCommandLine( "status" );
 
     assertThat( console )
-      .hasProcessedCommandLine()
       .hasOutputColorAt( line( "repo", "status" ).length() + NEXT_LINE_OFFSET );
   }
 
@@ -52,7 +50,6 @@ public class GitConsoleTextColorPDETest {
     console.enterCommandLine( "foo" );
 
     assertThat( console )
-      .hasProcessedCommandLine()
       .hasErrorColorAt( line( "repo", "foo" ).length() + NEXT_LINE_OFFSET );
   }
 }

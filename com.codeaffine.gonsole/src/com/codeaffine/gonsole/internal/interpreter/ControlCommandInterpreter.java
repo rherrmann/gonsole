@@ -42,8 +42,12 @@ public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
   }
 
   public static String getRepositoryName( File repositoryLocation ) {
-    File parentFile = repositoryLocation.getParentFile();
-    return parentFile == null ? null : parentFile.getName();
+    String result = "no repository";
+    if( repositoryLocation != null  ) {
+      File parentFile = repositoryLocation.getParentFile();
+      result = parentFile == null ? null : parentFile.getName();
+    }
+    return result;
   }
 
 }

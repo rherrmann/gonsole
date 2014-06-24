@@ -1,6 +1,7 @@
 package com.codeaffine.console.core.pdetest.bot;
 
 import static com.codeaffine.test.util.swt.SWTEventHelper.trigger;
+import static com.google.common.collect.Iterables.toArray;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.Collection;
@@ -9,29 +10,37 @@ import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.console.TextConsoleViewer;
-
-import com.google.common.collect.Iterables;
 
 class ConsolePageBot {
 
   private final TextConsolePage consolePage;
   private final TextConsoleViewer viewer;
   private final StyledText styledText;
-  private final StyleRangeCollector styleRangeCollector;
+  private final TextViewerChangeObserver textViewerChangeObserver;
+  private String capturedText;
 
   ConsolePageBot( TextConsolePage consolePage ) {
     this.consolePage = consolePage;
     this.styledText = ( StyledText )consolePage.getControl();
     this.viewer = consolePage.getViewer();
-    this.styleRangeCollector = new StyleRangeCollector( styledText );
+    this.textViewerChangeObserver = new TextViewerChangeObserver( viewer );
   }
 
-  void waitForChange() {
-    new TextViewerChangeObserver( viewer ).waitForChange();
+  void waitForInitialPrompt() {
+    textViewerChangeObserver.waitForChange( "" );
+    captureText();
+  }
+
+  void waitForCommandLineProcessing() {
+    textViewerChangeObserver.waitForChange( capturedText );
+  }
+
+  void waitForColoring( int offset, RGB rgb ) {
+    textViewerChangeObserver.waitForColoring( offset, rgb );
   }
 
   int getCharCount() {
@@ -54,12 +63,10 @@ class ConsolePageBot {
     return styledText.getLineDelimiter();
   }
 
-  Color getForegroundAt( final int offset ) {
-    return styleRangeCollector.getStyleRangeAt( offset ).foreground;
-  }
-
-  void append( String text ) {
-    styledText.append( text );
+  void enterCommandLine( String commandLine ) {
+    String textToEnter = commandLine + getLineDelimiter();
+    captureText( textToEnter );
+    styledText.append( textToEnter );
   }
 
   void triggerEvent( int eventType, int modifiers, char character ) {
@@ -68,6 +75,7 @@ class ConsolePageBot {
       .withStateMask( modifiers )
       .withCharacter( character )
       .on( styledText );
+    captureText();
   }
 
   void selectText( int start, int length ) {
@@ -93,6 +101,14 @@ class ConsolePageBot {
         actions.add( actionItem.getAction() );
       }
     }
-    return Iterables.toArray( actions, IAction.class );
+    return toArray( actions, IAction.class );
+  }
+
+  private void captureText() {
+    captureText( "" );
+  }
+
+  private void captureText( String suffix ) {
+    capturedText = styledText.getText() + suffix;
   }
 }

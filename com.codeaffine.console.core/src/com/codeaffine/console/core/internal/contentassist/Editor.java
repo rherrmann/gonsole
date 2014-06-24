@@ -9,7 +9,7 @@ import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 
-public class Editor implements FocusListener {
+class Editor implements FocusListener {
 
   private final ContentAssistActivation contentAssistActivation;
   private final ConsoleContentAssist contentAssist;
@@ -19,7 +19,7 @@ public class Editor implements FocusListener {
     this( viewer, contentAssist, ( ContentAssistActivation )null );
   }
 
-  public Editor( ITextViewer viewer, ConsoleContentAssist contentAssist, ContentAssistActivation activation ) {
+  Editor( ITextViewer viewer, ConsoleContentAssist contentAssist, ContentAssistActivation activation ) {
     this.contentAssistActivation = activation == null ? new ContentAssistActivation( this ) : activation;
     this.contentAssist = contentAssist;
     this.viewer = viewer;

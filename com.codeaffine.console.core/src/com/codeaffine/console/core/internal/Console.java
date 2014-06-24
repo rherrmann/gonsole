@@ -16,25 +16,28 @@ public class Console extends IOConsole {
   private final ConsoleComponentFactory consoleComponentFactory;
   private final ConsoleIoProvider consoleIoProvider;
   private final ColorDefinition colorDefinition;
+  private final Processor processor;
 
-  private volatile TextConsolePage consolePage;
+  private TextConsolePage consolePage;
 
   public Console( ConsoleDefinition definition ) {
     super( definition.getTitle(), definition.getType(), definition.getImage(), definition.getEncoding().name(), true );
     this.colorDefinition = new ColorDefinition( definition.getColorScheme() );
     this.consoleIoProvider = createConsoleIoProvider( definition, colorDefinition );
     this.consoleComponentFactory = definition.getConsoleComponentFactory();
+    this.processor = new Processor( consoleIoProvider, consoleComponentFactory );
   }
 
   @Override
   protected void init() {
     super.init();
+    processor.start();
   }
 
   @Override
   public IPageBookViewPage createPage( IConsoleView view ) {
     consolePage = ( TextConsolePage )super.createPage( view );
-    return new ConsolePage( consolePage, consoleIoProvider, consoleComponentFactory );
+    return new ConsolePage( consolePage, consoleComponentFactory );
   }
 
   public TextConsolePage getPage() {
@@ -43,8 +46,9 @@ public class Console extends IOConsole {
 
   @Override
   protected void dispose() {
-    super.dispose();
+    processor.stop();
     colorDefinition.dispose();
+    super.dispose();
   }
 
   @Override

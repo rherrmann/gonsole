@@ -1,10 +1,17 @@
 package com.codeaffine.console.core.pdetest.bot;
 
+import static com.google.common.collect.Iterables.tryFind;
 import static org.assertj.core.api.Assertions.fail;
 
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.swt.widgets.Display;
+import java.util.Arrays;
+
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.console.IConsoleDocumentPartitioner;
 import org.eclipse.ui.console.TextConsoleViewer;
+
+import com.codeaffine.test.util.swt.DisplayHelper;
+import com.google.common.base.Predicate;
 
 class TextViewerChangeObserver {
 
@@ -14,34 +21,51 @@ class TextViewerChangeObserver {
     this.viewer = viewer;
   }
 
-  void waitForChange() {
-    DocumentChangeObserver observer = new DocumentChangeObserver();
-    IDocument document = viewer.getDocument();
-    document.addDocumentListener( observer );
-    try {
-      waitForChange( observer );
-    } finally {
-      document.removeDocumentListener( observer );
-    }
-  }
-
-  private void waitForChange( DocumentChangeObserver observer ) {
+  void waitForChange( String capturedText ) {
     long startTime = System.currentTimeMillis();
-    while( mustWait( observer ) ) {
+    while( !viewer.getControl().getShell().isDisposed()
+           && ( capturedText.equals( viewer.getDocument().get() )
+                || viewer.getDocument().getLength() == 0 ) )
+    {
       checkTimeout( startTime );
-      sleep();
+      flushEventQueue();
     }
   }
 
-  private void sleep() {
-    Display display = viewer.getControl().getDisplay();
-    if( !display.readAndDispatch() ) {
-      display.sleep();
+  void waitForColoring( int offset, RGB rgb ) {
+    long startTime = System.currentTimeMillis();
+    while( !viewer.getControl().getShell().isDisposed()
+           && !textColorMatches( offset, rgb ) )
+    {
+      checkTimeout( startTime );
+      flushEventQueue();
     }
   }
 
-  private boolean mustWait( DocumentChangeObserver observer ) {
-    return !observer.isChanged() && !viewer.getControl().getShell().isDisposed();
+  private boolean textColorMatches( int offset, RGB rgb ) {
+    StyleRange styleRange = getStyleRangeAt( offset );
+    return styleRange != null && rgb.equals( styleRange.foreground.getRGB() );
+  }
+
+  private StyleRange[] getStyleRanges() {
+    return getDocumentPartitioner().getStyleRanges( 0, viewer.getDocument().getLength() );
+  }
+
+  private IConsoleDocumentPartitioner getDocumentPartitioner() {
+    return ( IConsoleDocumentPartitioner )viewer.getDocument().getDocumentPartitioner();
+  }
+
+  private StyleRange getStyleRangeAt( final int offset ) {
+    return tryFind( Arrays.asList( getStyleRanges() ), new Predicate<StyleRange>() {
+      @Override
+      public boolean apply( StyleRange input ) {
+        return input.start <= offset && offset <= input.start + input.length;
+      }
+    } ).orNull();
+  }
+
+  private static void flushEventQueue() {
+    new DisplayHelper().flushPendingEvents();
   }
 
   private static void checkTimeout( long startTime ) {
