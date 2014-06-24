@@ -15,8 +15,8 @@ class GitConsoleComponentFactory implements ConsoleComponentFactory {
 
   private final CompositeRepositoryProvider repositoryProvider;
 
-  GitConsoleComponentFactory( CompositeRepositoryProvider repositoryProvidero ) {
-    repositoryProvider = repositoryProvidero;
+  GitConsoleComponentFactory( CompositeRepositoryProvider repositoryProvider ) {
+    this.repositoryProvider = repositoryProvider;
   }
 
   @Override
