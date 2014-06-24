@@ -20,13 +20,13 @@
 <repository location="http://rherrmann.github.io/osgi-testsuite/repository"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.jgit.feature.group" version="3.4.0.201406202141"/>
-<unit id="org.eclipse.egit.source.feature.group" version="3.4.0.201406202154"/>
-<unit id="org.eclipse.jgit.pgm.feature.group" version="3.4.0.201406202141"/>
-<unit id="org.eclipse.jgit.java7.feature.group" version="3.4.0.201406202141"/>
-<unit id="org.eclipse.egit.feature.group" version="3.4.0.201406202154"/>
-<unit id="org.eclipse.jgit.pgm.source.feature.group" version="3.4.0.201406202141"/>
-<unit id="org.eclipse.jgit.source.feature.group" version="3.4.0.201406202141"/>
+<unit id="org.eclipse.jgit.feature.group" version="3.4.2.201406212302"/>
+<unit id="org.eclipse.egit.source.feature.group" version="3.4.2.201406232224"/>
+<unit id="org.eclipse.jgit.pgm.feature.group" version="3.4.2.201406212302"/>
+<unit id="org.eclipse.jgit.java7.feature.group" version="3.4.2.201406212302"/>
+<unit id="org.eclipse.egit.feature.group" version="3.4.2.201406232224"/>
+<unit id="org.eclipse.jgit.pgm.source.feature.group" version="3.4.2.201406212302"/>
+<unit id="org.eclipse.jgit.source.feature.group" version="3.4.2.201406212302"/>
 <repository location="http://download.eclipse.org/egit/updates-stable-nightly"/>
 </location>
 </locations>
