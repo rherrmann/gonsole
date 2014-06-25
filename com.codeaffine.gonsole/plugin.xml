@@ -15,6 +15,17 @@
       </consoleFactory>
    </extension>
    <extension
+         point="org.eclipse.ui.console.consolePageParticipants">
+      <consolePageParticipant
+            class="com.codeaffine.console.core.internal.GenericConsolePageParticipant"
+            id="com.codeaffine.console.core.internal.GenericConsolePageParticipant">
+         <enablement>
+            <instanceof
+                  value="com.codeaffine.console.core.internal.GenericConsole">
+            </instanceof></enablement>
+      </consolePageParticipant>
+   </extension>
+   <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferencesInitializer">
