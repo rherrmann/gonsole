@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.console.consoleFactories">
+      <consoleFactory
+            class="com.codeaffine.console.calculator.internal.CalculatorConsoleFactory"
+            icon="icons/etool16/calculator.png"
+            label="Calculator">
+      </consoleFactory>
+   </extension>
+   
+</plugin>
