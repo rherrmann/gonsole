@@ -39,6 +39,10 @@
     <module>../com.codeaffine.gonsole.test</module>
     <module>../com.codeaffine.gonsole.test.helper</module>
     
+    <!-- calculator console example -->
+    <module>../com.codeaffine.console.calculator</module>
+    <module>../com.codeaffine.console.calculator.pdetest</module>
+    
     <!-- test util -->
     <module>../com.codeaffine.test.util</module>
 
