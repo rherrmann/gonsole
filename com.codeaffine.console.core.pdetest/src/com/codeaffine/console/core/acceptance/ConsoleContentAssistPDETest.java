@@ -12,7 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.console.core.pdetest.console.TestConsoleDefinition;
+import com.codeaffine.console.core.pdetest.console.TestConsoleConfigurer;
 import com.codeaffine.test.util.ConditionalIgnoreRule;
 import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
 import com.codeaffine.test.util.GtkPlatform;
@@ -26,7 +26,7 @@ public class ConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssist() {
-    console.open( new TestConsoleDefinition() );
+    console.open( new TestConsoleConfigurer() );
 
     console.typeKey( SWT.CTRL, ' ' );
 
@@ -38,7 +38,7 @@ public class ConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilter() {
-    console.open( new TestConsoleDefinition() );
+    console.open( new TestConsoleConfigurer() );
 
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -51,7 +51,7 @@ public class ConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilterAndOngoingTyping() {
-    console.open( new TestConsoleDefinition() );
+    console.open( new TestConsoleConfigurer() );
 
     console.typeText( "c" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -63,7 +63,7 @@ public class ConsoleContentAssistPDETest {
 
   @Test
   public void testShowContentAssistOnCompletedCommand() {
-    console.open( new TestConsoleDefinition() );
+    console.open( new TestConsoleConfigurer() );
 
     console.typeText( "complex " );
     console.typeKey( SWT.CTRL, ' ' );
@@ -74,7 +74,7 @@ public class ConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyContentProposal() {
-    console.open( new TestConsoleDefinition() );
+    console.open( new TestConsoleConfigurer() );
 
     console.typeKey( SWT.CTRL, ' ' );
     console.selectFirstContentProposal();
@@ -86,7 +86,7 @@ public class ConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposal() {
-    console.open( new TestConsoleDefinition() );
+    console.open( new TestConsoleConfigurer() );
 
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -99,7 +99,7 @@ public class ConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposalWithSelectedText() {
-    console.open( new TestConsoleDefinition() );
+    console.open( new TestConsoleConfigurer() );
 
     console.typeText( "sx" );
     console.selectText( PROMPT.length() + 1, 1 );
@@ -113,7 +113,7 @@ public class ConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testContentAssistHasImage() {
-    console.open( new TestConsoleDefinition() );
+    console.open( new TestConsoleConfigurer() );
 
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );

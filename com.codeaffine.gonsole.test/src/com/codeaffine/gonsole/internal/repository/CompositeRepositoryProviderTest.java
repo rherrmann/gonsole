@@ -2,6 +2,9 @@ package com.codeaffine.gonsole.internal.repository;
 
 import static com.codeaffine.gonsole.test.helper.CompositeRepositoryProviderHelper.createWithMultipleChildProviders;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -61,5 +64,41 @@ public class CompositeRepositoryProviderTest {
     compositeProvider.setCurrentRepositoryLocation( location );
 
     assertThat( compositeProvider.getCurrentRepositoryLocation() ).isSameAs( location );
+  }
+
+  @Test
+  public void testSetCurrentRepositoryLocationToCurrentValue() {
+    File location = new File( "a" );
+    CompositeRepositoryProvider compositeProvider = new CompositeRepositoryProvider();
+    compositeProvider.setCurrentRepositoryLocation( location );
+    RepositoryChangeListener listener = mock( RepositoryChangeListener.class );
+    compositeProvider.addRepositoryChangeListener( listener );
+
+    compositeProvider.setCurrentRepositoryLocation( location );
+
+    verify( listener, never() ).currentRepositoryChanged();
+  }
+
+  @Test
+  public void testAddRemoveRepositoryChangeListener() {
+    CompositeRepositoryProvider compositeProvider = new CompositeRepositoryProvider();
+    RepositoryChangeListener listener = mock( RepositoryChangeListener.class );
+    compositeProvider.addRepositoryChangeListener( listener );
+
+    compositeProvider.setCurrentRepositoryLocation( new File( "a" ) );
+
+    verify( listener ).currentRepositoryChanged();
+  }
+
+  @Test
+  public void testRemoveRepositoryChangeListener() {
+    CompositeRepositoryProvider compositeProvider = new CompositeRepositoryProvider();
+    RepositoryChangeListener listener = mock( RepositoryChangeListener.class );
+    compositeProvider.addRepositoryChangeListener( listener );
+    compositeProvider.removeRepositoryChangeListener( listener );
+
+    compositeProvider.setCurrentRepositoryLocation( new File( "a" ) );
+
+    verify( listener, never() ).currentRepositoryChanged();
   }
 }

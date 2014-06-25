@@ -6,7 +6,7 @@ import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.console.core.ConsolePrompt;
 import com.codeaffine.console.core.ContentProposalProvider;
 
-class TestConsoleComponentFactory implements ConsoleComponentFactory {
+public class TestConsoleComponentFactory implements ConsoleComponentFactory {
 
   @Override
   public ConsolePrompt createConsolePrompt( final ConsoleOutput consoleOutput ) {

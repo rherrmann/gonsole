@@ -14,23 +14,22 @@ import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
-import com.codeaffine.console.core.ConsoleDefinition;
-import com.codeaffine.console.core.internal.Console;
+import com.codeaffine.console.core.ConsoleConfigurer;
+import com.codeaffine.console.core.internal.GenericConsole;
 import com.codeaffine.console.core.pdetest.ViewHelper;
 import com.codeaffine.test.util.swt.DisplayHelper;
 import com.codeaffine.test.util.swt.SWTEventHelper;
 
 public class ConsoleBot implements MethodRule {
 
-  private static final String CONSOLE_VIEW_ID = "org.eclipse.ui.console.ConsoleView";
+  public static final String CONSOLE_VIEW_ID = "org.eclipse.ui.console.ConsoleView";
   private static final String INTRO_VIEW_ID = "org.eclipse.ui.internal.introview";
 
   private final ViewHelper viewHelper;
   final DisplayHelper displayHelper;
-
-  ConsolePageBot gitConsolePageBot;
-  ConsoleDefinition consoleDefinition;
-  private Console console;
+  GenericConsole console;
+  ConsolePageBot consolePageBot;
+  ConsoleConfigurer consoleConfigurer;
 
   public ConsoleBot() {
     viewHelper = new ViewHelper();
@@ -44,38 +43,38 @@ public class ConsoleBot implements MethodRule {
 
   public ConsoleBot typeText( String text ) {
     for( int i = 0; i < text.length(); i++ ) {
-      gitConsolePageBot.triggerEvent( SWT.KeyDown, SWT.NONE, text.charAt( i ) );
-      gitConsolePageBot.triggerEvent( SWT.KeyUp, SWT.NONE, text.charAt( i ) );
+      consolePageBot.triggerEvent( SWT.KeyDown, SWT.NONE, text.charAt( i ) );
+      consolePageBot.triggerEvent( SWT.KeyUp, SWT.NONE, text.charAt( i ) );
     }
     return this;
   }
 
   public void typeKey( int modifiers, char character ) {
-    gitConsolePageBot.triggerEvent( SWT.KeyDown, modifiers, character );
+    consolePageBot.triggerEvent( SWT.KeyDown, modifiers, character );
   }
 
   public void typeEnter() {
     enterCommandLine( "" );
-    gitConsolePageBot.waitForCommandLineProcessing();
+    consolePageBot.waitForCommandLineProcessing();
   }
 
   public void selectText( int start, int length ) {
-    gitConsolePageBot.selectText( start, length );
+    consolePageBot.selectText( start, length );
   }
 
   public ConsoleBot positionCaret( int caretOffset ) {
-    gitConsolePageBot.setCaretOffset( caretOffset );
+    consolePageBot.setCaretOffset( caretOffset );
     return this;
   }
 
   public void enterCommandLine( String commandLine ) {
-    checkState( gitConsolePageBot != null, "GitConsole has not been opened yet." );
+    checkState( consolePageBot != null, "GitConsole has not been opened yet." );
 
-    gitConsolePageBot.enterCommandLine( commandLine );
+    consolePageBot.enterCommandLine( commandLine );
   }
 
   public void runToolBarAction( String text ) {
-    gitConsolePageBot.runToolBarAction( text );
+    consolePageBot.runToolBarAction( text );
   }
 
   public void selectFirstContentProposal() {
@@ -92,13 +91,13 @@ public class ConsoleBot implements MethodRule {
     return table.getItem( index ).getImage();
   }
 
-  public Console open( ConsoleDefinition consoleDefinition ) {
-    this.consoleDefinition = consoleDefinition;
+  public GenericConsole open( ConsoleConfigurer consoleConfigurer ) {
+    this.consoleConfigurer = consoleConfigurer;
     viewHelper.hideView( INTRO_VIEW_ID );
-    console = registerNewGitConsole( consoleDefinition );
+    console = registerNewGitConsole( consoleConfigurer );
     showInView( console );
-    gitConsolePageBot = new ConsolePageBot( console.getPage() );
-    gitConsolePageBot.waitForInitialPrompt();
+    consolePageBot = new ConsolePageBot( console.getPage() );
+    consolePageBot.waitForInitialPrompt();
     return console;
   }
 
@@ -106,20 +105,20 @@ public class ConsoleBot implements MethodRule {
     viewHelper.hideView( CONSOLE_VIEW_ID );
     viewHelper.showView( CONSOLE_VIEW_ID );
     displayHelper.flushPendingEvents();
-    gitConsolePageBot = new ConsolePageBot( console.getPage() );
-    gitConsolePageBot.waitForInitialPrompt();
+    consolePageBot = new ConsolePageBot( console.getPage() );
+    consolePageBot.waitForInitialPrompt();
   }
 
   void cleanup() {
     removeGitConsoles();
-    gitConsolePageBot = null;
-    consoleDefinition = null;
+    consolePageBot = null;
+    consoleConfigurer = null;
     viewHelper.hideView( CONSOLE_VIEW_ID );
     displayHelper.dispose();
   }
 
-  private static Console registerNewGitConsole( ConsoleDefinition consoleDefinition ) {
-    Console result = new Console( consoleDefinition );
+  private static GenericConsole registerNewGitConsole( ConsoleConfigurer consoleConfigurer ) {
+    GenericConsole result = new GenericConsole( consoleConfigurer );
     ConsolePlugin.getDefault().getConsoleManager().addConsoles( new IConsole[] { result } );
     return result;
   }
@@ -133,7 +132,7 @@ public class ConsoleBot implements MethodRule {
   private static void removeGitConsoles() {
     IConsoleManager consoleManager = ConsolePlugin.getDefault().getConsoleManager();
     for( IConsole console : consoleManager.getConsoles() ) {
-      if( console instanceof Console ) {
+      if( console instanceof GenericConsole ) {
         consoleManager.removeConsoles( new IConsole[] { console } );
       }
     }

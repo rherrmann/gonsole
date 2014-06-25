@@ -18,8 +18,8 @@ public class TestConsolePrompt implements ConsolePrompt {
     consoleOutput.write( PROMPT );
   }
 
-  public static int offset( int promptOffSet ) {
-    return line( "" ).length() + promptOffSet;
+  public static int offset( int promptOffset ) {
+    return line( "" ).length() + promptOffset;
   }
 
   public static String line( String... commands ) {

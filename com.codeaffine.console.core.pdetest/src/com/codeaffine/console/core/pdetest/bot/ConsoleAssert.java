@@ -8,22 +8,17 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
-import com.codeaffine.console.core.ConsoleDefinition;
-import com.codeaffine.test.util.swt.DisplayHelper;
-
 public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot> {
 
-  private final ConsoleDefinition consoleDefinition;
-  private final DisplayHelper displayHelper;
+  private final ConsoleBot consoleBot;
 
-  private ConsoleAssert( ConsolePageBot actual, DisplayHelper displayHelper, ConsoleDefinition consoleDefinition  ) {
-    super( actual, ConsoleAssert.class );
-    this.displayHelper = displayHelper;
-    this.consoleDefinition = consoleDefinition;
+  private ConsoleAssert( ConsoleBot consoleBot ) {
+    super( consoleBot.consolePageBot, ConsoleAssert.class );
+    this.consoleBot = consoleBot;
   }
 
   public static ConsoleAssert assertThat( ConsoleBot consoleBot ) {
-    return new ConsoleAssert( consoleBot.gitConsolePageBot, consoleBot.displayHelper, consoleBot.consoleDefinition );
+    return new ConsoleAssert( consoleBot );
   }
 
   public ConsoleAssert hasProcessedCommandLine() {
@@ -54,12 +49,12 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
   }
 
   public ConsoleAssert showsNoContentAssist() {
-    Assertions.assertThat( displayHelper.getNewShells() ).isEmpty();
+    Assertions.assertThat( consoleBot.displayHelper.getNewShells() ).isEmpty();
     return this;
   }
 
   public ConsoleAssert showsContentAssist() {
-    Assertions.assertThat( displayHelper.getNewShells() ).hasSize( 1 );
+    Assertions.assertThat( consoleBot.displayHelper.getNewShells() ).hasSize( 1 );
     return this;
   }
 
@@ -75,22 +70,22 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
   }
 
   public ConsoleAssert hasPromptColorAt( int offset ) {
-    hasColorAt( offset, consoleDefinition.getColorScheme().getPromptColor() );
+    hasColorAt( offset, consoleBot.console.getColorScheme().getPromptColor() );
     return this;
   }
 
   public ConsoleAssert hasInputColorAt( int offset ) {
-    hasColorAt( offset, consoleDefinition.getColorScheme().getInputColor());
+    hasColorAt( offset, consoleBot.console.getColorScheme().getInputColor());
     return this;
   }
 
   public ConsoleAssert hasOutputColorAt( int offset ) {
-    hasColorAt( offset, consoleDefinition.getColorScheme().getOutputColor() );
+    hasColorAt( offset, consoleBot.console.getColorScheme().getOutputColor() );
     return this;
   }
 
   public ConsoleAssert hasErrorColorAt( int offset ) {
-    hasColorAt( offset, consoleDefinition.getColorScheme().getErrorColor() );
+    hasColorAt( offset, consoleBot.console.getColorScheme().getErrorColor() );
     return this;
   }
 
@@ -99,7 +94,7 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
   }
 
   private Table getContentProposalTable() {
-    Shell shell = displayHelper.getNewShells()[ 0 ];
+    Shell shell = consoleBot.displayHelper.getNewShells()[ 0 ];
     return ( Table )shell.getChildren()[ 0 ];
   }
 }

@@ -14,7 +14,8 @@ import org.junit.Test;
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.console.core.pdetest.console.TestConsoleCommandInterpreter;
-import com.codeaffine.console.core.pdetest.console.TestConsoleDefinition;
+import com.codeaffine.console.core.pdetest.console.TestConsoleComponentFactory;
+import com.codeaffine.console.core.pdetest.console.TestConsoleConfigurer;
 
 public class ContentAssistProcessorPDETest {
 
@@ -64,8 +65,8 @@ public class ContentAssistProcessorPDETest {
 
   @Before
   public void setUp() {
-    ConsoleComponentFactory factory = new TestConsoleDefinition().getConsoleComponentFactory();
-    viewer = console.open( new TestConsoleDefinition() ).getPage().getViewer();
+    ConsoleComponentFactory factory = new TestConsoleComponentFactory();
+    viewer = console.open( new TestConsoleConfigurer() ).getPage().getViewer();
     processor = new ContentAssistProcessor( factory, new Editor( viewer, mock( ConsoleContentAssist.class ) ) );
   }
 }

@@ -19,12 +19,12 @@ public class GitConsoleContentAssistPDETest {
 
   @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final ConsoleBot console = new ConsoleBot();
-  @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
+  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
 
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssist() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeKey( SWT.CTRL, ' ' );
 
@@ -36,7 +36,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilter() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -49,7 +49,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilterAndOngoingTyping() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -63,7 +63,7 @@ public class GitConsoleContentAssistPDETest {
 
   @Test
   public void testShowContentAssistOnCompletedCommand() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "status " );
     console.typeKey( SWT.CTRL, ' ' );
@@ -74,7 +74,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentForControlCommand() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "use" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -87,7 +87,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyContentProposal() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeKey( SWT.CTRL, ' ' );
     console.selectFirstContentProposal();
@@ -99,7 +99,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposal() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -112,7 +112,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposalWithSelectedText() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "sx" );
     console.selectText( 7, 1 );
@@ -126,7 +126,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testContentAssistHasGitCommandImage() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "status" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -139,7 +139,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testContentAssistHasControlCommandImage() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "use" );
     console.typeKey( SWT.CTRL, ' ' );
@@ -152,7 +152,7 @@ public class GitConsoleContentAssistPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testProposalImagesDifferForProposalTypes() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "status" );
     console.typeKey( SWT.CTRL, ' ' );

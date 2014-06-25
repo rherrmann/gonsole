@@ -13,19 +13,19 @@ public class GitConsoleTextColorPDETest {
 
   private static final int NEXT_LINE_OFFSET = 3;
 
-  @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
+  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
   @Rule public final ConsoleBot console = new ConsoleBot();
 
   @Test
   public void testPromptColor() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     assertThat( console ).hasPromptColorAt( 0 );
   }
 
   @Test
   public void testInputColor() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "status" );
 
@@ -35,7 +35,7 @@ public class GitConsoleTextColorPDETest {
 
   @Test
   public void testOutputColor() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "status" );
 
@@ -45,7 +45,7 @@ public class GitConsoleTextColorPDETest {
 
   @Test
   public void testErrorColor() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "foo" );
 

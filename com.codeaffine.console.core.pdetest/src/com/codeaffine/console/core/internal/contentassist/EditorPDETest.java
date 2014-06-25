@@ -9,9 +9,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.console.core.internal.Console;
+import com.codeaffine.console.core.internal.GenericConsole;
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.console.core.pdetest.console.TestConsoleDefinition;
+import com.codeaffine.console.core.pdetest.console.TestConsoleConfigurer;
 
 public class EditorPDETest {
 
@@ -135,7 +135,7 @@ public class EditorPDETest {
     editor = new Editor( openConsole().getPage().getViewer(), contentAssistant, activation );
   }
 
-  private Console openConsole() {
-    return console.open( new TestConsoleDefinition() );
+  private GenericConsole openConsole() {
+    return console.open( new TestConsoleConfigurer() );
   }
 }

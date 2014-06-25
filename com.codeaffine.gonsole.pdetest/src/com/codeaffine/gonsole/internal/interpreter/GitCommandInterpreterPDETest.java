@@ -11,7 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.ConsoleOutput;
-import com.codeaffine.gonsole.acceptance.ConsoleConfigurer;
+import com.codeaffine.gonsole.acceptance.ConsoleHelper;
 import com.codeaffine.gonsole.internal.interpreter.GitCommandInterpreter;
 import com.codeaffine.gonsole.internal.interpreter.PgmResourceBundle;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
@@ -22,7 +22,7 @@ import com.codeaffine.test.util.concurrency.RunInThreadRule;
 public class GitCommandInterpreterPDETest {
 
   @Rule public final RunInThreadRule runInThreadRule = new RunInThreadRule();
-  @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
+  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
 
   private GitCommandInterpreter interpreter;
 

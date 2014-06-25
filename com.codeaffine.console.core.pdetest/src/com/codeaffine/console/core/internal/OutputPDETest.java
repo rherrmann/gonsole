@@ -13,7 +13,7 @@ import org.junit.Test;
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.console.core.ConsoleOutput.ConsoleWriter;
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.console.core.pdetest.console.TestConsoleDefinition;
+import com.codeaffine.console.core.pdetest.console.TestConsoleConfigurer;
 
 public class OutputPDETest {
 
@@ -21,7 +21,7 @@ public class OutputPDETest {
 
   @Test
   public void testWrite() {
-    Console console = consoleBot.open( new TestConsoleDefinition() );
+    GenericConsole console = consoleBot.open( new TestConsoleConfigurer() );
 
     ConsoleOutput consoleOutput = createConsoleOutput( console );
     consoleOutput.write( new ConsoleWriter() {
@@ -38,7 +38,7 @@ public class OutputPDETest {
 
   @Test
   public void testWriteText() {
-    Console console = consoleBot.open( new TestConsoleDefinition() );
+    GenericConsole console = consoleBot.open( new TestConsoleConfigurer() );
 
     ConsoleOutput consoleOutput = createConsoleOutput( console );
     consoleOutput.write( "foo" );
@@ -48,7 +48,7 @@ public class OutputPDETest {
       .containsLines( line( "foo" ) );
   }
 
-  private static ConsoleOutput createConsoleOutput( Console console ) {
+  private static ConsoleOutput createConsoleOutput( GenericConsole console ) {
     return new Output( new IoStreamProvider( console ).newOutputStream( null ) );
   }
 }

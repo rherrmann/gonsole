@@ -10,12 +10,12 @@ import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 
 public class GitConsoleActionPDETest {
 
-  @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
+  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
   @Rule public final ConsoleBot console = new ConsoleBot();
 
   @Test
   public void testClearAction() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
     console.typeText( "to be cleared" );
 
     console.runToolBarAction( "Clear" );

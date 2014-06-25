@@ -9,9 +9,9 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
 
 public class IoStreamProvider {
 
-  private final Console console;
+  private final GenericConsole console;
 
-  public IoStreamProvider( Console console ) {
+  public IoStreamProvider( GenericConsole console ) {
     this.console = console;
   }
 

@@ -8,7 +8,7 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleFactory;
 import org.eclipse.ui.console.IConsoleManager;
 
-import com.codeaffine.console.core.internal.Console;
+import com.codeaffine.console.core.internal.GenericConsole;
 import com.google.common.base.Predicate;
 
 public abstract class ConsoleFactory implements IConsoleFactory {
@@ -16,7 +16,7 @@ public abstract class ConsoleFactory implements IConsoleFactory {
   private static final Predicate<IConsole> IS_CONSOLE_PREDICATE = new Predicate<IConsole>() {
     @Override
     public boolean apply( IConsole input ) {
-      return input instanceof Console;
+      return input instanceof GenericConsole;
     }
   };
 
@@ -35,7 +35,7 @@ public abstract class ConsoleFactory implements IConsoleFactory {
     consoleManager.showConsoleView( getConsole() );
   }
 
-  protected abstract ConsoleDefinition getConsoleDefinition();
+  protected abstract ConsoleConfigurer getConsoleDefinition();
 
   private IConsole getConsole() {
     IConsole result = getExistingConsole();
@@ -49,8 +49,8 @@ public abstract class ConsoleFactory implements IConsoleFactory {
     return tryFind( asList( consoleManager.getConsoles() ), IS_CONSOLE_PREDICATE ).orNull();
   }
 
-  private Console createConsole() {
-    Console result = new Console( getConsoleDefinition() );
+  private GenericConsole createConsole() {
+    GenericConsole result = new GenericConsole( getConsoleDefinition() );
     consoleManager.addConsoles( new IConsole[] { result } );
     return result;
   }

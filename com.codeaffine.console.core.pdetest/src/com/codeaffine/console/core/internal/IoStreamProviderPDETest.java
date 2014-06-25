@@ -10,7 +10,7 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.console.core.pdetest.console.TestConsoleDefinition;
+import com.codeaffine.console.core.pdetest.console.TestConsoleConfigurer;
 
 public class IoStreamProviderPDETest {
 
@@ -49,7 +49,7 @@ public class IoStreamProviderPDETest {
 
   @Before
   public void setUp() {
-    Console console = new Console( new TestConsoleDefinition() );
+    GenericConsole console = new GenericConsole( new TestConsoleConfigurer() );
     ioStreamProvider = new IoStreamProvider( console );
     blue = Display.getDefault().getSystemColor( SWT.COLOR_BLUE );
   }

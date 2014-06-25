@@ -15,12 +15,12 @@ import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
 public class GitConsoleInputPDETest {
 
   @Rule public final DefaultLocaleRule defaultLocaleRule = new DefaultLocaleRule( Locale.ENGLISH );
-  @Rule public final ConsoleConfigurer configurer = new ConsoleConfigurer();
+  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
   @Rule public final ConsoleBot console = new ConsoleBot();
 
   @Test
   public void testEnterSimpleGitCommand() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "status" );
 
@@ -32,7 +32,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterChangeRepositoryCommand() {
-    console.open( configurer.create( "rep1", "rep2" ) );
+    console.open( configurer.createConfigurer( "rep1", "rep2" ) );
 
     console.enterCommandLine( "use rep2" );
 
@@ -44,7 +44,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterGitCommandWithMultipleSpaces() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "log  -M" );
 
@@ -56,7 +56,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterGitCommandWithGitPrefix() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "git status" );
 
@@ -68,7 +68,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterGitCommandWithIllegalArguments() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "commit" );
 
@@ -82,7 +82,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterUnrecognizedCommand() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "foo" );
 
@@ -94,7 +94,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEnterUnrecognizedCommandWithGitPrefix() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "git foo" );
 
@@ -106,7 +106,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testType() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.typeText( "abc" );
 
@@ -120,7 +120,7 @@ public class GitConsoleInputPDETest {
     String repositoryName = "repo";
     int insertCaretPosition = ( repositoryName + PROMPT_POSTFIX ).length();
     int expectedCaretPosition = ( repositoryName + PROMPT_POSTFIX + "a" ).length();
-    console.open( configurer.create( repositoryName ) );
+    console.open( configurer.createConfigurer( repositoryName ) );
 
     console.typeText( "bc" );
     console.positionCaret( insertCaretPosition );
@@ -135,7 +135,7 @@ public class GitConsoleInputPDETest {
   public void testTypeWithCaretBeforePrompt() {
     String repositoryName = "repo";
     int insertCaretPosition = repositoryName.length() / 2;
-    console.open( configurer.create( repositoryName ) );
+    console.open( configurer.createConfigurer( repositoryName ) );
 
     console.typeText( "ab" );
     console.positionCaret( insertCaretPosition );
@@ -148,7 +148,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testTypeNewline() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "" );
 
@@ -160,7 +160,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testEncoding() {
-    console.open( configurer.create( "repo" ) );
+    console.open( configurer.createConfigurer( "repo" ) );
 
     console.enterCommandLine( "status äöü" );
 
@@ -174,7 +174,7 @@ public class GitConsoleInputPDETest {
 
   @Test
   public void testPromptWithoutCurrentRepository() {
-    console.open( configurer.create( new String[ 0 ] ) );
+    console.open( configurer.createConfigurer( new String[ 0 ] ) );
 
     assertThat( console )
       .caretIsAtEnd()
