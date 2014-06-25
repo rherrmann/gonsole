@@ -5,7 +5,7 @@ import com.codeaffine.console.core.ConsolePrompt;
 
 class CalculatorConsolePrompt implements ConsolePrompt {
 
-  public static final String PROMPT = "prompt$ ";
+  public static final String PROMPT = "calc$ ";
 
   private final ConsoleOutput consoleOutput;
 
