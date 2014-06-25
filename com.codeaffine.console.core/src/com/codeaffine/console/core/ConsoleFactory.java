@@ -35,7 +35,7 @@ public abstract class ConsoleFactory implements IConsoleFactory {
     consoleManager.showConsoleView( getConsole() );
   }
 
-  protected abstract ConsoleConfigurer getConsoleDefinition();
+  protected abstract ConsoleConfigurer getConsoleConfigurer();
 
   private IConsole getConsole() {
     IConsole result = getExistingConsole();
@@ -50,7 +50,7 @@ public abstract class ConsoleFactory implements IConsoleFactory {
   }
 
   private GenericConsole createConsole() {
-    GenericConsole result = new GenericConsole( getConsoleDefinition() );
+    GenericConsole result = new GenericConsole( getConsoleConfigurer() );
     consoleManager.addConsoles( new IConsole[] { result } );
     return result;
   }

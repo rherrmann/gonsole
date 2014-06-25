@@ -6,7 +6,7 @@ import com.codeaffine.console.core.ConsoleFactory;
 public class TestConsoleFactory extends ConsoleFactory {
 
   @Override
-  protected ConsoleConfigurer getConsoleDefinition() {
+  protected ConsoleConfigurer getConsoleConfigurer() {
     return new TestConsoleConfigurer();
   }
 }

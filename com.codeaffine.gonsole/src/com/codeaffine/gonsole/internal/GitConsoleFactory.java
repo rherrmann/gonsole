@@ -8,7 +8,7 @@ import com.codeaffine.console.core.ConsoleFactory;
 public class GitConsoleFactory extends ConsoleFactory {
 
   @Override
-  protected ConsoleConfigurer getConsoleDefinition() {
+  protected ConsoleConfigurer getConsoleConfigurer() {
     return new GitConsoleConfigurer( Display.getCurrent() );
   }
 }

@@ -15,7 +15,7 @@ public class CalculatorInputPDETest {
 
   @Test
   public void testEnterSumCommand() {
-    console.open( new CalculatorDefinition() );
+    console.open( new CalculatorConsoleConfigurer() );
 
     console.enterCommandLine( "sum 1 1" );
 
@@ -28,7 +28,7 @@ public class CalculatorInputPDETest {
 
   @Test
   public void testEnterUnknownCommand() {
-    console.open( new CalculatorDefinition() );
+    console.open( new CalculatorConsoleConfigurer() );
 
     console.enterCommandLine( "unknown" );
 

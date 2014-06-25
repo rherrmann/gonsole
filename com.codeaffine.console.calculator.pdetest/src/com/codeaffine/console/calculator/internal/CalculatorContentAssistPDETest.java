@@ -20,7 +20,7 @@ public class CalculatorContentAssistPDETest {
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void testShowContentAssistWithFilter() {
-    console.open( new CalculatorDefinition() );
+    console.open( new CalculatorConsoleConfigurer() );
 
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
