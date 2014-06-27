@@ -1,9 +1,11 @@
 package com.codeaffine.console.core.pdetest.bot;
 
 import static com.codeaffine.test.util.swt.SWTEventHelper.trigger;
+import static com.google.common.collect.Iterables.find;
 import static com.google.common.collect.Iterables.toArray;
 import static com.google.common.collect.Lists.newArrayList;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.jface.action.ActionContributionItem;
@@ -14,6 +16,8 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.console.TextConsoleViewer;
+
+import com.google.common.base.Predicate;
 
 class ConsolePageBot {
 
@@ -82,13 +86,15 @@ class ConsolePageBot {
     styledText.setSelectionRange( start, length );
   }
 
-  void runToolBarAction( String text ) {
+  void runToolBarAction( final String text ) {
     IAction[] actions = getToolBarActions();
-    for( IAction action : actions ) {
-      if( action.getText().replaceAll( "&", "" ).equals( text ) ) {
-        action.run();
+    IAction action = find( Arrays.asList( actions ), new Predicate<IAction>() {
+      @Override
+      public boolean apply( IAction input ) {
+        return input.getText().replaceAll( "&", "" ).equals( text );
       }
-    }
+    } );
+    action.run();
   }
 
   IAction[] getToolBarActions() {

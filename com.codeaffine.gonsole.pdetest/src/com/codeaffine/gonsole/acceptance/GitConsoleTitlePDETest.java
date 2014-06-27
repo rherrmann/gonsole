@@ -1,14 +1,15 @@
 package com.codeaffine.gonsole.acceptance;
 
 import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
+import static com.codeaffine.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.ui.part.ViewPart;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.console.core.pdetest.ViewHelper;
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
+import com.codeaffine.test.util.workbench.PartHelper;
 
 
 public class GitConsoleTitlePDETest {
@@ -34,7 +35,7 @@ public class GitConsoleTitlePDETest {
   }
 
   private static String getConsoleViewContentDescription() {
-    ViewPart consoleView = new ViewHelper().showView( ConsoleBot.CONSOLE_VIEW_ID );
+    ViewPart consoleView = new PartHelper().showView( CONSOLE_VIEW_ID );
     return consoleView.getContentDescription();
   }
 }

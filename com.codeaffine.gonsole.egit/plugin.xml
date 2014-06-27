@@ -4,8 +4,27 @@
    <extension
          point="com.codeaffine.gonsole.repositoryProviders">
       <repositoryProvider
-            class="com.codeaffine.gonsole.egit.internal.EGitRepositoryProvider">
+            class="com.codeaffine.gonsole.egit.internal.repositores.EGitRepositoryProvider">
       </repositoryProvider>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="com.codeaffine.gonsole.egit.internal.resourceContributions"
+            objectClass="org.eclipse.core.resources.IResource">
+         <filter
+               name="projectPersistentProperty"
+               value="org.eclipse.team.core.repository=org.eclipse.egit.core.GitProvider">
+         </filter>
+         <action
+               class="com.codeaffine.gonsole.egit.internal.actions.OpenConsoleActionDelegate"
+               icon="$nl$/icons/etool16/gonsole.png"
+               id="com.codeaffine.gonsole.egit.internal.OpenConsoleAction"
+               label="Open Console"
+               menubarPath="team.main/group9">
+         </action>
+      </objectContribution>
    </extension>
 
 </plugin>

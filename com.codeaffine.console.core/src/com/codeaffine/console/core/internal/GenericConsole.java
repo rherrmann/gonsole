@@ -32,6 +32,10 @@ public class GenericConsole extends IOConsole implements Console {
     this.consoleConfigurer = consoleConfigurer;
   }
 
+  public ConsoleConfigurer getConsoleConfigurer() {
+    return consoleConfigurer;
+  }
+
   @Override
   public void setTitle( String title ) {
     setName( title );

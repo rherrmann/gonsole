@@ -5,6 +5,15 @@ Bundle-SymbolicName: com.codeaffine.gonsole.egit;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: codeaffine.com
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: com.codeaffine.gonsole;bundle-version="[0.8.0,2.0.0)",
- org.eclipse.egit.core;bundle-version="[3.3.0,4.0.0)"
+Require-Bundle: com.codeaffine.console.core;bundle-version="[0.8.0,2.0.0)",
+ com.codeaffine.gonsole;bundle-version="[0.8.0,2.0.0)",
+ org.eclipse.core.runtime;bundle-version="[3.8.0,4.0.0)",
+ org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
+ org.eclipse.ui;bundle-version="[3.8.0,4.0.0)",
+ org.eclipse.ui.console;bundle-version="[3.5.0,4.0.0)",
+ org.eclipse.ui.ide;bundle-version="[3.8.0,4.0.0)",
+ org.eclipse.egit.core;bundle-version="[3.3.0,4.0.0)",
+ org.eclipse.jgit;bundle-version="[3.3.0,4.0.0)"
 Bundle-ActivationPolicy: lazy
+Import-Package: com.google.common.base;version="[12.0.0,13.0.0)",
+ com.google.common.collect;version="[12.0.0,13.0.0)"

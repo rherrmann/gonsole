@@ -1,5 +1,7 @@
 package com.codeaffine.console.core.pdetest.bot;
 
+import static com.codeaffine.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
+import static com.codeaffine.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static com.google.common.base.Preconditions.checkState;
 
 import org.eclipse.swt.SWT;
@@ -16,23 +18,20 @@ import org.junit.runners.model.Statement;
 
 import com.codeaffine.console.core.ConsoleConfigurer;
 import com.codeaffine.console.core.internal.GenericConsole;
-import com.codeaffine.console.core.pdetest.ViewHelper;
 import com.codeaffine.test.util.swt.DisplayHelper;
 import com.codeaffine.test.util.swt.SWTEventHelper;
+import com.codeaffine.test.util.workbench.PartHelper;
 
 public class ConsoleBot implements MethodRule {
 
-  public static final String CONSOLE_VIEW_ID = "org.eclipse.ui.console.ConsoleView";
-  private static final String INTRO_VIEW_ID = "org.eclipse.ui.internal.introview";
-
-  private final ViewHelper viewHelper;
+  private final PartHelper partHelper;
   final DisplayHelper displayHelper;
   GenericConsole console;
   ConsolePageBot consolePageBot;
   ConsoleConfigurer consoleConfigurer;
 
   public ConsoleBot() {
-    viewHelper = new ViewHelper();
+    partHelper = new PartHelper();
     displayHelper = new DisplayHelper();
   }
 
@@ -93,7 +92,7 @@ public class ConsoleBot implements MethodRule {
 
   public GenericConsole open( ConsoleConfigurer consoleConfigurer ) {
     this.consoleConfigurer = consoleConfigurer;
-    viewHelper.hideView( INTRO_VIEW_ID );
+    partHelper.hideView( INTRO_VIEW_ID );
     console = registerNewGitConsole( consoleConfigurer );
     showInView( console );
     consolePageBot = new ConsolePageBot( console.getPage() );
@@ -102,8 +101,8 @@ public class ConsoleBot implements MethodRule {
   }
 
   public void reopenConsoleView() {
-    viewHelper.hideView( CONSOLE_VIEW_ID );
-    viewHelper.showView( CONSOLE_VIEW_ID );
+    partHelper.hideView( CONSOLE_VIEW_ID );
+    partHelper.showView( CONSOLE_VIEW_ID );
     displayHelper.flushPendingEvents();
     consolePageBot = new ConsolePageBot( console.getPage() );
     consolePageBot.waitForInitialPrompt();
@@ -113,7 +112,7 @@ public class ConsoleBot implements MethodRule {
     removeGitConsoles();
     consolePageBot = null;
     consoleConfigurer = null;
-    viewHelper.hideView( CONSOLE_VIEW_ID );
+    partHelper.hideView( CONSOLE_VIEW_ID );
     displayHelper.dispose();
   }
 
@@ -124,7 +123,7 @@ public class ConsoleBot implements MethodRule {
   }
 
   private void showInView( IConsole console ) {
-    IConsoleView consoleView = ( IConsoleView )viewHelper.showView( CONSOLE_VIEW_ID );
+    IConsoleView consoleView = ( IConsoleView )partHelper.showView( CONSOLE_VIEW_ID );
     consoleView.display( console );
     new DisplayHelper().flushPendingEvents();
   }

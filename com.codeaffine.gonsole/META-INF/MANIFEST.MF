@@ -16,9 +16,9 @@ Require-Bundle: com.codeaffine.console.core;bundle-version="[0.8.0,2.0.0)",
  com.google.guava;bundle-version="[12.0.0,13.0.0)"
 Bundle-Activator: com.codeaffine.gonsole.internal.activator.GonsolePlugin
 Export-Package: com.codeaffine.gonsole;version="0.8.0.qualifier",
- com.codeaffine.gonsole.internal;x-friends:="com.codeaffine.gonsole.test.helper",
- com.codeaffine.gonsole.internal.activator;x-friends:="com.codeaffine.gonsole.test.helper",
- com.codeaffine.gonsole.internal.contentassist;x-friends:="com.codeaffine.gonsole.test.helper",
- com.codeaffine.gonsole.internal.interpreter;x-friends:="com.codeaffine.gonsole.test.helper",
- com.codeaffine.gonsole.internal.preference;x-friends:="com.codeaffine.gonsole.test.helper",
- com.codeaffine.gonsole.internal.repository;x-friends:="com.codeaffine.gonsole.test.helper"
+ com.codeaffine.gonsole.internal;version="0.8.0.qualifier";x-friends:="com.codeaffine.gonsole.test.helper",
+ com.codeaffine.gonsole.internal.activator;version="0.8.0.qualifier";x-friends:="com.codeaffine.gonsole.test.helper",
+ com.codeaffine.gonsole.internal.contentassist;version="0.8.0.qualifier";x-friends:="com.codeaffine.gonsole.test.helper",
+ com.codeaffine.gonsole.internal.interpreter;version="0.8.0.qualifier";x-friends:="com.codeaffine.gonsole.test.helper",
+ com.codeaffine.gonsole.internal.preference;version="0.8.0.qualifier";x-friends:="com.codeaffine.gonsole.test.helper",
+ com.codeaffine.gonsole.internal.repository;version="0.8.0.qualifier";x-friends:="com.codeaffine.gonsole.test.helper"

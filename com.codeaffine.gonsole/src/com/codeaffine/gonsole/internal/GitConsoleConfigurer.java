@@ -11,7 +11,6 @@ import com.codeaffine.console.core.Console;
 import com.codeaffine.console.core.ConsoleConfigurer;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
-import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProviderFactory;
 import com.codeaffine.gonsole.internal.repository.RepositoryChangeListener;
 
 public class GitConsoleConfigurer implements ConsoleConfigurer {
@@ -20,13 +19,13 @@ public class GitConsoleConfigurer implements ConsoleConfigurer {
   private final Display display;
   private Console console;
 
-  public GitConsoleConfigurer( Display display ) {
-    this( display, new CompositeRepositoryProviderFactory().create() );
-  }
-
   public GitConsoleConfigurer( Display display, CompositeRepositoryProvider repositoryProvider ) {
     this.repositoryProvider = repositoryProvider;
     this.display = display;
+  }
+
+  public CompositeRepositoryProvider getRepositoryProvider() {
+    return repositoryProvider;
   }
 
   @Override
