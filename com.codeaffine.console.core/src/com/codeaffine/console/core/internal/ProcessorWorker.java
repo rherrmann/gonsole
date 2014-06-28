@@ -38,7 +38,7 @@ class ProcessorWorker implements Runnable {
         line = consoleInput.readLine();
 
         if( line != null && line.trim().length() > 0 ) {
-          String[] commandLine = new CommandLineSplitter( line ).split();
+          String[] commandLine = new CommandLineTokenizer( line ).tokenize();
 
           ConsoleCommandInterpreter[] interpreters = consoleComponentFactory.createCommandInterpreters( consoleStandardOutput );
           try {
