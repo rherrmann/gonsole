@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
+import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class GitConsoleInputPDETest {
 
@@ -113,6 +114,24 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .containsLines( line( "repo", "abc" ) )
       .caretIsAtEnd();
+  }
+
+  @Test
+  public void testCorrectEnteredCommand() {
+    String repositoryName = "repo";
+    console.open( configurer.createConfigurer( repositoryName ) );
+
+    console.typeText( "commit msg" );
+    console.positionCaret( ( repositoryName + PROMPT_POSTFIX + "commit").length() );
+    console.typeText( " " );
+    new DisplayHelper().flushPendingEvents();
+    console.typeText( "-" );
+    new DisplayHelper().flushPendingEvents();
+    console.typeText( "m" );
+    new DisplayHelper().flushPendingEvents();
+
+    assertThat( console )
+      .containsLines( line( "repo", "commit -m msg" ) );
   }
 
   @Test

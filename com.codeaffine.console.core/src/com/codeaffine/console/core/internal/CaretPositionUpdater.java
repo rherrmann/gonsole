@@ -4,55 +4,106 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.TextSelection;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.TextConsoleViewer;
 
 class CaretPositionUpdater {
 
   private final TextConsoleViewer viewer;
   private final IDocument document;
+  private final Display display;
   private final IDocumentListener documentListener;
+  private final KeyboardTracker keyboardTracker;
 
   CaretPositionUpdater( TextConsoleViewer viewer ) {
     this.viewer = viewer;
     this.document = viewer.getDocument();
-    this.documentListener = new IDocumentListener() {
-      @Override
-      public void documentChanged( DocumentEvent event ) {
-        positionCursorAtEnd();
-      }
-
-      @Override
-      public void documentAboutToBeChanged( DocumentEvent event ) {
-      }
-    };
+    this.display = viewer.getTextWidget().getDisplay();
+    this.keyboardTracker = new KeyboardTracker();
+    this.documentListener = new ConsoleDocumentListener();
   }
 
   void install() {
     positionCursorAtEnd();
     document.addDocumentListener( documentListener );
-    viewer.getTextWidget().addDisposeListener( new DisposeListener() {
-      @Override
-      public void widgetDisposed( DisposeEvent event ) {
-        document.removeDocumentListener( documentListener );
-      }
-    } );
+    viewer.getTextWidget().addVerifyKeyListener( keyboardTracker );
+    viewer.getTextWidget().addKeyListener( keyboardTracker );
+    viewer.getTextWidget().addDisposeListener( new TextWidgetDisposeListener() );
   }
 
   void positionCursorAtEnd() {
-    Runnable runnable = new Runnable() {
-      @Override
-      public void run() {
-        StyledText textWidget = viewer.getTextWidget();
-        if( textWidget != null && !textWidget.isDisposed() ) {
-          int documentLength = viewer.getDocument().getLength();
-          TextSelection selection = new TextSelection( documentLength, 0 );
-          viewer.setSelection( selection, true );
-        }
+    if( !keyboardTracker.isKeyPressed() ) {
+      display.asyncExec( new PositionCursorRunnable( viewer ) );
+    }
+  }
+
+  private class ConsoleDocumentListener implements IDocumentListener {
+    @Override
+    public void documentChanged( DocumentEvent event ) {
+      positionCursorAtEnd();
+    }
+  
+    @Override
+    public void documentAboutToBeChanged( DocumentEvent event ) {
+    }
+  }
+
+  private class TextWidgetDisposeListener implements DisposeListener {
+    @Override
+    public void widgetDisposed( DisposeEvent event ) {
+      document.removeDocumentListener( documentListener );
+    }
+  }
+
+  private static class KeyboardTracker implements VerifyKeyListener, KeyListener {
+    private boolean keyPressed;
+
+    boolean isKeyPressed() {
+      return keyPressed;
+    }
+
+    @Override
+    public void keyPressed( KeyEvent event ) {
+      keyPressed = true;
+    }
+
+    @Override
+    public void keyReleased( KeyEvent event ) {
+      keyPressed = false;
+    }
+
+    @Override
+    public void verifyKey( VerifyEvent event ) {
+      keyPressed = true;
+    }
+  }
+
+  private static class PositionCursorRunnable implements Runnable {
+    private final TextConsoleViewer viewer;
+
+    PositionCursorRunnable( TextConsoleViewer viewer ) {
+      this.viewer = viewer;
+    }
+
+    @Override
+    public void run() {
+      if( !isViewerDisposed() ) {
+        ISelection selection = new TextSelection( viewer.getDocument().getLength(), 0 );
+        viewer.setSelection( selection, true );
       }
-    };
-    viewer.getTextWidget().getDisplay().asyncExec( runnable );
+    }
+
+    private boolean isViewerDisposed() {
+      StyledText textWidget = viewer.getTextWidget();
+      return textWidget == null || textWidget.isDisposed();
+    }
   }
 }
