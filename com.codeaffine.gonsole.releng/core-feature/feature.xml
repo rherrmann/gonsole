@@ -2,8 +2,9 @@
 <feature
       id="com.codeaffine.gonsole.feature"
       label="Gonsole - Git Console for Eclipse"
-      version="0.8.0.qualifier"
-      provider-name="codeaffine.com">
+      version="0.8.1.qualifier"
+      provider-name="codeaffine.com"
+      plugin="com.codeaffine.gonsole.branding">
 
    <description url="https://github.com/rherrmann/gonsole/blob/master/README.md">
       %description
@@ -70,6 +71,13 @@
 
    <plugin
          id="com.codeaffine.gonsole.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.codeaffine.gonsole.branding"
          download-size="0"
          install-size="0"
          version="0.0.0"

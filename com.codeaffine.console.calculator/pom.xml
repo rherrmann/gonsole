@@ -6,13 +6,13 @@
 
   <groupId>com.codeaffine.gonsole</groupId>
   <artifactId>com.codeaffine.console.calculator</artifactId>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>0.8.1-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
   <parent>
     <groupId>com.codeaffine.gonsole</groupId>
     <artifactId>com.codeaffine.gonsole.parent</artifactId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>0.8.1-SNAPSHOT</version>
     <relativePath>../com.codeaffine.gonsole.releng/pom.xml</relativePath>
   </parent>
 

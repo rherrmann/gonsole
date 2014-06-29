@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="../features/com.codeaffine.gonsole.feature_0.8.0.qualifier.jar" id="com.codeaffine.gonsole.feature" version="0.8.0.qualifier">
+   <feature url="../features/com.codeaffine.gonsole.feature_0.8.1.qualifier.jar" id="com.codeaffine.gonsole.feature" version="0.8.1.qualifier">
       <category name="com.codeaffine.gonsole.category"/>
    </feature>
-   <feature url="../features/com.codeaffine.gonsole.egit.feature_0.8.0.qualifier.jar" id="com.codeaffine.gonsole.egit.feature" version="0.8.0.qualifier">
+   <feature url="../features/com.codeaffine.gonsole.egit.feature_0.8.1.qualifier.jar" id="com.codeaffine.gonsole.egit.feature" version="0.8.1.qualifier">
       <category name="com.codeaffine.gonsole.category"/>
    </feature>
    <category-def name="com.codeaffine.gonsole.category" label="Gonsole - Git Console for Eclipse">

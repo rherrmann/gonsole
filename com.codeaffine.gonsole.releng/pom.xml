@@ -8,7 +8,7 @@
 
   <groupId>com.codeaffine.gonsole</groupId>
   <artifactId>com.codeaffine.gonsole.parent</artifactId>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>0.8.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -35,6 +35,7 @@
 
     <!-- gonsole -->
     <module>../com.codeaffine.gonsole</module>
+    <module>../com.codeaffine.gonsole.branding</module>
     <module>../com.codeaffine.gonsole.pdetest</module>
     <module>../com.codeaffine.gonsole.test</module>
     <module>../com.codeaffine.gonsole.test.helper</module>
@@ -71,7 +72,7 @@
 			         <artifact>
 			            <groupId>com.codeaffine.gonsole</groupId>
 			            <artifactId>com.codeaffine.gonsole.parent</artifactId>
-                  <version>0.8.0-SNAPSHOT</version>
+                  <version>${project.version}</version>
                   <classifier>eclipse-4.4</classifier>
 			         </artifact>
           	</target>
