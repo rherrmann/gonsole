@@ -32,7 +32,7 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
-  public void testEnterChangeRepositoryCommand() {
+  public void testEnterUseRepositoryCommand() {
     console.open( configurer.createConfigurer( "rep1", "rep2" ) );
 
     console.enterCommandLine( "use rep2" );
@@ -41,6 +41,18 @@ public class GitConsoleInputPDETest {
       .hasProcessedCommandLine()
       .caretIsAtEnd()
       .containsLines( line( "rep1", "use rep2" ), "Current repository is: rep2", line( "rep2" ) );
+  }
+
+  @Test
+  public void testEnterUseRepositoryCommandWithUnknownRepository() {
+    console.open( configurer.createConfigurer( "repo" ) );
+
+    console.enterCommandLine( "use foo" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( line( "repo", "use foo" ), "Unknown repository", line( "repo" ) );
   }
 
   @Test

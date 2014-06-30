@@ -24,19 +24,27 @@ public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
 
   @Override
   public String execute( String... parts ) {
-    String result = "Unkown repository";
-    if( parts.length == 2 && parts[ 0 ].equals( "use" ) ) {
+    String result = "Unknown repository";
+    if( parts.length == 2 && "use".equals( parts[ 0 ] ) ) {
       String newRepositoryName = parts[ 1 ];
-      File[] repositoryLocations = repositoryProvider.getRepositoryLocations();
-      for( File repositoryLocation : repositoryLocations ) {
-        if( newRepositoryName.equals( getRepositoryName( repositoryLocation ) ) ) {
-          repositoryProvider.setCurrentRepositoryLocation( repositoryLocation );
-          result = null;
-        }
+      File repositoryLocation = findRepositoryLocationByName( newRepositoryName );
+      if( repositoryLocation != null ) {
+        result = null;
+        repositoryProvider.setCurrentRepositoryLocation( repositoryLocation );
+        String changedRepositoryName = getRepositoryName( repositoryLocation );
+        String message = String.format( "Current repository is: %s", changedRepositoryName );
+        consoleOutput.writeLine( message );
       }
-      String changedRepositoryName = getRepositoryName( repositoryProvider.getCurrentRepositoryLocation() );
-      String message = String.format( "Current repository is: %s", changedRepositoryName );
-      consoleOutput.writeLine( message );
+    }
+    return result;
+  }
+
+  private File findRepositoryLocationByName( String newRepositoryName ) {
+    File result = null;
+    for( File repositoryLocation : repositoryProvider.getRepositoryLocations() ) {
+      if( newRepositoryName.equals( getRepositoryName( repositoryLocation ) ) ) {
+        result = repositoryLocation;
+      }
     }
     return result;
   }
