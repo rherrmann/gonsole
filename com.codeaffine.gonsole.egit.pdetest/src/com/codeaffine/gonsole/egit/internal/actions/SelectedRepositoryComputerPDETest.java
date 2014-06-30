@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
@@ -22,9 +22,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.egit.internal.actions.SelectedRepositoryComputer;
 import com.codeaffine.gonsole.egit.pdetest.EGitRepositoryHelper;
 import com.codeaffine.test.resources.ProjectHelper;
+import com.codeaffine.test.resources.ResourceHelper;
 import com.codeaffine.test.util.workbench.PartHelper;
 
 public class SelectedRepositoryComputerPDETest {
@@ -75,6 +75,17 @@ public class SelectedRepositoryComputerPDETest {
     assertThat( selectedRepositoryLocation ).isNull();
   }
 
+  @Test
+  public void testComputeWithNonExistingResource() throws CoreException {
+    File repositoryLocation = createSharedProject();
+    IFile file = projectHelper.createFile( "file.txt", "" );
+    ResourceHelper.delete( file );
+
+    File selectedRepositoryLocation = computeSelectedRepository( file );
+
+    assertThat( selectedRepositoryLocation ).isEqualTo( repositoryLocation );
+  }
+
   @Before
   public void setUp() {
     partHelper = new PartHelper();
@@ -90,8 +101,8 @@ public class SelectedRepositoryComputerPDETest {
     partHelper.closeEditors();
   }
 
-  private static File computeSelectedRepository( IProject project ) {
-    return computeSelectedRepository( new StructuredSelection( project ), null );
+  private static File computeSelectedRepository( IResource resource ) {
+    return computeSelectedRepository( new StructuredSelection( resource ), null );
   }
 
   private static File computeSelectedRepository( IEditorPart editor ) {

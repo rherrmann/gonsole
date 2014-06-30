@@ -48,14 +48,11 @@ class SelectedRepositoryComputer {
     IPath resourceLocation = resource.getLocation();
     if( resourceLocation != null ) {
       for( File repositoryLocation : configuredRepositoryLocations ) {
-        File workDir = getWorkDir( repositoryLocation );
-        if( workDir != null ) {
-          IPath workingTree = new Path( workDir.toString() );
-          if( workingTree.isPrefixOf( resourceLocation ) ) {
-            if( bestMatch == null || workingTree.segmentCount() > bestMatch.segmentCount() ) {
-              result = repositoryLocation;
-              bestMatch = workingTree;
-            }
+        IPath workDir = getWorkDir( repositoryLocation );
+        if( workDir != null && workDir.isPrefixOf( resourceLocation ) ) {
+          if( bestMatch == null || workDir.segmentCount() > bestMatch.segmentCount() ) {
+            result = repositoryLocation;
+            bestMatch = workDir;
           }
         }
       }
@@ -63,15 +60,15 @@ class SelectedRepositoryComputer {
     return result;
   }
 
-  private static File getWorkDir( File repositoryLocation ) {
-    File result = null;
+  private static IPath getWorkDir( File repositoryLocation ) {
+    IPath result = null;
     FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
     repositoryBuilder.setMustExist( true );
     repositoryBuilder.setGitDir( repositoryLocation );
     try {
       Repository repository = repositoryBuilder.build();
       if( !repository.isBare() ) {
-        result = repository.getWorkTree();
+        result = new Path( repository.getWorkTree().getCanonicalPath() );
       }
       repository.close();
     } catch( IOException ignore ) {
