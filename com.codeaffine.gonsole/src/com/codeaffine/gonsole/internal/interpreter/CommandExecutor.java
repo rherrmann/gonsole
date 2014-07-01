@@ -9,12 +9,16 @@ import com.codeaffine.console.core.ConsoleOutput.ConsoleWriter;
 
 class CommandExecutor {
 
-  private final File gitDirectory;
+  private final File repositoryLocation;
   private final ConsoleOutput consoleOutput;
 
-  CommandExecutor( ConsoleOutput consoleOutput, File gitDirectory ) {
+  CommandExecutor( ConsoleOutput consoleOutput, File repositoryLocation ) {
     this.consoleOutput = consoleOutput;
-    this.gitDirectory = gitDirectory;
+    this.repositoryLocation = repositoryLocation;
+  }
+
+  File getRepositoryLocation() {
+    return repositoryLocation;
   }
 
   String execute( final CommandInfo commandInfo ) {
@@ -29,7 +33,7 @@ class CommandExecutor {
   }
 
   private String execute( CommandInfo commandInfo, OutputStream outputStream ) {
-    RepositoryContext repositoryContext = new RepositoryContext( gitDirectory ); ;
+    RepositoryContext repositoryContext = new RepositoryContext( repositoryLocation ); ;
     try {
       CommandAccessor commandAccessor = new CommandAccessor( commandInfo );
       commandAccessor.init( repositoryContext.getRepository(), outputStream );

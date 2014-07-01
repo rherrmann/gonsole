@@ -1,10 +1,17 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
+import static com.google.common.collect.Iterables.contains;
+import static com.google.common.collect.Iterables.getFirst;
+
+import java.util.Arrays;
+
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 
 public class GitCommandInterpreter implements ConsoleCommandInterpreter {
+
+  private static final String[] WORK_DIR_MODIFY_COMMANDS = new String[] { "checkout", "reset" };
 
   private final PgmResourceBundle pgmResourceBundleInitializer;
   private final CommandExecutor commandExecutor;
@@ -37,6 +44,15 @@ public class GitCommandInterpreter implements ConsoleCommandInterpreter {
   public String execute( String... commandLine ) {
     pgmResourceBundleInitializer.initialize();
     CommandInfo commandInfo = commandLineParser.parse( commandLine );
-    return commandExecutor.execute( commandInfo );
+    String result = commandExecutor.execute( commandInfo );
+    refreshAffectedResources( commandLine );
+    return result;
+  }
+
+  private void refreshAffectedResources( String... commandLine ) {
+    String command = getFirst( Arrays.asList( commandLine ), "" );
+    if( contains( Arrays.asList( WORK_DIR_MODIFY_COMMANDS ), command ) ) {
+      new SharedResourcesRefresher( commandExecutor.getRepositoryLocation() ).refresh();
+    }
   }
 }
