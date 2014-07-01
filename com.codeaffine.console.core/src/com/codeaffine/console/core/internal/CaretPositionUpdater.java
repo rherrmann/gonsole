@@ -50,7 +50,7 @@ class CaretPositionUpdater {
     public void documentChanged( DocumentEvent event ) {
       positionCursorAtEnd();
     }
-  
+
     @Override
     public void documentAboutToBeChanged( DocumentEvent event ) {
     }
@@ -64,7 +64,7 @@ class CaretPositionUpdater {
   }
 
   private static class KeyboardTracker implements VerifyKeyListener, KeyListener {
-    private boolean keyPressed;
+    private volatile boolean keyPressed;
 
     boolean isKeyPressed() {
       return keyPressed;
