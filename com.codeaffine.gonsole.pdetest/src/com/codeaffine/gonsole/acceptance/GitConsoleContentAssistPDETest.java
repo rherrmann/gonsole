@@ -19,7 +19,7 @@ public class GitConsoleContentAssistPDETest {
 
   @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final ConsoleBot console = new ConsoleBot();
-  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
+  @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
 
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)

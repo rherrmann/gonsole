@@ -21,11 +21,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.acceptance.ConsoleHelper;
+import com.codeaffine.gonsole.acceptance.GitConsoleHelper;
 
 public class CommandAccessorPDETest {
 
-  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
+  @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
 
   private Repository repository;
   private OutputStream outputStream;

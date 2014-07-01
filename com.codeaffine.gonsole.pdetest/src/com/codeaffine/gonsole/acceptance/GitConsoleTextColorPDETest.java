@@ -13,7 +13,7 @@ public class GitConsoleTextColorPDETest {
 
   private static final int NEXT_LINE_OFFSET = 3;
 
-  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
+  @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
   @Rule public final ConsoleBot console = new ConsoleBot();
 
   @Test

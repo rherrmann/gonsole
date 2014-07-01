@@ -14,7 +14,7 @@ import com.codeaffine.test.util.workbench.PartHelper;
 
 public class GitConsoleTitlePDETest {
 
-  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
+  @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
   @Rule public final ConsoleBot consoleBot = new ConsoleBot();
 
   @Test

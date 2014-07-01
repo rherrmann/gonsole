@@ -12,7 +12,7 @@ import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 
 public class GitConsoleActionPDETest {
 
-  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
+  @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
   @Rule public final ConsoleBot consoleBot = new ConsoleBot();
 
   @Test

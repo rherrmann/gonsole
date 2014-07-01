@@ -27,7 +27,7 @@ import com.codeaffine.test.resources.ProjectHelper;
 
 public class GitConsoleRefreshPDETest {
 
-  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
+  @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
   @Rule public final ConsoleBot consoleBot = new ConsoleBot();
 
   private ProjectHelper projectHelper;

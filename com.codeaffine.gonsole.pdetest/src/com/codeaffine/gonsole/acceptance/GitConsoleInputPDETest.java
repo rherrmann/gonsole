@@ -16,7 +16,7 @@ import com.codeaffine.test.util.swt.DisplayHelper;
 public class GitConsoleInputPDETest {
 
   @Rule public final DefaultLocaleRule defaultLocaleRule = new DefaultLocaleRule( Locale.ENGLISH );
-  @Rule public final ConsoleHelper configurer = new ConsoleHelper();
+  @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
   @Rule public final ConsoleBot console = new ConsoleBot();
 
   @Test
