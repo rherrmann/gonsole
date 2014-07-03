@@ -9,14 +9,16 @@ import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
 
 import com.codeaffine.console.core.ContentProposalProvider;
+import com.codeaffine.console.core.Proposal;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
+import com.codeaffine.gonsole.internal.interpreter.CommandLineParser;
 import com.google.common.base.Function;
 
 public class GitCommandContentProposalProvider implements ContentProposalProvider {
 
   @Override
-  public String[] getContentProposals() {
-    return toArray( transform( asList( CommandCatalog.all() ), byName() ), String.class );
+  public Proposal[] getContentProposals() {
+    return toArray( transform( asList( CommandCatalog.common() ), byProposal() ), Proposal.class );
   }
 
   @Override
@@ -24,11 +26,12 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
     return new IconRegistry().getDescriptor( IconRegistry.GIT_PROPOSAL );
   }
 
-  private static Function<CommandRef, String> byName() {
-    return new Function<CommandRef,String>() {
+  private static Function<CommandRef, Proposal> byProposal() {
+    return new Function<CommandRef,Proposal>() {
       @Override
-      public String apply( CommandRef input ) {
-        return input.getName();
+      public Proposal apply( CommandRef input ) {
+        String additionalInfo = new CommandLineParser().getUsage( input.getName() );
+        return new Proposal( input.getName(), additionalInfo );
       }
     };
   }

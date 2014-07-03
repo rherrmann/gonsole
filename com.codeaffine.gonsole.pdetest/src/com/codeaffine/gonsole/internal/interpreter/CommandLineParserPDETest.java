@@ -70,9 +70,23 @@ public class CommandLineParserPDETest {
     }
   }
 
+  @Test
+  public void testGetUsage() {
+    String usage = commandLineParser.getUsage( "add" );
+
+    assertThat( usage ).contains( "filepattern", "help", "update" );
+  }
+
+  @Test
+  public void testGetUsageWithUnknownCommand() {
+    String usage = commandLineParser.getUsage( "unknown" );
+
+    assertThat( usage ).isEmpty();
+  }
+
   @Before
   public void setUp() {
-    new PgmResourceBundle().initialize();
+    new PgmResourceBundle().reset();
     commandLineParser = new CommandLineParser();
   }
 }

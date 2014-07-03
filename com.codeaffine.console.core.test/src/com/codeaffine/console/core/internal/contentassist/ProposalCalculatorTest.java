@@ -10,13 +10,24 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.ContentProposalProvider;
+import com.codeaffine.console.core.Proposal;
 import com.codeaffine.console.core.test.TestImageDescriptor;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class ProposalCalculatorTest {
 
-  private static final String[] NUMBERS = new String[] { "one", "two", "three" };
-  private static final String[] COLORS = new String[] { "red", "green", "blue" };
+  private static final String INFO = "info";
+
+  private static final Proposal[] NUMBERS = new Proposal[] {
+    newProposal( "one" ),
+    newProposal( "two" ),
+    newProposal( "three" )
+  };
+  private static final Proposal[] COLORS = new Proposal[] {
+    newProposal( "red" ),
+    newProposal( "green" ),
+    newProposal( "blue" )
+  };
 
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -47,6 +58,14 @@ public class ProposalCalculatorTest {
     assertThat( proposals[ 0 ].getImage().isDisposed() ).isTrue();
   }
 
+  @Test
+  public void testProposalContent() {
+    ICompletionProposal[] proposals = calculator.calculate( "", 0, 0 );
+
+    assertThat( proposals[ 0 ].getDisplayString() ).isEqualTo( "blue" );
+    assertThat( proposals[ 0 ].getAdditionalProposalInfo() ).isEqualTo( "blue" + INFO );
+  }
+
   @Before
   public void setUp() {
     displayHelper.ensureDisplay();
@@ -55,10 +74,14 @@ public class ProposalCalculatorTest {
     calculator = new ProposalCalculator( numbersProvider, colorsProvider );
   }
 
-  private static ContentProposalProvider stubProposalProvider( String[] proposals ) {
+  private static ContentProposalProvider stubProposalProvider( Proposal[] proposals ) {
     ContentProposalProvider result = mock( ContentProposalProvider.class );
     when( result.getContentProposals() ).thenReturn( proposals );
     when( result.getImageDescriptor() ).thenReturn( new TestImageDescriptor() );
     return result;
+  }
+
+  private static Proposal newProposal( String text ) {
+    return new Proposal( text, text + INFO );
   }
 }

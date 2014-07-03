@@ -3,8 +3,11 @@ package com.codeaffine.console.calculator.internal;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 import com.codeaffine.console.core.ContentProposalProvider;
+import com.codeaffine.console.core.Proposal;
 
 class CalculatorContentProposalProvider implements ContentProposalProvider {
+
+  private static final String INFO = "Sums up two integer values.";
 
   @Override
   public ImageDescriptor getImageDescriptor() {
@@ -12,7 +15,7 @@ class CalculatorContentProposalProvider implements ContentProposalProvider {
   }
 
   @Override
-  public String[] getContentProposals() {
-    return new String[] { CalculatorConsoleCommandInterpreter.SUM };
+  public Proposal[] getContentProposals() {
+    return new Proposal[] { new Proposal( CalculatorConsoleCommandInterpreter.SUM, INFO ) };
   }
 }

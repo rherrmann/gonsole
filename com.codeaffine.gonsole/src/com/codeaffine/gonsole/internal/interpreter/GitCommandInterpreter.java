@@ -13,36 +13,28 @@ public class GitCommandInterpreter implements ConsoleCommandInterpreter {
 
   private static final String[] WORK_DIR_MODIFY_COMMANDS = new String[] { "checkout", "reset" };
 
-  private final PgmResourceBundle pgmResourceBundleInitializer;
   private final CommandExecutor commandExecutor;
   private final CommandLineParser commandLineParser;
 
   public GitCommandInterpreter( ConsoleOutput consoleOutput,
                                 CompositeRepositoryProvider repositoryProvider )
   {
-    this( new PgmResourceBundle(),
-          new CommandExecutor( consoleOutput, repositoryProvider.getCurrentRepositoryLocation() ),
+    this( new CommandExecutor( consoleOutput, repositoryProvider.getCurrentRepositoryLocation() ),
           new CommandLineParser() );
   }
 
-  GitCommandInterpreter( PgmResourceBundle pgmResourceBundleInitializer,
-                         CommandExecutor commandExecutor,
-                         CommandLineParser commandLineParser )
-  {
-    this.pgmResourceBundleInitializer = pgmResourceBundleInitializer;
+  GitCommandInterpreter( CommandExecutor commandExecutor, CommandLineParser commandLineParser ) {
     this.commandExecutor = commandExecutor;
     this.commandLineParser = commandLineParser;
   }
 
   @Override
   public boolean isRecognized( String... commandLine ) {
-    pgmResourceBundleInitializer.initialize();
     return commandLineParser.isRecognized( commandLine );
   }
 
   @Override
   public String execute( String... commandLine ) {
-    pgmResourceBundleInitializer.initialize();
     CommandInfo commandInfo = commandLineParser.parse( commandLine );
     String result = commandExecutor.execute( commandInfo );
     refreshAffectedResources( commandLine );

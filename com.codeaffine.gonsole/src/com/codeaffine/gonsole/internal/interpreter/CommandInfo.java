@@ -9,7 +9,7 @@ import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
 import org.kohsuke.args4j.Argument;
 
-class CommandInfo {
+public class CommandInfo {
 
   @Argument(index = 0, metaVar = "metaVar_command", required = true, handler = SubcommandHandler.class)
   TextBuiltin command;
@@ -18,15 +18,15 @@ class CommandInfo {
   final List<String> arguments;
 
 
-  CommandInfo() {
+  public CommandInfo() {
     arguments = newArrayList();
   }
 
-  TextBuiltin getCommand() {
+  public TextBuiltin getCommand() {
     return command;
   }
 
-  String[] getArguments() {
+  public String[] getArguments() {
     return toArray( arguments, String.class );
   }
 }

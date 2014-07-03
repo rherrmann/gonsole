@@ -1,12 +1,19 @@
 package com.codeaffine.console.core.pdetest.bot;
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.toArray;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.util.Arrays;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+
+import com.google.common.base.Predicate;
 
 public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot> {
 
@@ -43,30 +50,46 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
         expectedText += actual.getLineDelimiter();
       }
     }
-//    actual.waitForChange( expectedText );
     assertEquals( expectedText, actual.getText() );
     return this;
   }
 
   public ConsoleAssert showsNoContentAssist() {
-    Assertions.assertThat( consoleBot.displayHelper.getNewShells() ).isEmpty();
+    Assertions.assertThat( getVisiblePopups() ).isEmpty();
     return this;
   }
 
   public ConsoleAssert showsContentAssist() {
-    Assertions.assertThat( consoleBot.displayHelper.getNewShells() ).hasSize( 1 );
+    Assertions.assertThat( getVisiblePopups() ).hasSize( 1 );
     return this;
   }
 
   public ConsoleAssert withProposal( String proposal ) {
-    Table table = getContentProposalTable();
+    Table table = consoleBot.getContentProposalTable();
     Assertions.assertThat( table.getItem( 0 ).getText() ).isEqualTo( proposal );
     return this;
   }
 
   public void withImage() {
-    Table table = getContentProposalTable();
+    Table table = consoleBot.getContentProposalTable();
     Assertions.assertThat( table.getItem( 0 ).getImage() ).isNotNull();
+  }
+
+  public ConsoleAssert showsAdditionalInfo() {
+    long start = System.currentTimeMillis();
+    while( getVisiblePopups().length < 2 ) {
+      consoleBot.displayHelper.flushPendingEvents();
+      if( System.currentTimeMillis() - start > 5000 ) {
+        fail( "Timed out while waiting for additional info shell" );
+      }
+    }
+    return this;
+  }
+
+  public void containsText( String... texts ) {
+    for( String text : texts ) {
+      Assertions.assertThat( consoleBot.getAdditionalInfoText() ).contains( text );
+    }
   }
 
   public ConsoleAssert hasPromptColorAt( int offset ) {
@@ -93,8 +116,14 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
     actual.waitForColoring( offset, rgb );
   }
 
-  private Table getContentProposalTable() {
-    Shell shell = consoleBot.displayHelper.getNewShells()[ 0 ];
-    return ( Table )shell.getChildren()[ 0 ];
+  private Shell[] getVisiblePopups() {
+    Shell[] newShells = consoleBot.displayHelper.getNewShells();
+    Iterable<Shell> visibleShells = filter( Arrays.asList( newShells ), new Predicate<Shell>() {
+      @Override
+      public boolean apply(Shell input) {
+        return input.getVisible();
+      }
+    } );
+    return toArray( visibleShells, Shell.class );
   }
 }

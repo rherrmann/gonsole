@@ -63,4 +63,12 @@ public class ProposalComputerAssert extends AbstractAssert<ProposalComputerAsser
     }
     return this;
   }
+
+  public ProposalComputerAssert hasAdditionalInfo( String expected ) {
+    String actualnfo = actual.getAdditionalProposalInfo();
+    if( !expected.equals( actualnfo ) ) {
+      failWithMessage( "Expected additionalInfo to be <%s> but was <%s>", expected, actualnfo );
+    }
+    return this;
+  }
 }

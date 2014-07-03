@@ -10,12 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-import com.codeaffine.gonsole.internal.interpreter.CommandExecutor;
-import com.codeaffine.gonsole.internal.interpreter.CommandInfo;
-import com.codeaffine.gonsole.internal.interpreter.CommandLineParser;
-import com.codeaffine.gonsole.internal.interpreter.GitCommandInterpreter;
-import com.codeaffine.gonsole.internal.interpreter.PgmResourceBundle;
-
 public class GitCommandInterpreterTest {
 
   private static final String COMMAND_RESULT = "command-result";
@@ -49,10 +43,9 @@ public class GitCommandInterpreterTest {
 
   @Before
   public void setUp() {
-    PgmResourceBundle pgmResourceBundle = mock( PgmResourceBundle.class );
     commandExecutor = mock( CommandExecutor.class );
     when( commandExecutor.execute( any( CommandInfo.class ) ) ).thenReturn( COMMAND_RESULT );
     cmdLineParser = mock( CommandLineParser.class );
-    gitInterpreter = new GitCommandInterpreter( pgmResourceBundle, commandExecutor, cmdLineParser );
+    gitInterpreter = new GitCommandInterpreter( commandExecutor, cmdLineParser );
   }
 }

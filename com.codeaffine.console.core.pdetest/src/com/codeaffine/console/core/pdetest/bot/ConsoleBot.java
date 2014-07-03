@@ -5,7 +5,10 @@ import static com.codeaffine.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static com.google.common.base.Preconditions.checkState;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -116,6 +119,32 @@ public class ConsoleBot implements MethodRule {
     displayHelper.dispose();
   }
 
+  Table getContentProposalTable() {
+    Table result = null;
+    for( Shell popupShell : displayHelper.getNewShells() ) {
+      Control firstChild = popupShell.getChildren()[ 0 ];
+      if( firstChild instanceof Table ) {
+        result = ( Table )firstChild;
+      }
+    }
+    return result;
+  }
+
+  String getAdditionalInfoText() {
+    String result = null;
+    for( Shell popupShell : displayHelper.getNewShells() ) {
+      if( isAdditionalInfoPopup( popupShell ) ) {
+        Composite composite = ( Composite )popupShell.getChildren()[ 0 ];
+        result = ( ( StyledText )composite.getChildren()[ 0 ] ).getText();
+      }
+    }
+    return result;
+  }
+
+  private static boolean isAdditionalInfoPopup( Shell popupShell ) {
+    return popupShell.getVisible() && !( popupShell.getChildren()[ 0 ] instanceof Table );
+  }
+
   private static GenericConsole registerNewGitConsole( ConsoleConfigurer consoleConfigurer ) {
     GenericConsole result = new GenericConsole( consoleConfigurer );
     ConsolePlugin.getDefault().getConsoleManager().addConsoles( new IConsole[] { result } );
@@ -135,10 +164,5 @@ public class ConsoleBot implements MethodRule {
         consoleManager.removeConsoles( new IConsole[] { console } );
       }
     }
-  }
-
-  private Table getContentProposalTable() {
-    Shell shell = displayHelper.getNewShells()[ 0 ];
-    return ( Table )shell.getChildren()[ 0 ];
   }
 }

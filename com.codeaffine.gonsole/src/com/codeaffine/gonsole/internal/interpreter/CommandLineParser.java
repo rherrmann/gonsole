@@ -1,11 +1,20 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
+import java.io.StringWriter;
+
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.kohsuke.args4j.CmdLineException;
 
-class CommandLineParser {
+public class CommandLineParser {
 
-  boolean isRecognized( String...commands ) {
+  private final PgmResourceBundle pgmResourceBundle;
+
+  public CommandLineParser() {
+    pgmResourceBundle = new PgmResourceBundle();
+  }
+
+  public boolean isRecognized( String...commands ) {
+    pgmResourceBundle.initialize();
     boolean result = false;
     try {
       new CmdLineParser( new CommandInfo() ).parseArgument( commands );
@@ -15,7 +24,8 @@ class CommandLineParser {
     return result;
   }
 
-  CommandInfo parse( String... commands ) {
+  public CommandInfo parse( String... commands ) {
+    pgmResourceBundle.initialize();
     CommandInfo result = new CommandInfo();
     try {
       new CmdLineParser( result ).parseArgument( commands );
@@ -23,5 +33,23 @@ class CommandLineParser {
       throw new RuntimeException( e );
     }
     return result;
+  }
+
+  public String getUsage( String command ) {
+    pgmResourceBundle.initialize();
+    CommandInfo commandInfo = new CommandInfo();
+    CmdLineParser parser = new CmdLineParser( commandInfo );
+    try {
+      parser.parseArgument( command );
+    } catch( Exception ignore ) {
+    }
+    return getUsage( commandInfo );
+  }
+
+  private String getUsage( CommandInfo commandInfo ) {
+    StringWriter result = new StringWriter();
+    CmdLineParser parser = new CmdLineParser( commandInfo.getCommand() );
+    parser.printUsage( result, pgmResourceBundle.getResourceBundle() );
+    return result.toString();
   }
 }

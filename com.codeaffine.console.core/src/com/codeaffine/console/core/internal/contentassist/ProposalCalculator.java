@@ -10,6 +10,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.swt.graphics.Image;
 
 import com.codeaffine.console.core.ContentProposalProvider;
+import com.codeaffine.console.core.Proposal;
 import com.codeaffine.console.core.internal.resource.ResourceRegistry;
 
 public class ProposalCalculator {
@@ -18,7 +19,7 @@ public class ProposalCalculator {
   private final ProposalCreator proposalCreator;
   private final ResourceRegistry imageRegistry;
 
-  ProposalCalculator( ContentProposalProvider ... proposalProviders ) {
+  public ProposalCalculator( ContentProposalProvider ... proposalProviders ) {
     this.proposalCreator = new ProposalCreator();
     this.imageRegistry = new ResourceRegistry();
     this.proposalProviders = proposalProviders;
@@ -28,7 +29,7 @@ public class ProposalCalculator {
     imageRegistry.dispose();
   }
 
-  public ICompletionProposal[] calculate( String prefix , int start , int length ) {
+  public ICompletionProposal[] calculate( String prefix, int start, int length ) {
     List<ICompletionProposal> result = newLinkedList();
     for( ContentProposalProvider proposalProvider : proposalProviders ) {
       result.addAll( calculate( proposalProvider, prefix, start, length ) );
@@ -40,7 +41,7 @@ public class ProposalCalculator {
   private List<ICompletionProposal> calculate( ContentProposalProvider provider, String prefix, int start, int len ) {
     List<ICompletionProposal> result = newLinkedList();
     Image image = imageRegistry.getImage( provider.getImageDescriptor() );
-    for( String proposal : provider.getContentProposals() ) {
+    for( Proposal proposal : provider.getContentProposals() ) {
       ICompletionProposal completionProposal = proposalCreator.create( prefix, proposal, start, len, image );
       if( completionProposal != null ) {
         result.add( completionProposal );

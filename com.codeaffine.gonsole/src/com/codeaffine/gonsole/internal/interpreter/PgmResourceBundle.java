@@ -36,6 +36,10 @@ public class PgmResourceBundle {
     }
   }
 
+  public ResourceBundle getResourceBundle() {
+    return CLIText.get().resourceBundle();
+  }
+
   private static void intialize() throws NoSuchFieldException, IllegalAccessException {
     NLS.useJVMDefaultLocale();
     NLS nls = getNlsForCurrentThread();
@@ -71,8 +75,7 @@ public class PgmResourceBundle {
   {
     Field mapField = nls.getClass().getDeclaredField( "map" );
     mapField.setAccessible( true );
-    Map<Object,Object> map = ( Map<Object,Object> )mapField.get( nls );
-    return map;
+    return ( Map<Object,Object> )mapField.get( nls );
   }
 
   private static void load( TranslationBundle translationBundle )
@@ -84,6 +87,13 @@ public class PgmResourceBundle {
       if( field.getType().equals( String.class ) ) {
         field.set( translationBundle, resourceBundle.getString( field.getName() ) );
       }
+    }
+
+    try {
+      Field field = TranslationBundle.class.getDeclaredField( "resourceBundle" );
+      field.setAccessible( true );
+      field.set( translationBundle, resourceBundle );
+    } catch( Exception e ) {
     }
   }
 

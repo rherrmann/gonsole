@@ -165,4 +165,16 @@ public class GitConsoleContentAssistPDETest {
 
     assertThat( gitCommandImage ).isNotSameAs( controlCommandImage );
   }
+
+  @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
+  public void testAdditionalInfo() {
+    console.open( configurer.createConfigurer( "repo" ) );
+
+    console.typeKey( SWT.CTRL, ' ' );
+
+    assertThat( console )
+      .showsAdditionalInfo()
+      .containsText( "filepattern", "help", "update" );
+  }
 }

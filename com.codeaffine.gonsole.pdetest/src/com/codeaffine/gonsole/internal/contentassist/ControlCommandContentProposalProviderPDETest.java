@@ -6,6 +6,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.codeaffine.console.core.Proposal;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 
 public class ControlCommandContentProposalProviderPDETest {
@@ -14,10 +15,9 @@ public class ControlCommandContentProposalProviderPDETest {
 
   @Test
   public void testGetContentProposals() {
-    String[] actuals = proposalProvider.getContentProposals();
+    Proposal[] actuals = proposalProvider.getContentProposals();
 
-    assertThat( actuals ).isEqualTo( ControlCommandContentProposalProvider.COMMANDS );
-    assertThat( actuals ).isNotSameAs( ControlCommandContentProposalProvider.COMMANDS );
+    assertThat( actuals ).isSameAs( ControlCommandContentProposalProvider.PROPOSALS );
   }
 
   @Test

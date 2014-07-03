@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.codeaffine.console.core.Proposal;
 import com.codeaffine.console.core.test.TestImageDescriptor;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
@@ -19,27 +20,29 @@ public class ProposalCreatorTest {
 
   private ProposalCreator creator;
   private Image image;
+  private Proposal proposal;
 
   @Test
   public void testCreateWithEmptyLine() {
     int start = 0;
 
-    ICompletionProposal actual = creator.create( "", "proposal", start, SELECTION_LENGTH, image );
+    ICompletionProposal actual = creator.create( "", proposal, start, SELECTION_LENGTH, image );
 
     assertThat( actual )
-      .hasReplacement( "proposal" )
+      .hasReplacement( proposal.getText() )
       .hasOffset( start )
       .hasLength( SELECTION_LENGTH )
-      .hasCursorPosition( "proposal".length() )
+      .hasCursorPosition( proposal.getText().length() )
       .hasImage( image )
-      .hasDisplayString( "proposal" );
+      .hasDisplayString( proposal.getText() )
+      .hasAdditionalInfo( proposal.getInfo() );
   }
 
   @Test
   public void testCreateWithMatchingPrefix() {
     int start = 1;
 
-    ICompletionProposal actual = creator.create( "p", "proposal", start, SELECTION_LENGTH, image );
+    ICompletionProposal actual = creator.create( "p", proposal, start, SELECTION_LENGTH, image );
 
     assertThat( actual )
       .hasReplacement( "roposal" )
@@ -47,12 +50,13 @@ public class ProposalCreatorTest {
       .hasLength( SELECTION_LENGTH )
       .hasImage( image )
       .hasCursorPosition( "roposal".length() )
-      .hasDisplayString( "proposal" );
+      .hasDisplayString( proposal.getText() )
+      .hasAdditionalInfo( proposal.getInfo() );
   }
 
   @Test
   public void testCreateWithNonMatchingPrefix() {
-    ICompletionProposal actual = creator.create( "x", "proposal", 1, SELECTION_LENGTH, image );
+    ICompletionProposal actual = creator.create( "x", proposal, 1, SELECTION_LENGTH, image );
 
     assertThat( actual ).isNull();
   }
@@ -61,20 +65,22 @@ public class ProposalCreatorTest {
   public void testCreateWithMatchingPrefixAndStartOffset() {
     int start = 0;
 
-    ICompletionProposal actual = creator.create( "", "proposal", start, SELECTION_LENGTH, image );
+    ICompletionProposal actual = creator.create( "", proposal, start, SELECTION_LENGTH, image );
 
     assertThat( actual )
-      .hasReplacement( "proposal" )
+      .hasReplacement( proposal.getText() )
       .hasOffset( start )
       .hasLength( SELECTION_LENGTH )
       .hasImage( image )
-      .hasCursorPosition( "proposal".length() )
-      .hasDisplayString( "proposal" );
+      .hasCursorPosition( proposal.getText().length() )
+      .hasDisplayString( proposal.getText() )
+      .hasAdditionalInfo( proposal.getInfo() );
   }
 
   @Before
   public void setUp() {
     image = new TestImageDescriptor().createImage( displayHelper.getDisplay() );
+    proposal = new Proposal( "proposal", "additinal-info" );
     creator = new ProposalCreator();
   }
 }
