@@ -142,7 +142,7 @@ public class ConsoleBot implements MethodRule {
   }
 
   private static boolean isAdditionalInfoPopup( Shell popupShell ) {
-    return popupShell.getVisible() && !( popupShell.getChildren()[ 0 ] instanceof Table );
+    return !( popupShell.getChildren()[ 0 ] instanceof Table );
   }
 
   private static GenericConsole registerNewGitConsole( ConsoleConfigurer consoleConfigurer ) {

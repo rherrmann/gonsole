@@ -1,6 +1,8 @@
 package com.codeaffine.console.core.internal.contentassist;
 
-import org.eclipse.jface.text.DefaultInformationControl;
+import static com.codeaffine.console.core.internal.contentassist.ConsoleInformationControl.createInformationControlCreator;
+import static com.codeaffine.console.core.internal.contentassist.ConsoleInformationControlCreator.Appearance.FIXED;
+
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -14,13 +16,11 @@ public class ContentAssist implements ConsoleContentAssist, DisposeListener {
   private final ContentAssistProcessor contentAssistProcessor;
   private final ContentAssistant contentAssistant;
   private final TextConsoleViewer textViewer;
-  private final DefaultInformationControl infoControl;
 
   public ContentAssist( TextConsoleViewer textViewer, ConsoleComponentFactory factory  ) {
     this.editor = new Editor( textViewer, this );
     this.contentAssistProcessor = new ContentAssistProcessor( factory, editor );
     this.contentAssistant = new ContentAssistant();
-    this.infoControl = new DefaultInformationControl( textViewer.getControl().getShell() );
     this.textViewer = textViewer;
   }
 
@@ -28,7 +28,7 @@ public class ContentAssist implements ConsoleContentAssist, DisposeListener {
     contentAssistant.enablePrefixCompletion( true );
     contentAssistant.setRepeatedInvocationMode( true );
     contentAssistant.setContentAssistProcessor( contentAssistProcessor, PartitionType.INPUT );
-    contentAssistant.setInformationControlCreator( infoControl.getInformationPresenterControlCreator() );
+    contentAssistant.setInformationControlCreator( createInformationControlCreator( FIXED ) );
     contentAssistant.install( textViewer );
     textViewer.getTextWidget().addDisposeListener( this );
     textViewer.getTextWidget().addFocusListener( editor );
@@ -42,7 +42,6 @@ public class ContentAssist implements ConsoleContentAssist, DisposeListener {
   @Override
   public void widgetDisposed( DisposeEvent e ) {
     contentAssistant.uninstall();
-    infoControl.dispose();
     contentAssistProcessor.dispose();
   }
 }
