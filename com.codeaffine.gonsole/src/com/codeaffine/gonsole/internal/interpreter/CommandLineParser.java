@@ -49,6 +49,8 @@ public class CommandLineParser {
   private String getUsage( CommandInfo commandInfo ) {
     StringWriter result = new StringWriter();
     CmdLineParser parser = new CmdLineParser( commandInfo.getCommand() );
+    parser.printSingleLineUsage( result, pgmResourceBundle.getResourceBundle() );
+    result.append( "\n\n" );
     parser.printUsage( result, pgmResourceBundle.getResourceBundle() );
     return result.toString();
   }

@@ -8,7 +8,13 @@ import com.codeaffine.gonsole.internal.activator.IconRegistry;
 
 public class ControlCommandContentProposalProvider implements ContentProposalProvider {
 
-  static final Proposal[] PROPOSALS = new Proposal[] { new Proposal( "use", "ToDo" ) };
+  private static final String USAGE
+    = "use repository - Change the current repository\n\n"
+    + "repository: Name of the repository to use. "
+    + "The name is taken from the last segment of the path to the repository (without .git). "
+    + "E.g. the name of /path/to/repo/.git is 'repo'.";
+
+  static final Proposal[] PROPOSALS = new Proposal[] { new Proposal( "use", USAGE ) };
 
   @Override
   public Proposal[] getContentProposals() {
