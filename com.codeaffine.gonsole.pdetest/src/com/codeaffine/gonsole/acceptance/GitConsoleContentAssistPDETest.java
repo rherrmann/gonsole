@@ -2,6 +2,7 @@ package com.codeaffine.gonsole.acceptance;
 
 import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
 import static com.codeaffine.gonsole.acceptance.GitConsolePrompts.line;
+import static com.codeaffine.gonsole.internal.GitConsoleConstants.PROMPT_POSTFIX;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -82,6 +83,20 @@ public class GitConsoleContentAssistPDETest {
     assertThat( console )
       .showsContentAssist()
       .withProposal( "use" );
+  }
+
+  @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
+  public void testShowContentForPreviousCommand() {
+    String repositoryName = "repo";
+    console.open( configurer.createConfigurer( repositoryName ) );
+    console.enterCommandLine( "status" );
+    assertThat( console ).hasProcessedCommandLine();
+
+    console.positionCaret( ( repositoryName + PROMPT_POSTFIX + "s" ).length() );
+    console.typeKey( SWT.CTRL, ' ' );
+
+    assertThat( console ).showsNoContentAssist();
   }
 
   @Test

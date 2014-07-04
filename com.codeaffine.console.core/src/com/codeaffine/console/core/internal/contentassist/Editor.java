@@ -57,7 +57,22 @@ class Editor implements FocusListener {
   }
 
   void showPossibleCompletions() {
-    contentAssist.showPossibleCompletions();
+    if( isCaretInLastInputPartition() ) {
+      contentAssist.showPossibleCompletions();
+    } else {
+      viewer.getTextWidget().getDisplay().beep();
+    }
+  }
+
+  private boolean isCaretInLastInputPartition() {
+    boolean result = false;
+    try {
+      ITypedRegion currentPartition = getDocument().getPartition( getCaretOffset() );
+      ITypedRegion lastPartition = getDocument().getPartition( getDocumentLength() );
+      result = currentPartition == lastPartition;
+    } catch( BadLocationException ignore ) {
+    }
+    return result;
   }
 
   String computePrefix( int offset ) {
