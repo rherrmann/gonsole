@@ -50,7 +50,9 @@ public class CommandLineParser {
     StringWriter result = new StringWriter();
     CmdLineParser parser = new CmdLineParser( commandInfo.getCommand() );
     parser.printSingleLineUsage( result, pgmResourceBundle.getResourceBundle() );
-    result.append( "\n\n" );
+    if( result.getBuffer().length() > 0 ) {
+      result.append( "\n\n" );
+    }
     parser.printUsage( result, pgmResourceBundle.getResourceBundle() );
     return result.toString();
   }
