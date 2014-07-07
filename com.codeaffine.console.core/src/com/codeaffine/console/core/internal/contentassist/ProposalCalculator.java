@@ -18,10 +18,12 @@ public class ProposalCalculator {
   private final ContentProposalProvider[] proposalProviders;
   private final ProposalCreator proposalCreator;
   private final ResourceRegistry imageRegistry;
+  private final Editor editor;
 
-  public ProposalCalculator( ContentProposalProvider ... proposalProviders ) {
+  public ProposalCalculator( Editor editor, ContentProposalProvider ... proposalProviders ) {
+    this.editor = editor;
     this.proposalCreator = new ProposalCreator();
-    this.imageRegistry = new ResourceRegistry();
+    this.imageRegistry = new ResourceRegistry( editor.getDisplay() );
     this.proposalProviders = proposalProviders;
   }
 
@@ -32,10 +34,18 @@ public class ProposalCalculator {
   public ICompletionProposal[] calculate( String prefix, int start, int length ) {
     List<ICompletionProposal> result = newLinkedList();
     for( ContentProposalProvider proposalProvider : proposalProviders ) {
-      result.addAll( calculate( proposalProvider, prefix, start, length ) );
+      if( matchesActivationKeySequence( proposalProvider ) ) {
+        result.addAll( calculate( proposalProvider, prefix, start, length ) );
+      }
     }
     sort( result, new ProposalComparator() );
     return toArray( result, ICompletionProposal.class );
+  }
+
+  private boolean matchesActivationKeySequence( ContentProposalProvider proposalProvider ) {
+    String currentActivationKeySequence = editor.getActivationKeySequence();
+    String proposalActivationKeySequence = proposalProvider.getActivationKeySequence();
+    return currentActivationKeySequence.equalsIgnoreCase( proposalActivationKeySequence );
   }
 
   private List<ICompletionProposal> calculate( ContentProposalProvider provider, String prefix, int start, int len ) {

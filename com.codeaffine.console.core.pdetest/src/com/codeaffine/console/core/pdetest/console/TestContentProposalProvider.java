@@ -27,4 +27,9 @@ class TestContentProposalProvider implements ContentProposalProvider {
     }
     return toArray( result, Proposal.class );
   }
+
+  @Override
+  public String getActivationKeySequence() {
+    return "Ctrl+Space";
+  }
 }

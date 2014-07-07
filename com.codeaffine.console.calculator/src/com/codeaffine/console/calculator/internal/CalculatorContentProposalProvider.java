@@ -18,4 +18,9 @@ class CalculatorContentProposalProvider implements ContentProposalProvider {
   public Proposal[] getContentProposals() {
     return new Proposal[] { new Proposal( CalculatorConsoleCommandInterpreter.SUM, INFO ) };
   }
+
+  @Override
+  public String getActivationKeySequence() {
+    return "Ctrl+Space";
+  }
 }

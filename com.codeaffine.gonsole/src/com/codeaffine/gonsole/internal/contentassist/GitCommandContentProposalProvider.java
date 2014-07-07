@@ -35,4 +35,9 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
       }
     };
   }
+
+  @Override
+  public String getActivationKeySequence() {
+    return "Ctrl+Space";
+  }
 }

@@ -16,6 +16,7 @@ import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class ProposalCalculatorTest {
 
+  private static final String ACTIVATION_KEY_SEQUENCE = "activation-key-sequence";
   private static final String INFO = "info";
 
   private static final Proposal[] NUMBERS = new Proposal[] {
@@ -31,6 +32,7 @@ public class ProposalCalculatorTest {
 
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
+  private Editor editor;
   private ProposalCalculator calculator;
 
   @Test
@@ -40,6 +42,15 @@ public class ProposalCalculatorTest {
     assertThat( actual )
       .hasSize( NUMBERS.length + COLORS.length )
       .isSortedAccordingTo( new ProposalComparator() );
+  }
+
+  @Test
+  public void testCalculageWithNonMatchingActivationKeySequence() {
+    when( editor.getActivationKeySequence() ).thenReturn( "some-other-key-sequence" );
+
+    ICompletionProposal[] actual = calculator.calculate( "", 0, 0 );
+
+    assertThat( actual ).isEmpty();
   }
 
   @Test
@@ -68,16 +79,24 @@ public class ProposalCalculatorTest {
 
   @Before
   public void setUp() {
-    displayHelper.ensureDisplay();
     ContentProposalProvider numbersProvider = stubProposalProvider( NUMBERS );
     ContentProposalProvider colorsProvider = stubProposalProvider( COLORS );
-    calculator = new ProposalCalculator( numbersProvider, colorsProvider );
+    editor = stubEditor();
+    calculator = new ProposalCalculator( editor, numbersProvider, colorsProvider );
+  }
+
+  private Editor stubEditor() {
+    Editor result = mock( Editor.class );
+    when( result.getDisplay() ).thenReturn( displayHelper.getDisplay() );
+    when( result.getActivationKeySequence() ).thenReturn( ACTIVATION_KEY_SEQUENCE );
+    return result;
   }
 
   private static ContentProposalProvider stubProposalProvider( Proposal[] proposals ) {
     ContentProposalProvider result = mock( ContentProposalProvider.class );
     when( result.getContentProposals() ).thenReturn( proposals );
     when( result.getImageDescriptor() ).thenReturn( new TestImageDescriptor() );
+    when( result.getActivationKeySequence() ).thenReturn( ACTIVATION_KEY_SEQUENCE );
     return result;
   }
 

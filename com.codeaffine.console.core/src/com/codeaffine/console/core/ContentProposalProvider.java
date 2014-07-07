@@ -5,4 +5,5 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public interface ContentProposalProvider {
   Proposal[] getContentProposals();
   ImageDescriptor getImageDescriptor();
+  String getActivationKeySequence();
 }

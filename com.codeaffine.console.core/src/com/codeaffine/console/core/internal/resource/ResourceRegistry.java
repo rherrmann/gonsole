@@ -18,11 +18,7 @@ public class ResourceRegistry {
 
   private final LocalResourceManager resourceManager;
 
-  public ResourceRegistry() {
-    this( Display.getCurrent() );
-  }
-
-  ResourceRegistry( Display display ) {
+  public ResourceRegistry( Display display ) {
     checkArgument( display != null, "Parameter 'display' must not be null." );
 
     this.resourceManager = new LocalResourceManager( JFaceResources.getResources( display ) );

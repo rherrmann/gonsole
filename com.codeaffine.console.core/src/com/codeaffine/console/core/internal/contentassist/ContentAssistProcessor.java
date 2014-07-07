@@ -15,7 +15,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   private final Editor editor;
 
   public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory, Editor editor ) {
-    this( new ProposalCalculator( consoleComponentFactory.createProposalProviders() ), editor );
+    this( new ProposalCalculator( editor, consoleComponentFactory.createProposalProviders() ), editor );
   }
 
   ContentAssistProcessor( ProposalCalculator proposalCalculator, Editor editor ) {

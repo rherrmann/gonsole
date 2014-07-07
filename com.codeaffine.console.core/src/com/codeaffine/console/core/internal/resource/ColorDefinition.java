@@ -1,6 +1,7 @@
 package com.codeaffine.console.core.internal.resource;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
 import com.codeaffine.console.core.ColorScheme;
 import com.google.common.base.Preconditions;
@@ -13,7 +14,7 @@ public class ColorDefinition {
   private boolean disposed;
 
   public ColorDefinition( ColorScheme colorScheme ) {
-    this( colorScheme, new ResourceRegistry() );
+    this( colorScheme, new ResourceRegistry( Display.getCurrent() ) );
   }
 
   ColorDefinition( ColorScheme colorScheme, ResourceRegistry colorRegistry ) {

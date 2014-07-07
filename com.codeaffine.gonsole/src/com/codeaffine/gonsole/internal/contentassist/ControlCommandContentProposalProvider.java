@@ -25,4 +25,9 @@ public class ControlCommandContentProposalProvider implements ContentProposalPro
   public ImageDescriptor getImageDescriptor() {
     return new IconRegistry().getDescriptor( IconRegistry.CONTROL_PROPOSAL );
   }
+
+  @Override
+  public String getActivationKeySequence() {
+    return "Ctrl+Space";
+  }
 }

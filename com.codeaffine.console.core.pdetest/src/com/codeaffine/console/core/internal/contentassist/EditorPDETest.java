@@ -2,8 +2,6 @@ package com.codeaffine.console.core.internal.contentassist;
 
 import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.offset;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,8 +17,6 @@ public class EditorPDETest {
 
   @Rule public final ConsoleBot console = new ConsoleBot();
 
-  private ConsoleContentAssist contentAssistant;
-  private ContentAssistActivation activation;
   private Editor editor;
 
   @Test
@@ -72,27 +68,6 @@ public class EditorPDETest {
   }
 
   @Test
-  public void testShowPossibleCompletions() {
-    editor.showPossibleCompletions();
-
-    verify( contentAssistant ).showPossibleCompletions();
-  }
-
-  @Test
-  public void testFocusGained() {
-    editor.focusGained( null );
-
-    verify( activation ).activate();
-  }
-
-  @Test
-  public void testFocusLost() {
-    editor.focusLost( null );
-
-    verify( activation ).deactivate();
-  }
-
-  @Test
   public void testComputePrefixWithOffsetAtLineEnd() {
     console.typeText( TEXT );
 
@@ -130,9 +105,7 @@ public class EditorPDETest {
 
   @Before
   public void setUp() {
-    contentAssistant = mock( ConsoleContentAssist.class );
-    activation = mock( ContentAssistActivation.class );
-    editor = new Editor( openConsole().getPage().getViewer(), contentAssistant, activation );
+    editor = new Editor( openConsole().getPage().getViewer() );
   }
 
   private GenericConsole openConsole() {
