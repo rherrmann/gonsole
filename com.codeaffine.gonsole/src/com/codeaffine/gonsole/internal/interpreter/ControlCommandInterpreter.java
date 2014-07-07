@@ -24,10 +24,10 @@ public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
   }
 
   @Override
-  public String execute( String... parts ) {
+  public String execute( String... commandLine ) {
     String result = "Unknown repository";
-    if( parts.length == 2 && "use".equals( parts[ 0 ] ) ) {
-      String newRepository = parts[ 1 ];
+    if( commandLine.length == 2 && "use".equals( commandLine[ 0 ] ) ) {
+      String newRepository = commandLine[ 1 ];
       File repositoryLocation = findRepositoryLocationByName( newRepository );
       if( repositoryLocation == null ) {
         repositoryLocation = findRepositoryLocationByPath( newRepository );
