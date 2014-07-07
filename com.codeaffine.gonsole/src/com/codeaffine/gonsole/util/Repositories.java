@@ -26,4 +26,13 @@ public class Repositories {
     }
     return result;
   }
+
+  public static String getRepositoryName( File repositoryLocation ) {
+    String result = "no repository";
+    if( repositoryLocation != null  ) {
+      File parentFile = repositoryLocation.getParentFile();
+      result = parentFile == null ? null : parentFile.getName();
+    }
+    return result;
+  }
 }

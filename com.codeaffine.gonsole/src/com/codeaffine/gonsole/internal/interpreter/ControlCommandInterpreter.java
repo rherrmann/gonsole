@@ -5,6 +5,7 @@ import java.io.File;
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.gonsole.util.Repositories;
 
 
 public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
@@ -26,12 +27,15 @@ public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
   public String execute( String... parts ) {
     String result = "Unknown repository";
     if( parts.length == 2 && "use".equals( parts[ 0 ] ) ) {
-      String newRepositoryName = parts[ 1 ];
-      File repositoryLocation = findRepositoryLocationByName( newRepositoryName );
+      String newRepository = parts[ 1 ];
+      File repositoryLocation = findRepositoryLocationByName( newRepository );
+      if( repositoryLocation == null ) {
+        repositoryLocation = findRepositoryLocationByPath( newRepository );
+      }
       if( repositoryLocation != null ) {
         result = null;
         repositoryProvider.setCurrentRepositoryLocation( repositoryLocation );
-        String changedRepositoryName = getRepositoryName( repositoryLocation );
+        String changedRepositoryName = Repositories.getRepositoryName( repositoryLocation );
         String message = String.format( "Current repository is: %s", changedRepositoryName );
         consoleOutput.writeLine( message );
       }
@@ -42,18 +46,18 @@ public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
   private File findRepositoryLocationByName( String newRepositoryName ) {
     File result = null;
     for( File repositoryLocation : repositoryProvider.getRepositoryLocations() ) {
-      if( newRepositoryName.equals( getRepositoryName( repositoryLocation ) ) ) {
+      if( newRepositoryName.equals( Repositories.getRepositoryName( repositoryLocation ) ) ) {
         result = repositoryLocation;
       }
     }
     return result;
   }
 
-  public static String getRepositoryName( File repositoryLocation ) {
-    String result = "no repository";
-    if( repositoryLocation != null  ) {
-      File parentFile = repositoryLocation.getParentFile();
-      result = parentFile == null ? null : parentFile.getName();
+  private static File findRepositoryLocationByPath( String newRepository ) {
+    File result = null;
+    File path = new File( newRepository );
+    if( path.getName().equals( ".git" ) && path.isDirectory() ) {
+      result = path;
     }
     return result;
   }

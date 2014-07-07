@@ -6,8 +6,8 @@ import java.io.File;
 
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.console.core.ConsolePrompt;
-import com.codeaffine.gonsole.internal.interpreter.ControlCommandInterpreter;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.gonsole.util.Repositories;
 
 class GitConsolePrompt implements ConsolePrompt {
 
@@ -22,7 +22,7 @@ class GitConsolePrompt implements ConsolePrompt {
   @Override
   public void writePrompt() {
     File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
-    String repositoryName = ControlCommandInterpreter.getRepositoryName( gitDirectory );
+    String repositoryName = Repositories.getRepositoryName( gitDirectory );
     consoleOutput.write( repositoryName + PROMPT_POSTFIX );
   }
 }

@@ -1,7 +1,6 @@
 package com.codeaffine.gonsole.internal;
 
 import static com.codeaffine.gonsole.internal.activator.IconRegistry.GONSOLE;
-import static com.codeaffine.gonsole.internal.interpreter.ControlCommandInterpreter.getRepositoryName;
 
 import java.io.File;
 
@@ -12,6 +11,7 @@ import com.codeaffine.console.core.ConsoleConfigurer;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 import com.codeaffine.gonsole.internal.repository.RepositoryChangeListener;
+import com.codeaffine.gonsole.util.Repositories;
 
 public class GitConsoleConfigurer implements ConsoleConfigurer {
 
@@ -50,7 +50,7 @@ public class GitConsoleConfigurer implements ConsoleConfigurer {
   private void updateTitle() {
     if( !console.isDisposed() ) {
       File currentRepositoryLocation = repositoryProvider.getCurrentRepositoryLocation();
-      String title = "Git Console: " + getRepositoryName( currentRepositoryLocation );
+      String title = "Git Console: " + Repositories.getRepositoryName( currentRepositoryLocation );
       console.setTitle( title );
     }
   }
