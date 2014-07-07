@@ -2,6 +2,7 @@ package com.codeaffine.gonsole.internal.repository;
 
 import static com.google.common.collect.Iterables.toArray;
 import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 
 import java.io.File;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class CompositeRepositoryProvider implements RepositoryProvider {
 
   @Override
   public File[] getRepositoryLocations() {
-    Set<File> allLocations = newHashSet();
+    Set<File> allLocations = newLinkedHashSet();
     for( RepositoryProvider repositoryProvider : repositoryProviders ) {
       addRepositoryLocations( allLocations, repositoryProvider.getRepositoryLocations() );
     }
