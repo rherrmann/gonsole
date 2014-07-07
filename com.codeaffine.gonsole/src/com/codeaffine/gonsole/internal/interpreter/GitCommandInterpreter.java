@@ -11,7 +11,8 @@ import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 
 public class GitCommandInterpreter implements ConsoleCommandInterpreter {
 
-  private static final String[] WORK_DIR_MODIFY_COMMANDS = new String[] { "checkout", "reset" };
+  private static final String[] WORK_DIR_MODIFY_COMMANDS
+    = new String[] { "checkout", "reset", "merge" };
 
   private final CommandExecutor commandExecutor;
   private final CommandLineParser commandLineParser;
