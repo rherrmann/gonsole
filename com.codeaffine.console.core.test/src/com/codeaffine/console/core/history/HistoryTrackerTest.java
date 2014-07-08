@@ -55,6 +55,13 @@ public class HistoryTrackerTest {
   }
 
   @Test
+  public void testPrependItemWithWhitespace() {
+    historyTracker.isRecognized( "command", "param with spaces" );
+
+    verify( historyStore ).setItems( "command \"param with spaces\"" );
+  }
+
+  @Test
   public void testGetItemsFromHistory() {
     when( historyStore.getItems() ).thenReturn( new String[] { "command" } );
 

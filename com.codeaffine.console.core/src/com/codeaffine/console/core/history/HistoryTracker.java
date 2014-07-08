@@ -1,6 +1,5 @@
 package com.codeaffine.console.core.history;
 
-import static com.google.common.base.Joiner.on;
 import static com.google.common.collect.Iterables.limit;
 import static com.google.common.collect.Iterables.toArray;
 import static com.google.common.collect.Iterables.transform;
@@ -8,6 +7,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 
@@ -37,7 +37,7 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
 
   @Override
   public boolean isRecognized( String... commandLine ) {
-    String newItem = on( ' ' ).join( commandLine );
+    String newItem = joinCommandLine( commandLine );
     List<String> items = newArrayList( historyStore.getItems() );
     items.remove( newItem );
     items.add( 0, newItem );
@@ -70,5 +70,28 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
 
   private List<String> getHistoryItems() {
     return asList( historyStore.getItems() );
+  }
+
+  private static String joinCommandLine( String... commandLine ) {
+    StringBuilder builder = new StringBuilder();
+    for( String command : commandLine ) {
+      if( builder.length() > 0 ) {
+        builder.append( ' ' );
+      }
+      boolean containsWhitespace = containsWhitespace( command );
+      if( containsWhitespace ) {
+        builder.append( '"' );
+      }
+      builder.append( command );
+      if( containsWhitespace ) {
+        builder.append( '"' );
+      }
+    }
+    return builder.toString();
+  }
+
+  private static boolean containsWhitespace( String string ) {
+    Pattern whitespacePattern = Pattern.compile( "\\s" );
+    return whitespacePattern.matcher( string ).find();
   }
 }
