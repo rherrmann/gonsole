@@ -31,18 +31,27 @@ public class HistoryTrackerTest {
   public void testPrependItemToExistingHistory() {
     when( historyStore.getItems() ).thenReturn( new String[] { "command1" } );
 
-    historyTracker.isRecognized( "command2");
+    historyTracker.isRecognized( "command2" );
 
     verify( historyStore ).setItems( "command2", "command1" );
   }
 
   @Test
   public void testPrependItemWithOverflow() {
+    when( historyStore.getItems() ).thenReturn( new String[] { "command3", "command2", "command1" } );
+
+    historyTracker.isRecognized( "command4" );
+
+    verify( historyStore ).setItems( "command4", "command3", "command2" );
+  }
+
+  @Test
+  public void testPrependItemThatAlreadyExists() {
     when( historyStore.getItems() ).thenReturn( new String[] { "command2", "command1" } );
 
-    historyTracker.isRecognized( "command3");
+    historyTracker.isRecognized( "command1" );
 
-    verify( historyStore ).setItems( "command3", "command2" );
+    verify( historyStore ).setItems( "command1", "command2" );
   }
 
   @Test
@@ -99,6 +108,6 @@ public class HistoryTrackerTest {
     imageDescriptor = new TestImageDescriptor();
     historyStore = mock( HistoryStore.class );
     when( historyStore.getItems() ).thenReturn( new String[ 0 ] );
-    historyTracker = new HistoryTracker( 2, imageDescriptor, historyStore );
+    historyTracker = new HistoryTracker( 3, imageDescriptor, historyStore );
   }
 }

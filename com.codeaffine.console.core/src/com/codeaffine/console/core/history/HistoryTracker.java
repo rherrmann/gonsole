@@ -4,7 +4,7 @@ import static com.google.common.base.Joiner.on;
 import static com.google.common.collect.Iterables.limit;
 import static com.google.common.collect.Iterables.toArray;
 import static com.google.common.collect.Iterables.transform;
-import static com.google.common.collect.ObjectArrays.concat;
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
 
 import java.util.List;
@@ -21,12 +21,12 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
 
   static final String ACTIVATION_KEY_SEQUENCE = "Arrow_Up";
 
-  private final int limit;
+  private final int itemLimit;
   private final ImageDescriptor imageDescriptor;
   private final HistoryStore historyStore;
 
   public HistoryTracker( int limit, ImageDescriptor imageDescriptor, HistoryStore historyStore ) {
-    this.limit = limit;
+    this.itemLimit = limit;
     this.imageDescriptor = imageDescriptor;
     this.historyStore = historyStore;
   }
@@ -38,7 +38,10 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
   @Override
   public boolean isRecognized( String... commandLine ) {
     String newItem = on( ' ' ).join( commandLine );
-    historyStore.setItems( limitItems( concat( newItem, historyStore.getItems() ) ));
+    List<String> items = newArrayList( historyStore.getItems() );
+    items.remove( newItem );
+    items.add( 0, newItem );
+    historyStore.setItems( toArray( limit( items, itemLimit ), String.class ) );
     return false;
   }
 
@@ -63,10 +66,6 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
   @Override
   public String getActivationKeySequence() {
     return ACTIVATION_KEY_SEQUENCE;
-  }
-
-  private String[] limitItems( String[] items ) {
-    return toArray( limit( asList( items ), limit ), String.class );
   }
 
   private List<String> getHistoryItems() {
