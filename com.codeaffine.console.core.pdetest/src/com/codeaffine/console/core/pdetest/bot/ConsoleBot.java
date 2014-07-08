@@ -121,7 +121,7 @@ public class ConsoleBot implements MethodRule {
 
   void cleanup() {
     removeGitConsoles();
-    console.clearHistory();
+    cleaHistory();
     consolePageBot = null;
     consoleConfigurer = null;
     partHelper.hideView( CONSOLE_VIEW_ID );
@@ -172,6 +172,12 @@ public class ConsoleBot implements MethodRule {
       if( console instanceof GenericConsole ) {
         consoleManager.removeConsoles( new IConsole[] { console } );
       }
+    }
+  }
+
+  private void cleaHistory() {
+    if( console != null ) {
+      console.clearHistory();
     }
   }
 }
