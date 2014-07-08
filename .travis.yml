@@ -15,3 +15,7 @@ before_script:
 after_success: 
   - chmod a+x .travis-deploy.sh
   - ./.travis-deploy.sh
+after_failure:
+  - cat com.codeaffine.console.core.pdetest/target/surefire-reports/*.txt
+  - cat com.codeaffine.gonsole.pdetest/target/surefire-reports/*.txt
+  - cat com.codeaffine.gonsole.egit.pdetest/target/surefire-reports/*.txt
