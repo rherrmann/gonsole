@@ -1,5 +1,6 @@
 package com.codeaffine.console.core.internal;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
@@ -11,7 +12,7 @@ import org.eclipse.ui.part.IPageSite;
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.internal.contentassist.ContentAssist;
 
-class GenericConsolePage implements IPageBookViewPage {
+class GenericConsolePage implements IPageBookViewPage, IAdaptable {
 
   private final ConsoleComponentFactory consoleComponentFactory;
   private final TextConsolePage consolePage;
@@ -19,6 +20,12 @@ class GenericConsolePage implements IPageBookViewPage {
   GenericConsolePage( TextConsolePage consolePage, ConsoleComponentFactory factory ) {
     this.consolePage = consolePage;
     this.consoleComponentFactory = factory;
+  }
+
+  @SuppressWarnings("rawtypes")
+  @Override
+  public Object getAdapter( Class adapter ) {
+    return consolePage.getAdapter( adapter );
   }
 
   @Override
