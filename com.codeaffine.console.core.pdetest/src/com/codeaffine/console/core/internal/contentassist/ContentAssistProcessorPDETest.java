@@ -37,8 +37,7 @@ public class ContentAssistProcessorPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testComputeCompletionWithOffsetOnLineEnd() {
-    viewer.getDocument().set( COMMAND );
-    simulateContentAssistKeySequence();
+    prepareContentAssistOn( COMMAND );
 
     ICompletionProposal[] actual = processor.computeCompletionProposals( viewer, COMMAND.length() );
 
@@ -48,8 +47,7 @@ public class ContentAssistProcessorPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testComputeCompletionProposalsWithOffsetOnLineStart() {
-    viewer.getDocument().set( COMMAND );
-    simulateContentAssistKeySequence();
+    prepareContentAssistOn( COMMAND );
 
     ICompletionProposal[] actual = processor.computeCompletionProposals( viewer, 0 );
 
@@ -59,8 +57,7 @@ public class ContentAssistProcessorPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testComputeCompletionProposalsWithNonMatchingCommand() {
-    viewer.getDocument().set( "unknown" );
-    simulateContentAssistKeySequence();
+    prepareContentAssistOn( "unknown" );
 
     ICompletionProposal[] actual = processor.computeCompletionProposals( viewer, "unknown".length() );
 
@@ -87,11 +84,15 @@ public class ContentAssistProcessorPDETest {
     processor = new ContentAssistProcessor( factory, editor );
   }
 
+  private void prepareContentAssistOn( String text ) {
+    viewer.getDocument().set( text );
+    simulateContentAssistKeySequence();
+  }
+
   private void simulateContentAssistKeySequence() {
     SWTEventHelper.trigger( SWT.KeyDown )
       .withKeyCode( ' ' )
       .withStateMask( SWT.CTRL )
       .on( viewer.getControl() );
-    displayHelper.flushPendingEvents();
   }
 }
