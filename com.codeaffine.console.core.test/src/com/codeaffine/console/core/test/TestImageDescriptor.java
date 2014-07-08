@@ -9,6 +9,6 @@ public class TestImageDescriptor extends ImageDescriptor {
 
   @Override
   public ImageData getImageData() {
-    return new ImageData(6, 6, 1, new PaletteData(new RGB[] { new RGB(255, 0, 0) }));
+    return new ImageData( 6, 6, 1, new PaletteData( new RGB[]{ new RGB( 255, 0, 0 ) } ) );
   }
 }

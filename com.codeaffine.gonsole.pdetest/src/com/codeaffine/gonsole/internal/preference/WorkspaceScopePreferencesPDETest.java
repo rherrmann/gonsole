@@ -34,6 +34,20 @@ public class WorkspaceScopePreferencesPDETest {
     assertThat( preferenceStore.getString( PREF_REPOSITORY_LOCATIONS ) ).isEqualTo( value );
   }
 
+  @Test
+  public void testSetHistory() {
+    preferences.setHistoryItems( "a", "b", "c" );
+
+    assertThat( preferences.getHistoryItems() ).containsExactly( "a", "b", "c" );
+  }
+
+  @Test
+  public void testGetHistory() {
+    String[] historyItems = preferences.getHistoryItems();
+
+    assertThat( historyItems ).isEmpty();
+  }
+
   @Before
   public void setUp() {
     preferenceStore = new PreferenceStore();

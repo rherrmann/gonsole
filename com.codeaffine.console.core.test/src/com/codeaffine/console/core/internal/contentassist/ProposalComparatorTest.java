@@ -1,12 +1,11 @@
 package com.codeaffine.console.core.internal.contentassist;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.codeaffine.console.core.Proposal;
 
 public class ProposalComparatorTest {
 
@@ -14,8 +13,8 @@ public class ProposalComparatorTest {
 
   @Test
   public void testCompareAscending() {
-    ICompletionProposal proposal1 = stubProposalWith( "a" );
-    ICompletionProposal proposal2 = stubProposalWith( "b" );
+    Proposal proposal1 = createProposal( "a" );
+    Proposal proposal2 = createProposal( "b" );
 
     int actual = comparator.compare( proposal1, proposal2 );
 
@@ -24,8 +23,8 @@ public class ProposalComparatorTest {
 
   @Test
   public void testCompareDescending() {
-    ICompletionProposal proposal1 = stubProposalWith( "b" );
-    ICompletionProposal proposal2 = stubProposalWith( "a" );
+    Proposal proposal1 = createProposal( "b" );
+    Proposal proposal2 = createProposal( "a" );
 
     int actual = comparator.compare( proposal1, proposal2 );
 
@@ -34,8 +33,8 @@ public class ProposalComparatorTest {
 
   @Test
   public void testCompareEquals() {
-    ICompletionProposal proposal1 = stubProposalWith( "a" );
-    ICompletionProposal proposal2 = stubProposalWith( "a" );
+    Proposal proposal1 = createProposal( "a" );
+    Proposal proposal2 = createProposal( "a" );
 
     int actual = comparator.compare( proposal1, proposal2 );
 
@@ -47,9 +46,7 @@ public class ProposalComparatorTest {
     comparator = new ProposalComparator();
   }
 
-  private static ICompletionProposal stubProposalWith( String displayString ) {
-    ICompletionProposal result = mock( ICompletionProposal.class );
-    when( result.getDisplayString() ).thenReturn( displayString );
-    return result;
+  private static Proposal createProposal( String sortKey ) {
+    return new Proposal( sortKey, null, null, null );
   }
 }

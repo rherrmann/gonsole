@@ -4,6 +4,7 @@ import static com.codeaffine.console.core.internal.contentassist.ProposalCompute
 
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.swt.graphics.Image;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class ProposalCreatorTest {
   public void testCreateWithEmptyLine() {
     int start = 0;
 
-    ICompletionProposal actual = creator.create( "", proposal, start, SELECTION_LENGTH, image );
+    ICompletionProposal actual = creator.create( "", proposal, start, SELECTION_LENGTH );
 
     assertThat( actual )
       .hasReplacement( proposal.getText() )
@@ -42,7 +43,7 @@ public class ProposalCreatorTest {
   public void testCreateWithMatchingPrefix() {
     int start = 1;
 
-    ICompletionProposal actual = creator.create( "p", proposal, start, SELECTION_LENGTH, image );
+    ICompletionProposal actual = creator.create( "p", proposal, start, SELECTION_LENGTH );
 
     assertThat( actual )
       .hasReplacement( "roposal" )
@@ -56,7 +57,7 @@ public class ProposalCreatorTest {
 
   @Test
   public void testCreateWithNonMatchingPrefix() {
-    ICompletionProposal actual = creator.create( "x", proposal, 1, SELECTION_LENGTH, image );
+    ICompletionProposal actual = creator.create( "x", proposal, 1, SELECTION_LENGTH );
 
     assertThat( actual ).isNull();
   }
@@ -65,7 +66,7 @@ public class ProposalCreatorTest {
   public void testCreateWithMatchingPrefixAndStartOffset() {
     int start = 0;
 
-    ICompletionProposal actual = creator.create( "", proposal, start, SELECTION_LENGTH, image );
+    ICompletionProposal actual = creator.create( "", proposal, start, SELECTION_LENGTH );
 
     assertThat( actual )
       .hasReplacement( proposal.getText() )
@@ -80,7 +81,12 @@ public class ProposalCreatorTest {
   @Before
   public void setUp() {
     image = new TestImageDescriptor().createImage( displayHelper.getDisplay() );
-    proposal = new Proposal( "proposal", "additinal-info" );
-    creator = new ProposalCreator();
+    proposal = new Proposal( "proposal", "proposal", "additinal-info", new TestImageDescriptor() );
+    creator = new ProposalCreator( displayHelper.getDisplay() );
+  }
+
+  @After
+  public void tearDown() {
+    creator.dispose();
   }
 }

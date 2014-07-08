@@ -5,6 +5,7 @@ import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.console.core.ConsolePrompt;
 import com.codeaffine.console.core.ContentProposalProvider;
+import com.codeaffine.console.core.history.HistoryTracker;
 
 class CalculatorComponentFactory implements ConsoleComponentFactory {
 
@@ -21,5 +22,10 @@ class CalculatorComponentFactory implements ConsoleComponentFactory {
   @Override
   public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput consoleOutput ) {
     return new ConsoleCommandInterpreter[] { new CalculatorConsoleCommandInterpreter( consoleOutput ) };
+  }
+
+  @Override
+  public HistoryTracker getHistoryTracker() {
+    return null;
   }
 }

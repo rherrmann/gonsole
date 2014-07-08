@@ -42,7 +42,7 @@ public class ProposalComputerAssert extends AbstractAssert<ProposalComputerAsser
   }
 
   public ProposalComputerAssert hasImage( Image expected ) {
-    if( actual.getImage() != expected ) {
+    if( actual.getImage().equals( expected ) ) {
       failWithMessage( "Expected image be <%s> but was <%s>", expected, actual.getImage() );
     }
     return this;

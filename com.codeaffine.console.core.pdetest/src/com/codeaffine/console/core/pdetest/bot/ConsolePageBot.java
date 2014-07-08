@@ -82,6 +82,14 @@ class ConsolePageBot {
     captureText();
   }
 
+  void triggerEvent( int eventType, int modifiers, int keyCode ) {
+    trigger( eventType )
+      .withKeyCode( keyCode )
+      .withStateMask( modifiers )
+      .on( styledText );
+    captureText();
+  }
+
   void selectText( int start, int length ) {
     styledText.setSelectionRange( start, length );
   }

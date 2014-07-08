@@ -55,6 +55,10 @@ public class ConsoleBot implements MethodRule {
     consolePageBot.triggerEvent( SWT.KeyDown, modifiers, character );
   }
 
+  public void typeKey( int modifiers, int keyCode ) {
+    consolePageBot.triggerEvent( SWT.KeyDown, modifiers, keyCode );
+  }
+
   public void typeEnter() {
     enterCommandLine( "" );
     consolePageBot.waitForCommandLineProcessing();
@@ -73,6 +77,10 @@ public class ConsoleBot implements MethodRule {
     checkState( consolePageBot != null, "GitConsole has not been opened yet." );
 
     consolePageBot.enterCommandLine( commandLine );
+  }
+
+  public void waitForCommandLineProcessing() {
+    consolePageBot.waitForCommandLineProcessing();
   }
 
   public void runToolBarAction( String text ) {
@@ -113,6 +121,7 @@ public class ConsoleBot implements MethodRule {
 
   void cleanup() {
     removeGitConsoles();
+    console.clearHistory();
     consolePageBot = null;
     consoleConfigurer = null;
     partHelper.hideView( CONSOLE_VIEW_ID );

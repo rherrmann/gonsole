@@ -13,6 +13,7 @@ import com.codeaffine.console.core.Console;
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ConsoleConfigurer;
 import com.codeaffine.console.core.ConsoleOutput;
+import com.codeaffine.console.core.history.HistoryTracker;
 import com.codeaffine.console.core.internal.resource.ColorDefinition;
 import com.codeaffine.console.core.internal.resource.ConsoleIoProvider;
 
@@ -61,7 +62,7 @@ public class GenericConsole extends IOConsole implements Console {
 
   @Override
   public void setConsoleComponentFactory( ConsoleComponentFactory consoleComponentFactory ) {
-    this.consoleComponentFactory = consoleComponentFactory;
+    this.consoleComponentFactory = new GenericConsoleComponentFactory( consoleComponentFactory );
   }
 
   @Override
@@ -105,5 +106,12 @@ public class GenericConsole extends IOConsole implements Console {
     super.clearConsole();
     ConsoleOutput consoleOutput = Output.create( consoleIoProvider.getPromptStream() );
     consoleComponentFactory.createConsolePrompt( consoleOutput ).writePrompt();
+  }
+
+  public void clearHistory() {
+    HistoryTracker historyTracker = consoleComponentFactory.getHistoryTracker();
+    if( historyTracker != null ) {
+      historyTracker.clear();
+    }
   }
 }

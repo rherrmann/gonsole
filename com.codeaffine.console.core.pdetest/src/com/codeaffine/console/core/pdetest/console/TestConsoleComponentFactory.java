@@ -5,6 +5,7 @@ import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.console.core.ConsolePrompt;
 import com.codeaffine.console.core.ContentProposalProvider;
+import com.codeaffine.console.core.history.HistoryTracker;
 
 public class TestConsoleComponentFactory implements ConsoleComponentFactory {
 
@@ -21,5 +22,10 @@ public class TestConsoleComponentFactory implements ConsoleComponentFactory {
   @Override
   public ContentProposalProvider[] createProposalProviders() {
     return new ContentProposalProvider[] { new TestContentProposalProvider() };
+  }
+
+  @Override
+  public HistoryTracker getHistoryTracker() {
+    return null;
   }
 }

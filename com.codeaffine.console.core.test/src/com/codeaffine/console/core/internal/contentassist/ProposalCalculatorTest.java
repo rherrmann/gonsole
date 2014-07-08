@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Comparator;
+
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.junit.Before;
 import org.junit.Rule;
@@ -41,7 +43,7 @@ public class ProposalCalculatorTest {
 
     assertThat( actual )
       .hasSize( NUMBERS.length + COLORS.length )
-      .isSortedAccordingTo( new ProposalComparator() );
+      .isSortedAccordingTo( new CompletionProposalComparator() );
   }
 
   @Test
@@ -95,12 +97,18 @@ public class ProposalCalculatorTest {
   private static ContentProposalProvider stubProposalProvider( Proposal[] proposals ) {
     ContentProposalProvider result = mock( ContentProposalProvider.class );
     when( result.getContentProposals() ).thenReturn( proposals );
-    when( result.getImageDescriptor() ).thenReturn( new TestImageDescriptor() );
     when( result.getActivationKeySequence() ).thenReturn( ACTIVATION_KEY_SEQUENCE );
     return result;
   }
 
   private static Proposal newProposal( String text ) {
-    return new Proposal( text, text + INFO );
+    return new Proposal( text, text, text + INFO, new TestImageDescriptor() );
+  }
+
+  private static class CompletionProposalComparator implements Comparator<ICompletionProposal> {
+    @Override
+    public int compare( ICompletionProposal proposal1, ICompletionProposal proposal2 ) {
+      return proposal1.getDisplayString().compareTo( proposal2.getDisplayString() );
+    }
   }
 }
