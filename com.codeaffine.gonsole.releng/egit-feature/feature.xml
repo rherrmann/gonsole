@@ -2,7 +2,7 @@
 <feature
       id="com.codeaffine.gonsole.egit.feature"
       label="Gonsole - EGit Integration"
-      version="0.8.1.qualifier"
+      version="1.0.0.qualifier"
       provider-name="codeaffine.com">
 
    <description url="https://github.com/rherrmann/gonsole/blob/master/README.md">
@@ -22,7 +22,7 @@
    </url>
 
    <requires>
-      <import plugin="com.codeaffine.gonsole" version="0.8.1"/>
+      <import plugin="com.codeaffine.gonsole" version="1.0.0"/>
       <import plugin="org.eclipse.egit.core" version="3.3.0" match="compatible"/>
    </requires>
 

@@ -2,5 +2,5 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gonsole - Git Console for Eclipse
 Bundle-SymbolicName: com.codeaffine.gonsole.branding
-Bundle-Version: 0.8.1.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: codeaffine.com
