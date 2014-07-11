@@ -16,9 +16,13 @@
 </div>
 
 <p style="text-align: center"><img src="gonsole.png" /></p>
-<h1 style="text-align: center">Git Console Integration for the Eclipse IDE</h1>
+<h1 style="text-align: center">Git Console Plug-in for the Eclipse IDE</h1>
 <p style="text-align: center; margin-bottom: 3em">
 <a href="https://travis-ci.org/rherrmann/gonsole"><img src="https://travis-ci.org/rherrmann/gonsole.png" /></a>
+<br />
+<a href="http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=1789454" title="Drag and drop into a running Eclipse workspace to install Gonsole">
+  <img src="https://marketplace.eclipse.org/sites/all/modules/custom/marketplace/images/installbutton.png"/>
+</a>
 </p>
 
 <p>
@@ -31,6 +35,94 @@ Eclipse Console View</a> and displays their output within this view.
 
 <p style="text-align: center"><img src="screenshot.png" /></p>
 
+<h2>Usage</h2>
+
+<div style="margin-top: 2em;">
+<img style="float:right;" src="open-console-dropdown.png"/>
+To start a new console session, select <strong>Git Console</strong> from the <strong>Open Console</strong> drop-down 
+of the Console View.
+</div>
+<div style="clear: both;">&nbsp;</div>
+
+<div style="margin-top: 2em;">
+<img style="float:right" src="select-console-dropdown.png"/>
+All console sessions are listed in <strong>Display Selected Console</strong> drop-down that can be used
+to switch between sessions.
+</div>
+<div style="clear: both;">&nbsp;</div>
+
+<div style="margin-top: 2em;">
+<img style="float:right" src="content-assist.png"/>
+The key combination <strong>Ctrl+Space</strong> opens a content assist popup that shows all availble 
+commands.
+</div>
+<div style="clear: both;">&nbsp;</div>
+
+<div style="margin-top: 2em;">
+<img style="float:right" src="command-history.png"/>
+To see a history of recently typed commands, use the <strong>Arrow Up</strong> key.
+</div>
+<div style="clear: both;">&nbsp;</div>
+
+<div style="margin-top: 2em;">
+<img style="float:right" src="use-command.png"/>
+The command prompt indicates the current repository to which the entered commands apply to. 
+To change the current repository, use the <strong>use</strong> command.
+<br/>
+This command requires either the absolute path to the .git folder of a repository or the name
+of a registered repository. 
+</div>
+<div style="clear: both;">&nbsp;</div>
+
+<div style="margin-top: 2em;">
+<img style="float:right" src="repository-configuration.png"/>
+Repositories can be registered with the Git Console either through the 
+<strong>Team &gt; Git Console &gt; Repository Locations</strong> preference page or through the EGit 
+repository view.
+</div>
+<div style="clear: both;">&nbsp;</div>
+
+
+<h2>Requirements</h2>
+<p>
+Eclipse 3.8 (Juno) or newer.
+</p>
+
+<h2>Installation</h2>
+<p>
+<a href="http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=1789454" title="Drag and drop into a running Eclipse workspace to install Gonsole">
+  <img src="https://marketplace.eclipse.org/sites/all/modules/custom/marketplace/images/installbutton.png"/>
+</a>
+</p>
+<p>
+Gonsole is available in the <a href="https://marketplace.eclipse.org/content/gonsole">Eclipse Marketplace</a>. 
+The easiest way to install it is to drag the Install icon into your Eclipse.
+</p>
+<p>
+If you prefer, you can also install Gonsole directly from this software repository:
+<a href="http://rherrmann.github.io/gonsole/repository/">http://rherrmann.github.io/gonsole/repository/</a>
+</p>
+
+<h2>Git Included</h2>
+<p>
+It is not necessary to have Git installed on your computer for the the plug-in to work.
+The plug-in uses <a href="https://eclipse.org/jgit/">JGit</a>, a pure Java implementation of Git,
+to interact with the repository.
+</p>
+
+<h2>Source Code</h2>
+<p>
+The source code is hosted on <a href="https://github.com/rherrmann/gonsole">GitHub</a>.
+</p>
+
+
+<h2>License</h2>
+<p>
+The code is published under the terms of the <a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License, version 1.0</a>.
+</p>
+
+
+<h2>Blog</h2>
 <p>
 The project's progress is documented in a series of <em>gonsole weeks</em> articles 
 <ul>
@@ -49,60 +141,12 @@ The project's progress is documented in a series of <em>gonsole weeks</em> artic
   <li>
     <a href="http://www.codeaffine.com/2014/07/02/gonsole-weeks-multiple-console-sessions/">multiple console sessions</a>
   </li>
+  <li>
+    <a href="http://www.codeaffine.com/2014/07/09/gonsole-weeks-a-git-console-for-eclipse/">a console for eclipse</a>
+  </li>
 </ul>
 </p>
 
-
-<h2>Usage</h2>
-<p>
-To start a new console session, select <strong>Git Console</strong> from the <strong>Open Console</strong> drop-down 
-of the Console View.
-All console sessions are listed in <strong>Display Selected Console</strong> drop-down that can be used
-to switch between sessions.
-</p>
-<p>
-The key combination <strong>Ctrl+Space</strong> opens a content assist popup that shows all availble 
-commands.
-To see a history of recently typed commands, use the <strong>Arrow Up</strong> key.
-</p>
-<p>
-The command prompt indicates the current repository to which the entered commands apply to. 
-To change the current repository, use the <strong>use</strong> command.
-This command requires either the absolute path to the .git folder of a repository or the name
-of a registered repository. Repositories can be registered with the Git Console either through the 
-<strong>Team &gt; Git Console &gt; Repository Locations</strong> preference page or through the EGit 
-repository view.  
-</p>
-</p>
-
-
-<h2>Requirements</h2>
-<p>
-Eclipse 3.8 (Juno) or newer.
-</p>
-
-<h2>Installation</h2>
-<p>
-Install from this Eclipse software repository:
-<a href="http://rherrmann.github.io/gonsole/repository/">http://rherrmann.github.io/gonsole/repository/</a>
-</p>
-
-<h2>Git Included</h2>
-<p>
-It is not necessary to have Git installed on your computer for the the plug-in to work.
-The plug-in uses <a href="https://eclipse.org/jgit/">JGit</a>, a pure Java implementation of Git,
-to interact with the repository.
-</p>
-
-<h2>Source Code</h2>
-<p>
-The source code is hosted on <a href="https://github.com/rherrmann/gonsole">GitHub</a>.
-</p>
-
-<h2>License</h2>
-<p>
-The code is published under the terms of the <a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License, version 1.0</a>.
-</p>
 
 <h2>Acknowledgment</h2>
 <p>
