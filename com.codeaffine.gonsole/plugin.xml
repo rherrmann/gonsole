@@ -49,6 +49,40 @@
       </keyword>
    </extension>
    <extension
+         point="org.eclipse.ui.themes">
+      <themeElementCategory
+            id="com.codeaffine.gonsole.internal.ThemeElementCategory"
+            label="Git Console">
+      </themeElementCategory>
+      <colorDefinition
+            categoryId="com.codeaffine.gonsole.internal.ThemeElementCategory"
+            id="com.codeaffine.gonsole.internal.InputColor"
+            isEditable="true"
+            label="Input Color"
+            value="COLOR_BLUE">
+      </colorDefinition>
+      <colorDefinition
+            categoryId="com.codeaffine.gonsole.internal.ThemeElementCategory"
+            id="com.codeaffine.gonsole.internal.PromptColor"
+            label="Prompt Color"
+            value="COLOR_DARK_GRAY">
+      </colorDefinition>
+      <colorDefinition
+            categoryId="com.codeaffine.gonsole.internal.ThemeElementCategory"
+            id="com.codeaffine.gonsole.internal.OutputColor"
+            isEditable="true"
+            label="Output Color"
+            value="COLOR_WIDGET_FOREGROUND">
+      </colorDefinition>
+      <colorDefinition
+            categoryId="com.codeaffine.gonsole.internal.ThemeElementCategory"
+            id="com.codeaffine.gonsole.internal.ErrorColor"
+            isEditable="true"
+            label="Error Color"
+            value="COLOR_RED">
+      </colorDefinition>
+   </extension>
+   <extension
          point="com.codeaffine.gonsole.repositoryProviders">
       <repositoryProvider
             class="com.codeaffine.gonsole.internal.repository.PreferenceRepositoryProvider">

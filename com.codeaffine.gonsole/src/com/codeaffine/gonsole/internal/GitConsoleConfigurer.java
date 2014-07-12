@@ -33,7 +33,7 @@ public class GitConsoleConfigurer implements ConsoleConfigurer {
     this.console = console;
     updateTitle();
     console.setImageDescriptor( new IconRegistry().getDescriptor( GONSOLE ) );
-    console.setColorScheme( new GitConsoleColorScheme( display ) );
+    console.setColorScheme( new GitConsoleColorScheme() );
     console.setConsoleComponentFactory( new GitConsoleComponentFactory( repositoryProvider ) );
     repositoryProvider.addRepositoryChangeListener( new CurrentRepositoryChangeObserver() );
   }

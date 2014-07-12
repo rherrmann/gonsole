@@ -12,11 +12,11 @@ public class ConsoleIoProvider {
   private final OutputStream errorStream;
   private final InputStream inputStream;
 
-  public ConsoleIoProvider( ColorDefinition definition, IoStreamProvider ioStreamProvider ) {
-    this.inputStream = ioStreamProvider.getInputStream( definition.getInputColor() );
-    this.outputStream = ioStreamProvider.newOutputStream( definition.getOutputColor() );
-    this.promptStream = ioStreamProvider.newOutputStream( definition.getPromptColor() );
-    this.errorStream = ioStreamProvider.newOutputStream( definition.getErrorColor() );
+  public ConsoleIoProvider( ColorDefinition colorDefinition, IoStreamProvider ioStreamProvider ) {
+    this.inputStream = ioStreamProvider.getInputStream( colorDefinition.getInputColor() );
+    this.outputStream = ioStreamProvider.newOutputStream( colorDefinition.getOutputColor() );
+    this.promptStream = ioStreamProvider.newOutputStream( colorDefinition.getPromptColor() );
+    this.errorStream = ioStreamProvider.newOutputStream( colorDefinition.getErrorColor() );
   }
 
   public OutputStream getOutputStream() {
