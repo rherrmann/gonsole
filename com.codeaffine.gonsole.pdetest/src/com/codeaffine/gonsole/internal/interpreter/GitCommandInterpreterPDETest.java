@@ -27,11 +27,46 @@ public class GitCommandInterpreterPDETest {
   private GitCommandInterpreter interpreter;
 
   @Test
+  public void testIsRecognizedForKnownCommand() {
+    boolean recognized = interpreter.isRecognized( "status" );
+
+    assertThat( recognized ).isTrue();
+  }
+
+  @Test
+  public void testIsRecognizedForKnownCommandWithInvalidArguments() {
+    boolean recognized = interpreter.isRecognized( "status", "invalid", "argument" );
+
+    assertThat( recognized ).isTrue();
+  }
+
+  @Test
+  public void testIsRecognizedForUnknownCommand() {
+    boolean recognized = interpreter.isRecognized( "unknown" );
+
+    assertThat( recognized ).isFalse();
+  }
+
+  @Test
   @RunInThread
   public void testIsRecognizedFromBackgroundThread() {
     boolean recognized = interpreter.isRecognized( "status" );
 
     assertThat( recognized ).isTrue();
+  }
+
+  @Test
+  public void testExecuteForKnownCommand() {
+    String executionResult = interpreter.execute( "status" );
+
+    assertThat( executionResult ).isNull();
+  }
+
+  @Test
+  public void testExecuteForKnownCommandWithInvalidArguments() {
+    String executionResult = interpreter.execute( "status", "invalid", "argument" );
+
+    assertThat( executionResult ).isNull();
   }
 
   @Test
