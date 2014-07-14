@@ -74,7 +74,7 @@ public class CommandLineParserPDETest {
   public void testGetUsage() {
     String usage = commandLineParser.getUsage( "add" );
 
-    assertThat( usage ).contains( "filepattern", "help", "update" );
+    assertThat( usage ).contains( "Add file", "filepattern", "help", "update" );
   }
 
   @Test

@@ -1,7 +1,11 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import java.io.StringWriter;
 
+import org.eclipse.jgit.pgm.Command;
+import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.kohsuke.args4j.CmdLineException;
 
@@ -48,6 +52,11 @@ public class CommandLineParser {
 
   private String getUsage( CommandInfo commandInfo ) {
     StringWriter result = new StringWriter();
+    String usage = getCommandUsage( commandInfo );
+    if( !usage.isEmpty() ) {
+      result.append( usage );
+      result.append( "\n" );
+    }
     CmdLineParser parser = new CmdLineParser( commandInfo.getCommand() );
     parser.printSingleLineUsage( result, pgmResourceBundle.getResourceBundle() );
     if( result.getBuffer().length() > 0 ) {
@@ -55,5 +64,17 @@ public class CommandLineParser {
     }
     parser.printUsage( result, pgmResourceBundle.getResourceBundle() );
     return result.toString();
+  }
+
+  private String getCommandUsage( CommandInfo commandInfo ) {
+    String result = "";
+    TextBuiltin command = commandInfo.getCommand();
+    if( command != null ) {
+      Command commandAnnotation = command.getClass().getAnnotation( Command.class );
+      if( commandAnnotation != null && !isNullOrEmpty( commandAnnotation.usage() ) ) {
+        result = pgmResourceBundle.getResourceBundle().getString( commandAnnotation.usage() );
+      }
+    }
+    return result;
   }
 }
