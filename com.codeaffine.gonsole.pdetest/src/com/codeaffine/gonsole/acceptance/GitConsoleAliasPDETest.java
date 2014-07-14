@@ -37,6 +37,19 @@ public class GitConsoleAliasPDETest {
       .containsLines( line( "repo", "st" ), "# On branch master", line( "repo" ) );
   }
 
+  @Test
+  public void testEnterCommandAliasWithGitPrefix() throws IOException {
+    configHelper.setValue( "alias", "st", "status" );
+    consoleBot.open( consoleConfigurer );
+
+    consoleBot.enterCommandLine( "git st" );
+
+    assertThat( consoleBot )
+    .hasProcessedCommandLine()
+    .caretIsAtEnd()
+    .containsLines( line( "repo", "git st" ), "# On branch master", line( "repo" ) );
+  }
+
   @Before
   public void setUp() {
     consoleConfigurer = ( GitConsoleConfigurer )configurer.createConfigurer( "repo" );
