@@ -31,14 +31,26 @@ public class GitCommandInterpreter implements ConsoleCommandInterpreter {
 
   @Override
   public boolean isRecognized( String... commandLine ) {
-    return commandLineParser.isRecognized( commandLine );
+    return commandLineParser.isRecognized( resolveAlias( commandLine ) );
   }
 
   @Override
   public String execute( String... commandLine ) {
-    CommandInfo commandInfo = commandLineParser.parse( commandLine );
+    CommandInfo commandInfo = commandLineParser.parse( resolveAlias( commandLine ) );
     String result = commandExecutor.execute( commandInfo );
     refreshAffectedResources( commandLine );
+    return result;
+  }
+
+  private String[] resolveAlias( String[] commandLine ) {
+    String[] result = commandLine.clone();
+    if( result.length >= 1 ) {
+      AliasConfig aliasConfig = new AliasConfig( commandExecutor.getRepositoryLocation() );
+      String command = aliasConfig.getCommand( commandLine[ 0 ] );
+      if( command != null ) {
+        result[ 0 ] = command;
+      }
+    }
     return result;
   }
 
