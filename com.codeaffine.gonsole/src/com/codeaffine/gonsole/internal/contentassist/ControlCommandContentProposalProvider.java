@@ -26,6 +26,6 @@ public class ControlCommandContentProposalProvider implements ContentProposalPro
 
   @Override
   public String getActivationKeySequence() {
-    return "Ctrl+Space";
+    return new KeyBinding().getContentAssistKeyBinding();
   }
 }
