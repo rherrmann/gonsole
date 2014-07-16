@@ -19,7 +19,7 @@ public class ProposalCalculator {
 
   public ProposalCalculator( Editor editor, ContentProposalProvider ... proposalProviders ) {
     this.editor = editor;
-    this.proposalCreator = new ProposalCreator( editor.getDisplay() );
+    this.proposalCreator = new ProposalCreator( editor );
     this.proposalProviders = proposalProviders;
   }
 

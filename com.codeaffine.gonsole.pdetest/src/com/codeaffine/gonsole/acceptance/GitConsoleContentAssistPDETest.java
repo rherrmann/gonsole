@@ -108,7 +108,7 @@ public class GitConsoleContentAssistPDETest {
     console.selectFirstContentProposal();
 
     assertThat( console )
-      .containsLines( line( "repo", "add" ) );
+      .containsLines( line( "repo", "add " ) );
   }
 
   @Test
@@ -121,7 +121,7 @@ public class GitConsoleContentAssistPDETest {
     console.selectFirstContentProposal();
 
     assertThat( console )
-      .containsLines( line( "repo", "show" ) );
+      .containsLines( line( "repo", "show " ) );
   }
 
   @Test
@@ -135,7 +135,7 @@ public class GitConsoleContentAssistPDETest {
     console.selectFirstContentProposal();
 
     assertThat( console )
-      .containsLines( line( "repo", "show" ) );
+      .containsLines( line( "repo", "show " ) );
   }
 
   @Test

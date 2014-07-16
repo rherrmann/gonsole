@@ -80,7 +80,7 @@ public class ConsoleContentAssistPDETest {
     console.selectFirstContentProposal();
 
     assertThat( console )
-      .containsLines( line( COMMAND_COMPLETE ) );
+      .containsLines( line( COMMAND_COMPLETE + " " ) );
   }
 
   @Test
@@ -93,7 +93,7 @@ public class ConsoleContentAssistPDETest {
     console.selectFirstContentProposal();
 
     assertThat( console )
-      .containsLines( line( COMMAND_SIMPLE ) );
+      .containsLines( line( COMMAND_SIMPLE + " " ) );
   }
 
   @Test
@@ -107,7 +107,7 @@ public class ConsoleContentAssistPDETest {
     console.selectFirstContentProposal();
 
     assertThat( console )
-      .containsLines( line( COMMAND_SIMPLE ) );
+      .containsLines( line( COMMAND_SIMPLE + " ") );
   }
 
   @Test
