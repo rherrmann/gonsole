@@ -6,6 +6,7 @@ import static com.codeaffine.console.core.pdetest.console.TestConsoleCommandInte
 import static com.codeaffine.console.core.pdetest.console.TestConsoleCommandInterpreter.COMMAND_SIMPLE;
 import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.PROMPT;
 import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.line;
+import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.offset;
 
 import org.eclipse.swt.SWT;
 import org.junit.Rule;
@@ -108,6 +109,21 @@ public class ConsoleContentAssistPDETest {
 
     assertThat( console )
       .containsLines( line( COMMAND_SIMPLE + " ") );
+  }
+
+  @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
+  public void testApplyContentProposalWithTrailingText() {
+    console.open( new TestConsoleConfigurer() );
+
+    console.typeText( "s --arg" );
+    console.positionCaret( offset( 1 ) );
+    console.typeKey( SWT.CTRL, ' ' );
+    console.selectFirstContentProposal();
+
+    assertThat( console )
+      .caretIsAt( offset( COMMAND_SIMPLE.length() ) )
+      .containsLines( line( COMMAND_SIMPLE + " --arg" ) );
   }
 
   @Test

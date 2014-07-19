@@ -11,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.internal.ConsoleEditor;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class ContentAssistTest {
@@ -18,50 +19,50 @@ public class ContentAssistTest {
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private Editor editor;
+  private ConsoleEditor consoleEditor;
   private ContentAssistant contentAssistant;
   private ContentAssist contentAssist;
 
   @Test
   public void testShowPossibeleCompletionsIfCaretWithinDocument() {
-    when( editor.getDocumentLength() ).thenReturn( 10 );
+    when( consoleEditor.getDocumentLength() ).thenReturn( 10 );
 
     contentAssist.showPossibleCompletions();
 
-    verify( editor, never() ).fireDocumentChange();
+    verify( consoleEditor, never() ).fireDocumentChange();
     verify( contentAssistant ).showPossibleCompletions();
   }
 
   @Test
   public void testShowPossibeleCompletionsWithInputPartition() {
-    when( editor.getPartitionType() ).thenReturn( PartitionType.INPUT );
+    when( consoleEditor.getPartitionType() ).thenReturn( PartitionType.INPUT );
 
     contentAssist.showPossibleCompletions();
 
-    verify( editor, never() ).fireDocumentChange();
+    verify( consoleEditor, never() ).fireDocumentChange();
     verify( contentAssistant ).showPossibleCompletions();
   }
 
   @Test
   public void testShowPossibeleCompletionsIfChangeNotAllowed() {
-    when( editor.isDocumentChangeAllowed() ).thenReturn( false );
+    when( consoleEditor.isDocumentChangeAllowed() ).thenReturn( false );
 
     contentAssist.showPossibleCompletions();
 
-    verify( editor, never() ).fireDocumentChange();
+    verify( consoleEditor, never() ).fireDocumentChange();
     verify( contentAssistant ).showPossibleCompletions();
   }
 
   @Before
   public void setUp() {
-    editor = stubEditor();
+    consoleEditor = stubEditor();
     contentAssistant = mock( ContentAssistant.class );
     ConsoleComponentFactory consoleComponentFactory = mock( ConsoleComponentFactory.class );
-    contentAssist = new ContentAssist( editor, contentAssistant, consoleComponentFactory );
+    contentAssist = new ContentAssist( consoleEditor, contentAssistant, consoleComponentFactory );
   }
 
-  private Editor stubEditor() {
-    Editor result = mock( Editor.class );
+  private ConsoleEditor stubEditor() {
+    ConsoleEditor result = mock( ConsoleEditor.class );
     when( result.getCaretOffset() ).thenReturn( 0 );
     when( result.getDocumentLength() ).thenReturn( 0 );
     when( result.getPartitionType() ).thenReturn( PartitionType.OUTPUT );

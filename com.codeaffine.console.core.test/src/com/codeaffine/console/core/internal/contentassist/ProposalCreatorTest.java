@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.Proposal;
+import com.codeaffine.console.core.internal.ConsoleEditor;
 import com.codeaffine.console.core.test.TestImageDescriptor;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
@@ -109,7 +110,7 @@ public class ProposalCreatorTest {
     Document document = new Document();
     textViewer.setDocument( document );
     proposal = new Proposal( "proposal", "proposal", "additinal-info", new TestImageDescriptor() );
-    creator = new ProposalCreator( new Editor( textViewer ) );
+    creator = new ProposalCreator( new ConsoleEditor( textViewer ) );
   }
 
   @After

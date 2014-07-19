@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.Proposal;
+import com.codeaffine.console.core.internal.ConsoleEditor;
 import com.codeaffine.console.core.test.TestImageDescriptor;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
@@ -34,7 +35,7 @@ public class ProposalCalculatorTest {
 
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private Editor editor;
+  private ConsoleEditor consoleEditor;
   private ProposalCalculator calculator;
 
   @Test
@@ -48,7 +49,7 @@ public class ProposalCalculatorTest {
 
   @Test
   public void testCalculageWithNonMatchingActivationKeySequence() {
-    when( editor.getActivationKeySequence() ).thenReturn( "some-other-key-sequence" );
+    when( consoleEditor.getActivationKeySequence() ).thenReturn( "some-other-key-sequence" );
 
     ICompletionProposal[] actual = calculator.calculate( "", 0, 0 );
 
@@ -83,12 +84,12 @@ public class ProposalCalculatorTest {
   public void setUp() {
     ContentProposalProvider numbersProvider = stubProposalProvider( NUMBERS );
     ContentProposalProvider colorsProvider = stubProposalProvider( COLORS );
-    editor = stubEditor();
-    calculator = new ProposalCalculator( editor, numbersProvider, colorsProvider );
+    consoleEditor = stubEditor();
+    calculator = new ProposalCalculator( consoleEditor, numbersProvider, colorsProvider );
   }
 
-  private Editor stubEditor() {
-    Editor result = mock( Editor.class );
+  private ConsoleEditor stubEditor() {
+    ConsoleEditor result = mock( ConsoleEditor.class );
     when( result.getDisplay() ).thenReturn( displayHelper.getDisplay() );
     when( result.getActivationKeySequence() ).thenReturn( ACTIVATION_KEY_SEQUENCE );
     return result;

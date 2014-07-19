@@ -8,19 +8,20 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 import org.eclipse.swt.graphics.Point;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.internal.ConsoleEditor;
 
 public class ContentAssistProcessor implements IContentAssistProcessor {
 
   private final ProposalCalculator proposalCalculator;
-  private final Editor editor;
+  private final ConsoleEditor consoleEditor;
 
-  public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory, Editor editor ) {
-    this( new ProposalCalculator( editor, consoleComponentFactory.createProposalProviders() ), editor );
+  public ContentAssistProcessor( ConsoleComponentFactory consoleComponentFactory, ConsoleEditor consoleEditor ) {
+    this( new ProposalCalculator( consoleEditor, consoleComponentFactory.createProposalProviders() ), consoleEditor );
   }
 
-  ContentAssistProcessor( ProposalCalculator proposalCalculator, Editor editor ) {
+  ContentAssistProcessor( ProposalCalculator proposalCalculator, ConsoleEditor consoleEditor ) {
     this.proposalCalculator = proposalCalculator;
-    this.editor = editor;
+    this.consoleEditor = consoleEditor;
   }
 
   public void dispose() {
@@ -30,7 +31,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
   @Override
   public ICompletionProposal[] computeCompletionProposals( ITextViewer viewer, int offset ) {
     Point range = viewer.getSelectedRange();
-    String prefix = editor.computePrefix( offset );
+    String prefix = consoleEditor.computePrefix( offset );
     return proposalCalculator.calculate( prefix, range.x, range.y );
   }
 

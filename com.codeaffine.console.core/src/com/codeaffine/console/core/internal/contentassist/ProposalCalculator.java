@@ -10,16 +10,17 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.Proposal;
+import com.codeaffine.console.core.internal.ConsoleEditor;
 
 public class ProposalCalculator {
 
   private final ContentProposalProvider[] proposalProviders;
   private final ProposalCreator proposalCreator;
-  private final Editor editor;
+  private final ConsoleEditor consoleEditor;
 
-  public ProposalCalculator( Editor editor, ContentProposalProvider ... proposalProviders ) {
-    this.editor = editor;
-    this.proposalCreator = new ProposalCreator( editor );
+  public ProposalCalculator( ConsoleEditor consoleEditor, ContentProposalProvider ... proposalProviders ) {
+    this.consoleEditor = consoleEditor;
+    this.proposalCreator = new ProposalCreator( consoleEditor );
     this.proposalProviders = proposalProviders;
   }
 
@@ -65,7 +66,7 @@ public class ProposalCalculator {
   }
 
   private boolean matchesActivationKeySequence( ContentProposalProvider proposalProvider ) {
-    String currentActivationKeySequence = editor.getActivationKeySequence();
+    String currentActivationKeySequence = consoleEditor.getActivationKeySequence();
     String proposalActivationKeySequence = proposalProvider.getActivationKeySequence();
     return currentActivationKeySequence.equalsIgnoreCase( proposalActivationKeySequence );
   }

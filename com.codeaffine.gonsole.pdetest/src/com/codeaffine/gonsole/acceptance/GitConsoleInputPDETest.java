@@ -155,7 +155,7 @@ public class GitConsoleInputPDETest {
     console.open( configurer.createConfigurer( repositoryName ) );
 
     console.typeText( "commit msg" );
-    console.positionCaret( ( repositoryName + PROMPT_POSTFIX + "commit").length() );
+    console.positionCaret( ( repositoryName + PROMPT_POSTFIX + "commit" ).length() );
     console.typeText( " " );
     new DisplayHelper().flushPendingEvents();
     console.typeText( "-" );

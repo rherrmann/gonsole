@@ -4,6 +4,7 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.TextSelection;
+import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.VerifyKeyListener;
@@ -13,22 +14,23 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.console.TextConsoleViewer;
 
 class CaretPositionUpdater {
 
-  private final TextConsoleViewer viewer;
+  private final TextViewer viewer;
   private final IDocument document;
   private final Display display;
   private final IDocumentListener documentListener;
   private final KeyboardTracker keyboardTracker;
+  private boolean enabled;
 
-  CaretPositionUpdater( TextConsoleViewer viewer ) {
+  CaretPositionUpdater( TextViewer viewer ) {
     this.viewer = viewer;
     this.document = viewer.getDocument();
     this.display = viewer.getTextWidget().getDisplay();
     this.keyboardTracker = new KeyboardTracker();
     this.documentListener = new ConsoleDocumentListener();
+    this.enabled = true;
   }
 
   void install() {
@@ -39,8 +41,16 @@ class CaretPositionUpdater {
     viewer.getTextWidget().addDisposeListener( new TextWidgetDisposeListener() );
   }
 
+  void enable() {
+    enabled = true;
+  }
+
+  void disable() {
+    enabled = false;
+  }
+
   void positionCursorAtEnd() {
-    if( !keyboardTracker.isKeyPressed() ) {
+    if( enabled && !keyboardTracker.isKeyPressed() ) {
       display.asyncExec( new PositionCursorRunnable( viewer ) );
     }
   }
@@ -87,9 +97,9 @@ class CaretPositionUpdater {
   }
 
   private static class PositionCursorRunnable implements Runnable {
-    private final TextConsoleViewer viewer;
+    private final TextViewer viewer;
 
-    PositionCursorRunnable( TextConsoleViewer viewer ) {
+    PositionCursorRunnable( TextViewer viewer ) {
       this.viewer = viewer;
     }
 

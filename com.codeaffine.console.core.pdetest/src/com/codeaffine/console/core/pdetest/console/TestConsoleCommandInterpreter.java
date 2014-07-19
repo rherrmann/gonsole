@@ -1,7 +1,6 @@
 package com.codeaffine.console.core.pdetest.console;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static java.util.Collections.unmodifiableCollection;
+import static java.util.Arrays.asList;
 
 import java.util.Collection;
 
@@ -14,9 +13,9 @@ public class TestConsoleCommandInterpreter implements ConsoleCommandInterpreter 
   public static final String COMMAND_COMPLEX = "complex";
   public static final String COMMAND_COMPLETE = "complete";
   public static final String DONE = "done";
-  public final static Collection<String> COMMANDS = unmodifiableCollection( newArrayList(
+  public final static Collection<String> COMMANDS = asList(
     COMMAND_SIMPLE, COMMAND_COMPLEX, COMMAND_COMPLETE
-  ) );
+  );
 
   private final ConsoleOutput consoleOutput;
 

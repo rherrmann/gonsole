@@ -8,31 +8,34 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Set;
 
-import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ContentProposalProvider;
+import com.codeaffine.console.core.internal.ConsoleEditor;
 
 public class ContentAssist implements ConsoleContentAssist, DisposeListener {
 
-  private final Editor editor;
+  private final ConsoleEditor consoleEditor;
   private final ContentAssistant contentAssistant;
   private final ConsoleComponentFactory consoleComponentFactory;
   private final ContentAssistProcessor contentAssistProcessor;
 
-  public ContentAssist( TextViewer textViewer, ConsoleComponentFactory factory ) {
-    this( new Editor( textViewer ), new ContentAssistant(), factory );
+  public ContentAssist( ConsoleEditor consoleEditor, ConsoleComponentFactory factory ) {
+    this( consoleEditor, new ContentAssistant(), factory );
   }
 
-  ContentAssist( Editor editor, ContentAssistant contentAssistant, ConsoleComponentFactory factory )
+
+  ContentAssist( ConsoleEditor consoleEditor,
+                 ContentAssistant contentAssistant,
+                 ConsoleComponentFactory factory )
   {
-    this.editor = editor;
+    this.consoleEditor = consoleEditor;
     this.contentAssistant = contentAssistant;
     this.consoleComponentFactory = factory;
-    this.contentAssistProcessor = new ContentAssistProcessor( factory, editor );
+    this.contentAssistProcessor = new ContentAssistProcessor( factory, consoleEditor );
   }
 
   public void install() {
@@ -40,18 +43,23 @@ public class ContentAssist implements ConsoleContentAssist, DisposeListener {
     contentAssistant.setRepeatedInvocationMode( true );
     contentAssistant.setContentAssistProcessor( contentAssistProcessor, PartitionType.INPUT );
     contentAssistant.setInformationControlCreator( createInformationControlCreator( FIXED ) );
-    contentAssistant.install( editor.getTextViewer() );
+    contentAssistant.install( consoleEditor.getTextViewer() );
     registerContentAssistAction();
-    editor.getTextViewer().getTextWidget().addDisposeListener( this );
+    consoleEditor.getTextViewer().getTextWidget().addDisposeListener( this );
   }
 
   @Override
   public void showPossibleCompletions() {
     ensurePartitioningIsUpToDate();
-    if( editor.isCaretInLastInputPartition() ) {
-      contentAssistant.showPossibleCompletions();
+    if( consoleEditor.isCaretInLastInputPartition() ) {
+      consoleEditor.disableCaretPositionUpdater();
+      try {
+        contentAssistant.showPossibleCompletions();
+      } finally {
+        consoleEditor.enabledCaretPositionUpdater();
+      }
     } else {
-      editor.getTextViewer().getTextWidget().getDisplay().beep();
+      consoleEditor.getTextViewer().getTextWidget().getDisplay().beep();
     }
   }
 
@@ -63,7 +71,7 @@ public class ContentAssist implements ConsoleContentAssist, DisposeListener {
 
   private void registerContentAssistAction() {
     for( String keySequence : collectActivationKeySequences() ) {
-      editor.addAction( keySequence, new ContentAssistAction( this ) );
+      consoleEditor.addAction( keySequence, new ContentAssistAction( this ) );
     }
   }
 
@@ -83,12 +91,12 @@ public class ContentAssist implements ConsoleContentAssist, DisposeListener {
   }
 
   private boolean mustUpdatePartitioning() {
-    return    editor.getCaretOffset() == editor.getDocumentLength()
-           && !INPUT.equals( editor.getPartitionType() )
-           && editor.isDocumentChangeAllowed();
+    return    consoleEditor.getCaretOffset() == consoleEditor.getDocumentLength()
+           && !INPUT.equals( consoleEditor.getPartitionType() )
+           && consoleEditor.isDocumentChangeAllowed();
   }
 
   private void updatePartitioning() {
-    editor.fireDocumentChange();
+    consoleEditor.fireDocumentChange();
   }
 }

@@ -5,16 +5,17 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.swt.graphics.Image;
 
 import com.codeaffine.console.core.Proposal;
+import com.codeaffine.console.core.internal.ConsoleEditor;
 import com.codeaffine.console.core.internal.resource.ResourceRegistry;
 
 class ProposalCreator {
 
-  private final Editor editor;
+  private final ConsoleEditor consoleEditor;
   private final ResourceRegistry imageRegistry;
 
-  ProposalCreator( Editor editor ) {
-    this.editor = editor;
-    this.imageRegistry = new ResourceRegistry( editor.getDisplay() );
+  ProposalCreator( ConsoleEditor consoleEditor ) {
+    this.consoleEditor = consoleEditor;
+    this.imageRegistry = new ResourceRegistry( consoleEditor.getDisplay() );
   }
 
   ICompletionProposal create( String prefix, Proposal proposal, int start, int length ) {
@@ -40,7 +41,7 @@ class ProposalCreator {
 
   private String getReplacement( String prefix, String text ) {
     String result = text.substring( prefix.length() );
-    if( editor.getCaretOffset() == editor.getDocumentLength() ) {
+    if( consoleEditor.getCaretOffset() == consoleEditor.getDocumentLength() ) {
       result += " ";
     }
     return result;

@@ -36,8 +36,8 @@ class GenericConsolePage implements IPageBookViewPage, IAdaptable {
   @Override
   public void createControl( Composite parent ) {
     consolePage.createControl( parent );
-    new ContentAssist( consolePage.getViewer(), consoleComponentFactory ).install();
-    new CaretPositionUpdater( consolePage.getViewer() ).install();
+    ConsoleEditor editor = new ConsoleEditor( consolePage.getViewer() );
+    new ContentAssist( editor, consoleComponentFactory ).install();
   }
 
   @Override

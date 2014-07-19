@@ -14,6 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.internal.ConsoleEditor;
 import com.codeaffine.console.core.pdetest.console.TestConsoleCommandInterpreter;
 import com.codeaffine.console.core.pdetest.console.TestConsoleComponentFactory;
 import com.codeaffine.test.util.ConditionalIgnoreRule;
@@ -79,9 +80,9 @@ public class ContentAssistProcessorPDETest {
     ConsoleComponentFactory factory = new TestConsoleComponentFactory();
     viewer = new TextViewer( displayHelper.createShell(), SWT.NONE );
     viewer.setDocument( new Document() );
-    Editor editor = new Editor( viewer );
-    editor.addAction( "Ctrl+Space", mock( IAction.class ) );
-    processor = new ContentAssistProcessor( factory, editor );
+    ConsoleEditor consoleEditor = new ConsoleEditor( viewer );
+    consoleEditor.addAction( "Ctrl+Space", mock( IAction.class ) );
+    processor = new ContentAssistProcessor( factory, consoleEditor );
   }
 
   private void prepareContentAssistOn( String text ) {
