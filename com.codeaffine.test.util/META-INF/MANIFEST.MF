@@ -23,8 +23,8 @@ Export-Package: com.codeaffine.test.io;version="1.0.0.qualifier",com.c
  rsion="1.0.0.qualifier",com.codeaffine.test.util.registry;version="0.
  8.0.qualifier",com.codeaffine.test.util.swt;version="1.0.0.qualifier"
  ,com.codeaffine.test.util.workbench;version="1.0.0.qualifier"
-Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.8.0,4.0.0)",
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.core.commands;bundle-version="[3.6.0,4.0.0)",
- org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
- org.eclipse.ui.ide;bundle-version="[3.8.0,4.0.0)"
+ org.eclipse.core.resources;bundle-version="[3.7.0,4.0.0)",
+ org.eclipse.ui.ide;bundle-version="[3.7.0,4.0.0)"
 Bundle-ActivationPolicy: lazy

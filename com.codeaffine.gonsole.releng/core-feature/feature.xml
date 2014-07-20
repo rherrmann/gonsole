@@ -6,7 +6,7 @@
       provider-name="codeaffine.com"
       plugin="com.codeaffine.gonsole.branding">
 
-   <description url="https://github.com/rherrmann/gonsole/blob/master/README.md">
+   <description url="https://gonsole.codeaffine.com">
       %description
    </description>
 
@@ -23,9 +23,9 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.core.runtime" version="3.8.0" match="compatible"/>
-      <import plugin="org.eclipse.core.expressions" version="3.4.300" match="compatible"/>
-      <import plugin="org.eclipse.core.resources" version="3.8.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime" version="3.7.0" match="compatible"/>
+      <import plugin="org.eclipse.core.expressions" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.core.resources" version="3.7.0" match="compatible"/>
       <import plugin="org.eclipse.jface.text" version="3.7.0" match="compatible"/>
       <import plugin="org.eclipse.ui" version="3.7.0" match="compatible"/>
       <import plugin="org.eclipse.ui.ide" version="3.7.0" match="compatible"/>
