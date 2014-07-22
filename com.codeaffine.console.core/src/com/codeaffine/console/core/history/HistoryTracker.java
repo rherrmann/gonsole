@@ -53,7 +53,7 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
   @Override
   public Proposal[] getContentProposals() {
     Iterable<Proposal> proposals = transform( getHistoryItems(), new Function<String,Proposal>() {
-      int sortKey;
+      private int sortKey;
       @Override
       public Proposal apply( String input ) {
         sortKey++;

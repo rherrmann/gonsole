@@ -83,6 +83,23 @@
       </colorDefinition>
    </extension>
    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.team.ui.category.team"
+            defaultHandler="com.codeaffine.gonsole.internal.command.OpenGitConsoleHandler"
+            description="Open the Git Console View"
+            id="com.codeaffine.gonsole.internal.command.OpenGitConsole"
+            name="Open Git Console">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="com.codeaffine.gonsole.internal.command.OpenGitConsole"
+            icon="icons/etool16/gonsole.png">
+      </image>
+   </extension>
+   <extension
          point="com.codeaffine.gonsole.repositoryProviders">
       <repositoryProvider
             class="com.codeaffine.gonsole.internal.repository.PreferenceRepositoryProvider">

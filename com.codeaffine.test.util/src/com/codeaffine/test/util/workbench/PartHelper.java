@@ -12,6 +12,7 @@ public class PartHelper {
 
   public static final String INTRO_VIEW_ID = "org.eclipse.ui.internal.introview";
   public static final String CONSOLE_VIEW_ID = "org.eclipse.ui.console.ConsoleView";
+  public static final String PROBLEM_VIEW_ID = "org.eclipse.ui.views.ProblemView";
 
   private final IWorkbenchPage activePage;
   private final DisplayHelper displayHelper;
