@@ -49,7 +49,7 @@ public class RepositoryLocationComputerPDETest {
 
   @Test
   public void testComputeWithUnsharedProject() {
-    projectHelper = new ProjectHelper();
+    projectHelper = new ProjectHelper( tempFolder.getRoot() );
 
     File repositoryLocation = computeRepositoryLocation( projectHelper.getProject() );
 
@@ -98,7 +98,7 @@ public class RepositoryLocationComputerPDETest {
 
   @Test
   public void testComputeWithUnsharedFileInEditor() throws CoreException {
-    projectHelper = new ProjectHelper();
+    projectHelper = new ProjectHelper( tempFolder.getRoot() );
     IFile file = projectHelper.createFile( "file.txt", "" );
     IEditorPart editor = openEditor( file );
 
@@ -111,7 +111,7 @@ public class RepositoryLocationComputerPDETest {
   public void setUp() throws GitAPIException {
     partHelper = new PartHelper();
     partHelper.hideView( INTRO_VIEW_ID );
-    repository = Git.init().setDirectory( tempFolder.getRoot() ).call().getRepository();
+    repository = initRepository();
   }
 
   @After
@@ -121,6 +121,11 @@ public class RepositoryLocationComputerPDETest {
       projectHelper.dispose();
     }
     partHelper.closeEditors();
+  }
+
+  private Repository initRepository() throws GitAPIException {
+    File directory = new File( tempFolder.getRoot(), "repo" );
+    return Git.init().setDirectory( directory ).call().getRepository();
   }
 
   private static File computeRepositoryLocation( IResource... resources ) {
