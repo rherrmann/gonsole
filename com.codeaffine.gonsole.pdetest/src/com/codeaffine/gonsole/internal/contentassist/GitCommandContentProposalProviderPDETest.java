@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.internal.contentassist;
 
+import static com.codeaffine.gonsole.test.helper.CompositeRepositoryProviderHelper.createWithSingleChildProvider;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.jgit.pgm.CommandCatalog;
@@ -8,6 +9,7 @@ import org.junit.Test;
 
 import com.codeaffine.console.core.Proposal;
 import com.codeaffine.gonsole.internal.interpreter.PgmResourceBundle;
+import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 
 public class GitCommandContentProposalProviderPDETest {
 
@@ -26,7 +28,8 @@ public class GitCommandContentProposalProviderPDETest {
 
   @Before
   public void setUp() {
-    proposalProvider = new GitCommandContentProposalProvider();
+    CompositeRepositoryProvider repositoryProvider = createWithSingleChildProvider();
+    proposalProvider = new GitCommandContentProposalProvider( repositoryProvider );
     new PgmResourceBundle().reset();
   }
 }

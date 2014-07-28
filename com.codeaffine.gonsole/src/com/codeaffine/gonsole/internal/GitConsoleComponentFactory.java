@@ -44,7 +44,7 @@ class GitConsoleComponentFactory implements ConsoleComponentFactory {
   @Override
   public ContentProposalProvider[] createProposalProviders() {
     return new ContentProposalProvider[] {
-      new GitCommandContentProposalProvider(),
+      new GitCommandContentProposalProvider( repositoryProvider ),
       new ControlCommandContentProposalProvider()
     };
   }

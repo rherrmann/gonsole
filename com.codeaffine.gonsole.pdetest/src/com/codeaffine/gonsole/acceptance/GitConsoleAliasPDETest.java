@@ -6,6 +6,7 @@ import static com.codeaffine.gonsole.acceptance.GitConsolePrompts.line;
 import java.io.IOException;
 import java.util.Locale;
 
+import org.eclipse.swt.SWT;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,6 +15,8 @@ import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.gonsole.internal.GitConsoleConfigurer;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
+import com.codeaffine.test.util.GtkPlatform;
+import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class GitConsoleAliasPDETest {
 
@@ -45,12 +48,26 @@ public class GitConsoleAliasPDETest {
     consoleBot.enterCommandLine( "git st" );
 
     assertThat( consoleBot )
-    .hasProcessedCommandLine()
-    .caretIsAtEnd()
-    .containsLines( line( "repo", "git st" ), "# On branch master", line( "repo" ) );
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( line( "repo", "git st" ), "# On branch master", line( "repo" ) );
   }
 
-  @Before
+  @Test
+  @ConditionalIgnore(condition=GtkPlatform.class)
+  public void testAdditionalInfoForAlias() throws IOException {
+    configHelper.setValue( "alias", "co", "checkout" );
+    consoleBot.open( consoleConfigurer );
+
+    consoleBot.typeText( "co" );
+    consoleBot.typeKey( SWT.CTRL, ' ' );
+
+    assertThat( consoleBot )
+      .showsAdditionalInfo()
+      .containsText( "Alias for", "checkout" );
+  }
+
+ @Before
   public void setUp() {
     consoleConfigurer = ( GitConsoleConfigurer )configurer.createConfigurer( "repo" );
     CompositeRepositoryProvider repositoryProvider = consoleConfigurer.getRepositoryProvider();

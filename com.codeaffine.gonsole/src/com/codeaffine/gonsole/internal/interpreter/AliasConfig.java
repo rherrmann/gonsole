@@ -2,10 +2,13 @@ package com.codeaffine.gonsole.internal.interpreter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+
+import com.google.common.collect.Iterables;
 
 public class AliasConfig {
 
@@ -14,6 +17,14 @@ public class AliasConfig {
 
   public AliasConfig( File repositoryLocation ) {
     this.repositoryLocation = repositoryLocation;
+  }
+
+  public String[] getAliases() {
+    Repository repository = openRepository();
+    StoredConfig config = repository.getConfig();
+    Set<String> aliases = config.getNames( ALIAS_SECTION, true );
+    repository.close();
+    return Iterables.toArray( aliases, String.class );
   }
 
   public String getCommand( String alias ) {
