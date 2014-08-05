@@ -1,6 +1,7 @@
 package com.codeaffine.console.core.internal;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -33,11 +34,11 @@ public class ConsoleEditor {
     return textViewer.getControl().getDisplay();
   }
 
-  public void addAction( String keySequence, IAction action ) {
-    actionKeyBindingManager.addKeyBinding( keySequence, action );
+  public void addAction( KeyStroke keyStroke, IAction action ) {
+    actionKeyBindingManager.addKeyBinding( keyStroke, action );
   }
 
-  public String getActivationKeySequence() {
+  public KeyStroke getActivationKeyStroke() {
     return actionKeyBindingManager.getActiveKeySequence();
   }
 

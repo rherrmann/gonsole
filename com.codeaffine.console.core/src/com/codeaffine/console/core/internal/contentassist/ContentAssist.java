@@ -8,6 +8,7 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Set;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -70,18 +71,18 @@ public class ContentAssist implements ConsoleContentAssist, DisposeListener {
   }
 
   private void registerContentAssistAction() {
-    for( String keySequence : collectActivationKeySequences() ) {
-      consoleEditor.addAction( keySequence, new ContentAssistAction( this ) );
+    for( KeyStroke keyStroke : collectActivationKeyStrokes() ) {
+      consoleEditor.addAction( keyStroke, new ContentAssistAction( this ) );
     }
   }
 
-  private String[] collectActivationKeySequences() {
-    Set<String> activationKeySequences = newHashSet();
+  private KeyStroke[] collectActivationKeyStrokes() {
+    Set<KeyStroke> activationKeySequences = newHashSet();
     ContentProposalProvider[] proposalProviders = consoleComponentFactory.createProposalProviders();
     for( ContentProposalProvider proposalProvider : proposalProviders ) {
       activationKeySequences.add( proposalProvider.getActivationKeySequence() );
     }
-    return toArray( activationKeySequences, String.class );
+    return toArray( activationKeySequences, KeyStroke.class );
   }
 
   private void ensurePartitioningIsUpToDate() {

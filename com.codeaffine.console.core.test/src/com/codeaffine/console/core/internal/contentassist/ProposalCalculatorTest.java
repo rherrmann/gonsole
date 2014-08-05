@@ -6,7 +6,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.Comparator;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.swt.SWT;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +21,7 @@ import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class ProposalCalculatorTest {
 
-  private static final String ACTIVATION_KEY_SEQUENCE = "activation-key-sequence";
+  private static final KeyStroke ACTIVATION_KEY_SEQUENCE = KeyStroke.getInstance( SWT.TAB );
   private static final String INFO = "info";
 
   private static final Proposal[] NUMBERS = new Proposal[] {
@@ -49,7 +51,8 @@ public class ProposalCalculatorTest {
 
   @Test
   public void testCalculageWithNonMatchingActivationKeySequence() {
-    when( consoleEditor.getActivationKeySequence() ).thenReturn( "some-other-key-sequence" );
+    KeyStroke otherKeyStroke = KeyStroke.getInstance( SWT.ARROW_LEFT );
+    when( consoleEditor.getActivationKeyStroke() ).thenReturn( otherKeyStroke );
 
     ICompletionProposal[] actual = calculator.calculate( "", 0, 0 );
 
@@ -91,7 +94,7 @@ public class ProposalCalculatorTest {
   private ConsoleEditor stubEditor() {
     ConsoleEditor result = mock( ConsoleEditor.class );
     when( result.getDisplay() ).thenReturn( displayHelper.getDisplay() );
-    when( result.getActivationKeySequence() ).thenReturn( ACTIVATION_KEY_SEQUENCE );
+    when( result.getActivationKeyStroke() ).thenReturn( ACTIVATION_KEY_SEQUENCE );
     return result;
   }
 

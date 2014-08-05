@@ -2,6 +2,9 @@ package com.codeaffine.console.calculator.internal;
 
 import static com.codeaffine.console.calculator.internal.CalculatorConsoleCommandInterpreter.SUM;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
+import org.eclipse.swt.SWT;
+
 import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.Proposal;
 
@@ -15,7 +18,7 @@ class CalculatorContentProposalProvider implements ContentProposalProvider {
   }
 
   @Override
-  public String getActivationKeySequence() {
-    return "Ctrl+Space";
+  public KeyStroke getActivationKeySequence() {
+    return KeyStroke.getInstance( SWT.MOD1, SWT.SPACE );
   }
 }

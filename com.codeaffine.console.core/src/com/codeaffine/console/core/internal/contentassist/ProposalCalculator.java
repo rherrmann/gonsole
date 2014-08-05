@@ -6,6 +6,7 @@ import static java.util.Collections.sort;
 
 import java.util.List;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import com.codeaffine.console.core.ContentProposalProvider;
@@ -66,8 +67,8 @@ public class ProposalCalculator {
   }
 
   private boolean matchesActivationKeySequence( ContentProposalProvider proposalProvider ) {
-    String currentActivationKeySequence = consoleEditor.getActivationKeySequence();
-    String proposalActivationKeySequence = proposalProvider.getActivationKeySequence();
-    return currentActivationKeySequence.equalsIgnoreCase( proposalActivationKeySequence );
+    KeyStroke currentActivationKeySequence = consoleEditor.getActivationKeyStroke();
+    KeyStroke proposalActivationKeySequence = proposalProvider.getActivationKeySequence();
+    return currentActivationKeySequence.equals( proposalActivationKeySequence );
   }
 }

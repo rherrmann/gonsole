@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -81,8 +82,12 @@ public class ContentAssistProcessorPDETest {
     viewer = new TextViewer( displayHelper.createShell(), SWT.NONE );
     viewer.setDocument( new Document() );
     ConsoleEditor consoleEditor = new ConsoleEditor( viewer );
-    consoleEditor.addAction( "Ctrl+Space", mock( IAction.class ) );
+    consoleEditor.addAction( ctrlSpace(), mock( IAction.class ) );
     processor = new ContentAssistProcessor( factory, consoleEditor );
+  }
+
+  private static KeyStroke ctrlSpace() {
+    return KeyStroke.getInstance( SWT.MOD1, SWT.SPACE );
   }
 
   private void prepareContentAssistOn( String text ) {

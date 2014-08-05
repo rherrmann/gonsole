@@ -6,6 +6,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.swt.SWT;
 import org.junit.Before;
@@ -31,26 +32,26 @@ public class ActionKeyBindingManagerPDETest {
 
   @Test
   public void testInitialActiveKeySequence() {
-    String activeKeySequence = actionKeyBindingManager.getActiveKeySequence();
+    KeyStroke activationKeyStroke = actionKeyBindingManager.getActiveKeySequence();
 
-    assertThat( activeKeySequence ).isNull();
+    assertThat( activationKeyStroke ).isNull();
   }
 
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testPressMatchingKeySequence() {
-    actionKeyBindingManager.addKeyBinding( "Ctrl+Space", action );
+    actionKeyBindingManager.addKeyBinding( ctrlSpace(), action );
 
     simulateKeyDown( SWT.CTRL, SWT.SPACE );
 
     verify( action ).run();
-    assertThat( actionKeyBindingManager.getActiveKeySequence() ).isEqualTo( "CTRL+SPACE" );
+    assertThat( actionKeyBindingManager.getActiveKeySequence() ).isEqualTo( ctrlSpace() );
   }
 
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testPressNonMatchingKeySequence() {
-    actionKeyBindingManager.addKeyBinding( "Ctrl+Space", action );
+    actionKeyBindingManager.addKeyBinding( ctrlSpace(), action );
 
     simulateKeyDown( SWT.NONE, SWT.CR );
 
@@ -61,18 +62,13 @@ public class ActionKeyBindingManagerPDETest {
   @Test
   @ConditionalIgnore(condition=GtkPlatform.class)
   public void testPressNonMatchingAfterMatchingKeySequence() {
-    actionKeyBindingManager.addKeyBinding( "Ctrl+Space", action );
+    actionKeyBindingManager.addKeyBinding( ctrlSpace(), action );
 
     simulateKeyDown( SWT.CTRL, SWT.SPACE );
     simulateKeyDown( SWT.NONE, 'x' );
 
     verify( action ).run();
-    assertThat( actionKeyBindingManager.getActiveKeySequence() ).isEqualTo( "CTRL+SPACE" );
-  }
-
-  @Test(expected=IllegalArgumentException.class)
-  public void testAddKeyBindingWithInvalidKeySequence() {
-    actionKeyBindingManager.addKeyBinding( "nokey", action );
+    assertThat( actionKeyBindingManager.getActiveKeySequence() ).isEqualTo( ctrlSpace() );
   }
 
   @Before
@@ -81,6 +77,10 @@ public class ActionKeyBindingManagerPDETest {
     actionKeyBindingManager = new ActionKeyBindingManager();
     actionKeyBindingManager.activateFor( textViewer );
     action = mock( IAction.class );
+  }
+
+  private static KeyStroke ctrlSpace() {
+    return KeyStroke.getInstance( SWT.MOD1, SWT.SPACE );
   }
 
   private void simulateKeyDown( int modifiers, char keyCode ) {

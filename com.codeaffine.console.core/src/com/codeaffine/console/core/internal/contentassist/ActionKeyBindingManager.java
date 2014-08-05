@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.bindings.keys.KeyStroke;
-import org.eclipse.jface.bindings.keys.ParseException;
 import org.eclipse.jface.bindings.keys.SWTKeySupport;
 import org.eclipse.jface.text.ITextViewerExtension;
 import org.eclipse.swt.custom.VerifyKeyListener;
@@ -17,14 +16,14 @@ import org.eclipse.swt.widgets.Event;
 public class ActionKeyBindingManager {
 
   private final Map<KeyStroke,IAction> keyBindings;
-  private String activeKeySequence;
+  private KeyStroke activeKeyStroke;
 
   public ActionKeyBindingManager() {
     keyBindings = newHashMap();
   }
 
-  public void addKeyBinding( String keySequence, IAction action ) {
-    keyBindings.put( translateKeySequence( keySequence ), action );
+  public void addKeyBinding( KeyStroke keyStroke, IAction action ) {
+    keyBindings.put( keyStroke, action );
   }
 
   public void activateFor( ITextViewerExtension textViewer ) {
@@ -36,8 +35,8 @@ public class ActionKeyBindingManager {
     } );
   }
 
-  public String getActiveKeySequence() {
-    return activeKeySequence;
+  public KeyStroke getActiveKeySequence() {
+    return activeKeyStroke;
   }
 
   private void handleVerifyKeyEvent( VerifyEvent verifyEvent ) {
@@ -60,7 +59,7 @@ public class ActionKeyBindingManager {
     }
     if( keyBindings.containsKey( keyStroke ) ) {
       event.doit = false;
-      activeKeySequence = keyStroke.toString();
+      activeKeyStroke = keyStroke;
       IAction action = keyBindings.get( keyStroke );
       action.run();
     }
@@ -80,13 +79,4 @@ public class ActionKeyBindingManager {
     int accelerator = SWTKeySupport.convertEventToModifiedAccelerator( event );
     return SWTKeySupport.convertAcceleratorToKeyStroke( accelerator );
   }
-
-  private static KeyStroke translateKeySequence( String string ) {
-    try {
-      return KeyStroke.getInstance( string );
-    } catch( ParseException pe ) {
-      throw new IllegalArgumentException( "Invaid keystroke: " + string, pe );
-    }
-  }
-
 }

@@ -1,5 +1,7 @@
 package com.codeaffine.gonsole.internal.contentassist;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
+
 import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.Proposal;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
@@ -25,7 +27,7 @@ public class ControlCommandContentProposalProvider implements ContentProposalPro
   }
 
   @Override
-  public String getActivationKeySequence() {
+  public KeyStroke getActivationKeySequence() {
     return new KeyBinding().getContentAssistKeyBinding();
   }
 }

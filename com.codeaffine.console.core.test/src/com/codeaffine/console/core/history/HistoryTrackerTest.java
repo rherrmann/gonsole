@@ -5,12 +5,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.codeaffine.console.core.Proposal;
-import com.codeaffine.console.core.history.HistoryStore;
-import com.codeaffine.console.core.history.HistoryTracker;
 import com.codeaffine.console.core.test.TestImageDescriptor;
 
 public class HistoryTrackerTest {
@@ -98,9 +97,9 @@ public class HistoryTrackerTest {
 
   @Test
   public void testGetItemsActivationKeySequence() {
-    String activationKeySequence = historyTracker.getActivationKeySequence();
+    KeyStroke activationKeyStroke = historyTracker.getActivationKeySequence();
 
-    assertThat( activationKeySequence ).isEqualTo( HistoryTracker.ACTIVATION_KEY_SEQUENCE );
+    assertThat( activationKeyStroke ).isEqualTo( HistoryTracker.ACTIVATION_KEY_STROKE );
   }
 
   @Test

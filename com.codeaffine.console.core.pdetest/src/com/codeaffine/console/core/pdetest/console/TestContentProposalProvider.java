@@ -6,6 +6,9 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Collection;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
+import org.eclipse.swt.SWT;
+
 import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.Proposal;
 import com.codeaffine.console.core.pdetest.TestImageDescriptor;
@@ -22,7 +25,7 @@ class TestContentProposalProvider implements ContentProposalProvider {
   }
 
   @Override
-  public String getActivationKeySequence() {
-    return "Ctrl+Space";
+  public KeyStroke getActivationKeySequence() {
+    return KeyStroke.getInstance( SWT.MOD1, SWT.SPACE );
   }
 }

@@ -10,6 +10,7 @@ import static java.util.Arrays.asList;
 import java.io.File;
 import java.util.Collection;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
@@ -36,7 +37,7 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
   }
 
   @Override
-  public String getActivationKeySequence() {
+  public KeyStroke getActivationKeySequence() {
     return new KeyBinding().getContentAssistKeyBinding();
   }
 

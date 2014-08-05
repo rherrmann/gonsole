@@ -9,7 +9,9 @@ import static java.util.Arrays.asList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
 
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
 import com.codeaffine.console.core.ContentProposalProvider;
@@ -19,7 +21,7 @@ import com.google.common.base.Function;
 
 public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposalProvider {
 
-  static final String ACTIVATION_KEY_SEQUENCE = "Arrow_Up";
+  static final KeyStroke ACTIVATION_KEY_STROKE = KeyStroke.getInstance( SWT.ARROW_UP );
 
   private final int itemLimit;
   private final ImageDescriptor imageDescriptor;
@@ -64,8 +66,8 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
   }
 
   @Override
-  public String getActivationKeySequence() {
-    return ACTIVATION_KEY_SEQUENCE;
+  public KeyStroke getActivationKeySequence() {
+    return ACTIVATION_KEY_STROKE;
   }
 
   private List<String> getHistoryItems() {
