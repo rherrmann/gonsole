@@ -4,9 +4,9 @@ Gonsole - Git Console for the Eclipse IDE [![Build Status](https://travis-ci.org
 
 Introduction
 ---
-Please see [this page](http://rherrmann.github.io/gonsole/) for detailed information.
+Please see [project's home page](http://rherrmann.github.io/gonsole/) for detailed information.
 
 
 Contributing to Gonsole
 ---
-Please see the [CONTRIBUTING.md](CONTRIBUTING.md)
+Please see the [contributing guidelines](CONTRIBUTING.md).
