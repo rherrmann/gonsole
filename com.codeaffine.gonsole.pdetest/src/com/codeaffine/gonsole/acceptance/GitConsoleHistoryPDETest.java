@@ -7,19 +7,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.test.util.ConditionalIgnoreRule;
-import com.codeaffine.test.util.GtkPlatform;
-import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
 
 
 public class GitConsoleHistoryPDETest {
 
-  @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final ConsoleBot console = new ConsoleBot();
   @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testOpenHistoryAfterCommandWasEntered() {
     console.open( configurer.createConfigurer( "repo" ) );
     console.enterCommandLine( "status" );
@@ -33,7 +28,6 @@ public class GitConsoleHistoryPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testOpenHistoryBeforeAnyCommandWasEntered() {
     console.open( configurer.createConfigurer( "repo" ) );
 

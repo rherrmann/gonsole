@@ -14,18 +14,14 @@ import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.console.core.pdetest.console.TestConsoleConfigurer;
-import com.codeaffine.test.util.ConditionalIgnoreRule;
-import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
-import com.codeaffine.test.util.GtkPlatform;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class ConsoleContentAssistPDETest {
 
-  @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
-  @Rule public final ConsoleBot console = new ConsoleBot();
+  @Rule
+  public final ConsoleBot console = new ConsoleBot();
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssist() {
     console.open( new TestConsoleConfigurer() );
 
@@ -37,7 +33,6 @@ public class ConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilter() {
     console.open( new TestConsoleConfigurer() );
 
@@ -50,7 +45,6 @@ public class ConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilterAndOngoingTyping() {
     console.open( new TestConsoleConfigurer() );
 
@@ -73,7 +67,6 @@ public class ConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyContentProposal() {
     console.open( new TestConsoleConfigurer() );
 
@@ -85,7 +78,6 @@ public class ConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposal() {
     console.open( new TestConsoleConfigurer() );
 
@@ -98,7 +90,6 @@ public class ConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposalWithSelectedText() {
     console.open( new TestConsoleConfigurer() );
 
@@ -112,7 +103,6 @@ public class ConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyContentProposalWithTrailingText() {
     console.open( new TestConsoleConfigurer() );
 
@@ -127,7 +117,6 @@ public class ConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testContentAssistHasImage() {
     console.open( new TestConsoleConfigurer() );
 

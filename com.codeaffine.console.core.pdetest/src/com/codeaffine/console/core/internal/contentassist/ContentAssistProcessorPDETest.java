@@ -18,9 +18,6 @@ import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.internal.ConsoleEditor;
 import com.codeaffine.console.core.pdetest.console.TestConsoleCommandInterpreter;
 import com.codeaffine.console.core.pdetest.console.TestConsoleComponentFactory;
-import com.codeaffine.test.util.ConditionalIgnoreRule;
-import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
-import com.codeaffine.test.util.GtkPlatform;
 import com.codeaffine.test.util.swt.DisplayHelper;
 import com.codeaffine.test.util.swt.SWTEventHelper;
 
@@ -29,15 +26,12 @@ public class ContentAssistProcessorPDETest {
   private static final String COMMAND = TestConsoleCommandInterpreter.COMMANDS.iterator().next();
 
   @Rule
-  public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
-  @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ContentAssistProcessor processor;
   private TextViewer viewer;
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testComputeCompletionWithOffsetOnLineEnd() {
     prepareContentAssistOn( COMMAND );
 
@@ -47,7 +41,6 @@ public class ContentAssistProcessorPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testComputeCompletionProposalsWithOffsetOnLineStart() {
     prepareContentAssistOn( COMMAND );
 
@@ -57,7 +50,6 @@ public class ContentAssistProcessorPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testComputeCompletionProposalsWithNonMatchingCommand() {
     prepareContentAssistOn( "unknown" );
 

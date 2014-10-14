@@ -13,16 +13,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.test.util.ConditionalIgnoreRule;
-import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
-import com.codeaffine.test.util.GtkPlatform;
 import com.codeaffine.test.util.swt.DisplayHelper;
 import com.codeaffine.test.util.swt.SWTEventHelper;
 
 public class ActionKeyBindingManagerPDETest {
 
-  @Rule
-  public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -38,7 +33,6 @@ public class ActionKeyBindingManagerPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testPressMatchingKeySequence() {
     actionKeyBindingManager.addKeyBinding( ctrlSpace(), action );
 
@@ -49,7 +43,6 @@ public class ActionKeyBindingManagerPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testPressNonMatchingKeySequence() {
     actionKeyBindingManager.addKeyBinding( ctrlSpace(), action );
 
@@ -60,7 +53,6 @@ public class ActionKeyBindingManagerPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testPressNonMatchingAfterMatchingKeySequence() {
     actionKeyBindingManager.addKeyBinding( ctrlSpace(), action );
 

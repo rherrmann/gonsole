@@ -15,8 +15,6 @@ import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.gonsole.internal.GitConsoleConfigurer;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
-import com.codeaffine.test.util.GtkPlatform;
-import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class GitConsoleAliasPDETest {
 
@@ -54,7 +52,6 @@ public class GitConsoleAliasPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testAdditionalInfoForAlias() throws IOException {
     configHelper.setValue( "alias", "co", "checkout" );
     consoleBot.open( consoleConfigurer );

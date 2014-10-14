@@ -11,19 +11,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.test.util.ConditionalIgnoreRule;
-import com.codeaffine.test.util.ConditionalIgnoreRule.ConditionalIgnore;
-import com.codeaffine.test.util.GtkPlatform;
 import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class GitConsoleContentAssistPDETest {
 
-  @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final ConsoleBot console = new ConsoleBot();
   @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssist() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -35,7 +30,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilter() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -48,7 +42,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentAssistWithFilterAndOngoingTyping() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -73,7 +66,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentForControlCommand() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -86,7 +78,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testShowContentForPreviousCommand() {
     String repositoryName = "repo";
     console.open( configurer.createConfigurer( repositoryName ) );
@@ -100,7 +91,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyContentProposal() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -112,7 +102,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposal() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -125,7 +114,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testApplyFilteredContentProposalWithSelectedText() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -139,7 +127,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testContentAssistHasGitCommandImage() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -152,7 +139,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testContentAssistHasControlCommandImage() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -165,7 +151,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testProposalImagesDifferForProposalTypes() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -182,7 +167,6 @@ public class GitConsoleContentAssistPDETest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
   public void testAdditionalInfo() {
     console.open( configurer.createConfigurer( "repo" ) );
 
