@@ -1,7 +1,8 @@
 package com.codeaffine.console.core.pdetest.bot;
 
-import static com.codeaffine.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
-import static com.codeaffine.test.util.workbench.PartHelper.INTRO_VIEW_ID;
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static com.google.common.base.Preconditions.checkState;
 
 import org.eclipse.swt.SWT;
@@ -21,9 +22,9 @@ import org.junit.runners.model.Statement;
 
 import com.codeaffine.console.core.ConsoleConfigurer;
 import com.codeaffine.console.core.internal.GenericConsole;
-import com.codeaffine.test.util.swt.DisplayHelper;
-import com.codeaffine.test.util.swt.SWTEventHelper;
-import com.codeaffine.test.util.workbench.PartHelper;
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTEventHelper;
+import com.codeaffine.gonsole.test.util.workbench.PartHelper;
 
 public class ConsoleBot implements MethodRule {
 
@@ -114,7 +115,7 @@ public class ConsoleBot implements MethodRule {
   public void reopenConsoleView() {
     partHelper.hideView( CONSOLE_VIEW_ID );
     partHelper.showView( CONSOLE_VIEW_ID );
-    displayHelper.flushPendingEvents();
+    flushPendingEvents();
     consolePageBot = new ConsolePageBot( console.getPage() );
     consolePageBot.waitForInitialPrompt();
   }
@@ -163,7 +164,7 @@ public class ConsoleBot implements MethodRule {
   private void showInView( IConsole console ) {
     IConsoleView consoleView = ( IConsoleView )partHelper.showView( CONSOLE_VIEW_ID );
     consoleView.display( console );
-    new DisplayHelper().flushPendingEvents();
+    flushPendingEvents();
   }
 
   private static void removeGitConsoles() {

@@ -1,7 +1,8 @@
 package com.codeaffine.gonsole.egit.internal.actions;
 
-import static com.codeaffine.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
-import static com.codeaffine.test.util.workbench.PartHelper.INTRO_VIEW_ID;
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -20,11 +21,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.egit.internal.actions.OpenConsoleActionDelegate;
 import com.codeaffine.gonsole.egit.pdetest.EGitRepositoryHelper;
-import com.codeaffine.test.resources.ProjectHelper;
-import com.codeaffine.test.util.swt.DisplayHelper;
-import com.codeaffine.test.util.workbench.PartHelper;
+import com.codeaffine.gonsole.test.resources.ProjectHelper;
+import com.codeaffine.gonsole.test.util.workbench.PartHelper;
 
 
 public class OpenConsoleActionDelegatePDETest {
@@ -83,7 +82,7 @@ public class OpenConsoleActionDelegatePDETest {
     long start = System.currentTimeMillis();
     IViewPart result = partHelper.findView( CONSOLE_VIEW_ID );
     while( result == null && System.currentTimeMillis() - start < 10000 ) {
-      new DisplayHelper().flushPendingEvents();
+      flushPendingEvents();
       result = partHelper.findView( CONSOLE_VIEW_ID );
     }
     return result;

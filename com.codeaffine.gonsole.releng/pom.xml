@@ -45,7 +45,7 @@
     <module>../com.codeaffine.console.calculator.pdetest</module>
     
     <!-- test util -->
-    <module>../com.codeaffine.test.util</module>
+    <module>../com.codeaffine.gonsole.test.util</module>
 
     <!-- egit adapter -->
     <module>../com.codeaffine.gonsole.egit</module>

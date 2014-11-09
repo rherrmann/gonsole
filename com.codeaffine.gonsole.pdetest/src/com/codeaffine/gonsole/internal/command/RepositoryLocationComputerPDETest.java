@@ -1,6 +1,7 @@
 package com.codeaffine.gonsole.internal.command;
 
-import static com.codeaffine.test.util.workbench.PartHelper.INTRO_VIEW_ID;
+import static com.codeaffine.gonsole.test.io.Files.toCanonicalFile;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.jface.viewers.StructuredSelection.EMPTY;
 
@@ -28,8 +29,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.codeaffine.test.resources.ProjectHelper;
-import com.codeaffine.test.util.workbench.PartHelper;
+import com.codeaffine.gonsole.test.resources.ProjectHelper;
+import com.codeaffine.gonsole.test.util.workbench.PartHelper;
 
 public class RepositoryLocationComputerPDETest {
 
@@ -62,7 +63,7 @@ public class RepositoryLocationComputerPDETest {
 
     File repositoryLocation = computeRepositoryLocation( projectHelper.getProject() );
 
-    assertThat( repositoryLocation ).isEqualTo( repository.getDirectory() );
+    assertThat( repositoryLocation ).isEqualTo( toCanonicalFile( repository.getDirectory() ) );
   }
 
   @Test
@@ -73,7 +74,7 @@ public class RepositoryLocationComputerPDETest {
 
     File repositoryLocation = computeRepositoryLocation( file );
 
-    assertThat( repositoryLocation ).isEqualTo( repository.getDirectory() );
+    assertThat( repositoryLocation ).isEqualTo( toCanonicalFile( repository.getDirectory() ) );
   }
 
   @Test
@@ -82,7 +83,7 @@ public class RepositoryLocationComputerPDETest {
 
     File repositoryLocation = computeRepositoryLocation( projectHelper.getProject() );
 
-    assertThat( repositoryLocation ).isEqualTo( repository.getDirectory() );
+    assertThat( repositoryLocation ).isEqualTo( toCanonicalFile( repository.getDirectory() ) );
   }
 
   @Test
@@ -93,7 +94,7 @@ public class RepositoryLocationComputerPDETest {
 
     File repositoryLocation = computeRepositoryLocation( editor );
 
-    assertThat( repositoryLocation ).isEqualTo( repository.getDirectory() );
+    assertThat( repositoryLocation ).isEqualTo( toCanonicalFile( repository.getDirectory() ) );
   }
 
   @Test

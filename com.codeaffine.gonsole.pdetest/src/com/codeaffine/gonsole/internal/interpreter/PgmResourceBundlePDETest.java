@@ -8,9 +8,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.interpreter.PgmResourceBundle;
-import com.codeaffine.test.util.concurrency.RunInThread;
-import com.codeaffine.test.util.concurrency.RunInThreadRule;
+import com.codeaffine.test.util.util.concurrent.RunInThread;
+import com.codeaffine.test.util.util.concurrent.RunInThreadRule;
 
 @SuppressWarnings("restriction")
 public class PgmResourceBundlePDETest {

@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.util;
 
+import static com.codeaffine.gonsole.test.io.Files.toCanonicalFile;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -25,7 +26,7 @@ public class RepositoriesPDETest {
 
     IPath workDir = Repositories.getWorkDir( repositoryLocation );
 
-    assertThat( workDir.toFile() ).isEqualTo( repositoryLocation.getParentFile() );
+    assertThat( workDir.toFile() ).isEqualTo( toCanonicalFile( repositoryLocation.getParentFile() ) );
   }
 
   @Test

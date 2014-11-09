@@ -12,11 +12,9 @@ import org.junit.Test;
 
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.gonsole.acceptance.GitConsoleHelper;
-import com.codeaffine.gonsole.internal.interpreter.GitCommandInterpreter;
-import com.codeaffine.gonsole.internal.interpreter.PgmResourceBundle;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
-import com.codeaffine.test.util.concurrency.RunInThread;
-import com.codeaffine.test.util.concurrency.RunInThreadRule;
+import com.codeaffine.test.util.util.concurrent.RunInThread;
+import com.codeaffine.test.util.util.concurrent.RunInThreadRule;
 
 
 public class GitCommandInterpreterPDETest {

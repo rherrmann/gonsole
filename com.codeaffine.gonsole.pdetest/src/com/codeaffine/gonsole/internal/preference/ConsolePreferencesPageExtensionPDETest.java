@@ -1,56 +1,25 @@
 package com.codeaffine.gonsole.internal.preference;
 
-import static com.codeaffine.test.util.registry.RegistryHelper.findByAttribute;
-import static com.codeaffine.test.util.registry.RegistryHelper.getConfigurationElements;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.assertThat;
+import static com.codeaffine.gonsole.pdetest.RegistryHelper.readExtenstionByAttribute;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.preference.ConsolePreferencePage;
+import com.codeaffine.eclipse.core.runtime.Extension;
 
 public class ConsolePreferencesPageExtensionPDETest {
 
   private static final String EP_PREFERENCE_PAGES = "org.eclipse.ui.preferencePages";
 
   @Test
-  public void testClassIsInstantiable() throws Exception {
-    IConfigurationElement element = getConsolePreferencesPageConfigurationElement();
+  public void testExtension() {
+    Extension actual = readExtenstionByAttribute( EP_PREFERENCE_PAGES, "id", ConsolePreferencePage.ID );
 
-    Object instance = element.createExecutableExtension( "class" );
-
-    assertThat( instance ).isInstanceOf( ConsolePreferencePage.class );
-  }
-
-  @Test
-  public void testClassImplementsIWorkbenchPreferencePage() throws CoreException {
-    IConfigurationElement element = getConsolePreferencesPageConfigurationElement();
-
-    Object instance = element.createExecutableExtension( "class" );
-
-    assertThat( instance ).isInstanceOf( IWorkbenchPreferencePage.class );
-  }
-
-  @Test
-  public void testCategory() {
-    IConfigurationElement element = getConsolePreferencesPageConfigurationElement();
-
-    String category = element.getAttribute( "category" );
-
-    assertThat( category ).isEqualTo( "org.eclipse.team.ui.TeamPreferences" );
-  }
-
-  @Test
-  public void testName() {
-    IConfigurationElement element = getConsolePreferencesPageConfigurationElement();
-
-    assertThat( element.getAttribute( "name" ) ).isNotEmpty();
-  }
-
-  private static IConfigurationElement getConsolePreferencesPageConfigurationElement() {
-    IConfigurationElement[] elements = getConfigurationElements( EP_PREFERENCE_PAGES );
-    return findByAttribute( elements, "id", ConsolePreferencePage.ID );
+    assertThat( actual )
+      .isInstantiable( ConsolePreferencePage.class )
+      .isInstantiable( IWorkbenchPreferencePage.class )
+      .hasAttributeValue( "category", "org.eclipse.team.ui.TeamPreferences" )
+      .hasNonEmptyAttributeValueFor( "name" );
   }
 }

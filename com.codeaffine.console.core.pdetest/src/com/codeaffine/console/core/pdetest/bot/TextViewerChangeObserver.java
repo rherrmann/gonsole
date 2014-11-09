@@ -1,5 +1,6 @@
 package com.codeaffine.console.core.pdetest.bot;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.google.common.collect.Iterables.tryFind;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -10,7 +11,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.console.IConsoleDocumentPartitioner;
 import org.eclipse.ui.console.TextConsoleViewer;
 
-import com.codeaffine.test.util.swt.DisplayHelper;
 import com.google.common.base.Predicate;
 
 class TextViewerChangeObserver {
@@ -65,7 +65,7 @@ class TextViewerChangeObserver {
   }
 
   private static void flushEventQueue() {
-    new DisplayHelper().flushPendingEvents();
+    flushPendingEvents();
   }
 
   private static void checkTimeout( long startTime ) {

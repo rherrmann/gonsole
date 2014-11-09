@@ -1,5 +1,6 @@
 package com.codeaffine.console.core.pdetest.bot;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -71,7 +72,7 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
   public ConsoleAssert showsAdditionalInfo() {
     long start = System.currentTimeMillis();
     while( consoleBot.displayHelper.getNewShells().length < 2 ) {
-      consoleBot.displayHelper.flushPendingEvents();
+      flushPendingEvents();
       if( System.currentTimeMillis() - start > 5000 ) {
         fail( "Timed out while waiting for additional info shell" );
       }

@@ -17,7 +17,7 @@ import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.Proposal;
 import com.codeaffine.console.core.internal.ConsoleEditor;
 import com.codeaffine.console.core.test.TestImageDescriptor;
-import com.codeaffine.test.util.swt.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 
 public class ProposalCalculatorTest {
 

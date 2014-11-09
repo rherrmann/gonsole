@@ -1,32 +1,22 @@
 package com.codeaffine.gonsole.internal.preference;
 
-import static org.junit.Assert.assertNotNull;
+import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.assertThat;
+import static com.codeaffine.gonsole.pdetest.RegistryHelper.readExtenstionByAttribute;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.junit.Test;
 
-import com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferencesInitializer;
-import com.codeaffine.test.util.registry.RegistryHelper;
+import com.codeaffine.eclipse.core.runtime.Extension;
 
 
 public class WorkspaceScopePreferencesInitializerPDETest {
 
+  private static final String CLASS_NAME = WorkspaceScopePreferencesInitializer.class.getName();
   private static final String EP_PREFERENCES = "org.eclipse.core.runtime.preferences";
 
   @Test
-  public void testExtension() throws CoreException {
-    IConfigurationElement configurationElement = getConfigurationElement();
+  public void testExtension() {
+    Extension actual = readExtenstionByAttribute( EP_PREFERENCES, "class", CLASS_NAME );
 
-    Object instance = configurationElement.createExecutableExtension( "class" );
-
-    assertNotNull( instance );
-  }
-
-  private static IConfigurationElement getConfigurationElement() {
-    IConfigurationElement[] elements = RegistryHelper.getConfigurationElements( EP_PREFERENCES );
-    String className = WorkspaceScopePreferencesInitializer.class.getName();
-    return RegistryHelper.findByAttribute( elements, "class", className );
+    assertThat( actual ).isInstantiable( WorkspaceScopePreferencesInitializer.class );
   }
 }
-

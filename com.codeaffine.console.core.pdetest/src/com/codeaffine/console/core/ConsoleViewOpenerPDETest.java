@@ -1,7 +1,8 @@
 package com.codeaffine.console.core;
 
-import static com.codeaffine.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
-import static com.codeaffine.test.util.workbench.PartHelper.INTRO_VIEW_ID;
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.ui.IViewPart;
@@ -11,8 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.test.util.swt.DisplayHelper;
-import com.codeaffine.test.util.workbench.PartHelper;
+import com.codeaffine.gonsole.test.util.workbench.PartHelper;
 
 public class ConsoleViewOpenerPDETest {
 
@@ -63,7 +63,7 @@ public class ConsoleViewOpenerPDETest {
     long start = System.currentTimeMillis();
     IViewPart result = partHelper.findView( CONSOLE_VIEW_ID );
     while( result == null && System.currentTimeMillis() - start < 5000 ) {
-      new DisplayHelper().flushPendingEvents();
+      flushPendingEvents();
       result = partHelper.findView( CONSOLE_VIEW_ID );
     }
     return result;

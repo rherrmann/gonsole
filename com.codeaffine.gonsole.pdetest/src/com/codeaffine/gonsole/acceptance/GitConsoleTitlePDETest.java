@@ -1,7 +1,7 @@
 package com.codeaffine.gonsole.acceptance;
 
 import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
-import static com.codeaffine.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.ui.part.ViewPart;
@@ -9,7 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.test.util.workbench.PartHelper;
+import com.codeaffine.gonsole.test.util.workbench.PartHelper;
 
 
 public class GitConsoleTitlePDETest {

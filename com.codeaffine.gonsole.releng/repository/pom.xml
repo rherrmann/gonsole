@@ -74,8 +74,21 @@
               <url>http://download.eclipse.org/egit/updates-stable-nightly</url>
               <layout>p2</layout>
             </repository>
+            <!-- Repository for Xiliary -->
+            <repository>
+              <url>http://fappel.github.io/xiliary/</url>
+              <layout>p2</layout>
+            </repository>
           </source>
           <ius>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>com.codeaffine.eclipse.core.runtime,0.1.0,1.0.0</parameters>
+              </query>
+            </iu>
             <iu>
               <query>
                 <expression>

@@ -1,6 +1,7 @@
 package com.codeaffine.gonsole.acceptance;
 
 import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.gonsole.acceptance.GitConsolePrompts.line;
 import static com.codeaffine.gonsole.internal.GitConsoleConstants.PROMPT_POSTFIX;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
-import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class GitConsoleContentAssistPDETest {
 
@@ -48,7 +48,7 @@ public class GitConsoleContentAssistPDETest {
     console.typeText( "s" );
     console.typeKey( SWT.CTRL, ' ' );
     console.typeText( "t" );
-    new DisplayHelper().flushPendingEvents();
+    flushPendingEvents();
 
     assertThat( console )
       .showsContentAssist()

@@ -9,7 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.ColorScheme;
-import com.codeaffine.test.util.swt.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 
 public class GitConsoleColorSchemePDETest {
 
@@ -51,6 +51,6 @@ public class GitConsoleColorSchemePDETest {
   }
 
   private RGB getExpected( int systemColorId ) {
-    return displayHelper.getColorDefinition( systemColorId );
+    return displayHelper.getDisplay().getSystemColor( systemColorId ).getRGB();
   }
 }

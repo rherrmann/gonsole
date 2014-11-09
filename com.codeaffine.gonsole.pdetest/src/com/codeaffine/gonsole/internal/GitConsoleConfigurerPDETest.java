@@ -1,5 +1,6 @@
 package com.codeaffine.gonsole.internal;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
@@ -18,10 +19,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import com.codeaffine.console.core.Console;
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
-import com.codeaffine.test.util.concurrency.ConcurrentHelper;
-import com.codeaffine.test.util.swt.DisplayHelper;
+import com.codeaffine.gonsole.test.util.concurrency.ConcurrentHelper;
 
 public class GitConsoleConfigurerPDETest {
 
@@ -47,7 +48,7 @@ public class GitConsoleConfigurerPDETest {
     configurer.configure( console );
 
     repositoryProvider.setCurrentRepositoryLocation( new File( "/path/to/repo/.git" ) );
-    displayHelper.flushPendingEvents();
+    flushPendingEvents();
 
     verify( console ).setTitle( "Git Console: repo" );
   }
@@ -90,6 +91,6 @@ public class GitConsoleConfigurerPDETest {
       }
     };
     ConcurrentHelper.runInThread( runnable );
-    displayHelper.flushPendingEvents();
+    flushPendingEvents();
   }
 }

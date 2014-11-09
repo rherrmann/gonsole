@@ -1,10 +1,10 @@
 package com.codeaffine.gonsole.acceptance;
 
 import static com.codeaffine.console.core.pdetest.bot.ConsoleAssert.assertThat;
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.gonsole.acceptance.GitConsolePrompts.line;
 import static com.codeaffine.gonsole.internal.GitConsoleConstants.PROMPT_POSTFIX;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -16,7 +16,6 @@ import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.gonsole.internal.GitConsoleConfigurer;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 import com.codeaffine.gonsole.pdetest.DefaultLocaleRule;
-import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class GitConsoleInputPDETest {
 
@@ -64,14 +63,14 @@ public class GitConsoleInputPDETest {
   public void testEnterUseRepositoryCommandWithAbolutePath() throws IOException {
     GenericConsole genericConsole = console.open( configurer.createConfigurer( "rep1", "rep2" ) );
     CompositeRepositoryProvider repositoryProvider = getRepositoryProvider( genericConsole );
-    File repositoryLocation = repositoryProvider.getRepositoryLocations()[ 1 ];
+    String repositoryLocation = repositoryProvider.getRepositoryLocations()[ 1 ].getCanonicalPath();
 
-    console.enterCommandLine( "use " + repositoryLocation.getCanonicalPath() );
+    console.enterCommandLine( "use \"" + repositoryLocation  + "\"" );
 
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( line( "rep1", "use " + repositoryLocation.getCanonicalPath() ),
+      .containsLines( line( "rep1", "use \"" + repositoryLocation  + "\""  ),
                       "Current repository is: rep2",
                       line( "rep2" ) );
   }
@@ -157,11 +156,11 @@ public class GitConsoleInputPDETest {
     console.typeText( "commit msg" );
     console.positionCaret( ( repositoryName + PROMPT_POSTFIX + "commit" ).length() );
     console.typeText( " " );
-    new DisplayHelper().flushPendingEvents();
+    flushPendingEvents();
     console.typeText( "-" );
-    new DisplayHelper().flushPendingEvents();
+    flushPendingEvents();
     console.typeText( "m" );
-    new DisplayHelper().flushPendingEvents();
+    flushPendingEvents();
 
     assertThat( console )
       .containsLines( line( "repo", "commit -m msg" ) );

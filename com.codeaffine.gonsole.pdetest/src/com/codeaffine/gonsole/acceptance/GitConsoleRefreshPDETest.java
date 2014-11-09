@@ -22,7 +22,7 @@ import com.codeaffine.console.core.internal.GenericConsole;
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.gonsole.internal.GitConsoleConfigurer;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
-import com.codeaffine.test.resources.ProjectHelper;
+import com.codeaffine.gonsole.test.resources.ProjectHelper;
 
 
 public class GitConsoleRefreshPDETest {

@@ -18,8 +18,8 @@ import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.internal.ConsoleEditor;
 import com.codeaffine.console.core.pdetest.console.TestConsoleCommandInterpreter;
 import com.codeaffine.console.core.pdetest.console.TestConsoleComponentFactory;
-import com.codeaffine.test.util.swt.DisplayHelper;
-import com.codeaffine.test.util.swt.SWTEventHelper;
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTEventHelper;
 
 public class ContentAssistProcessorPDETest {
 

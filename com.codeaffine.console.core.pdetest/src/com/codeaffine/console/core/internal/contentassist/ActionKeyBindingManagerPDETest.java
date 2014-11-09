@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.test.util.swt.DisplayHelper;
-import com.codeaffine.test.util.swt.SWTEventHelper;
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTEventHelper;
 
 public class ActionKeyBindingManagerPDETest {
 

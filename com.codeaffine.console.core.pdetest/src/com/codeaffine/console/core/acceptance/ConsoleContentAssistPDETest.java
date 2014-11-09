@@ -7,6 +7,7 @@ import static com.codeaffine.console.core.pdetest.console.TestConsoleCommandInte
 import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.PROMPT;
 import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.line;
 import static com.codeaffine.console.core.pdetest.console.TestConsolePrompt.offset;
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 
 import org.eclipse.swt.SWT;
 import org.junit.Rule;
@@ -14,7 +15,6 @@ import org.junit.Test;
 
 import com.codeaffine.console.core.pdetest.bot.ConsoleBot;
 import com.codeaffine.console.core.pdetest.console.TestConsoleConfigurer;
-import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class ConsoleContentAssistPDETest {
 
@@ -51,7 +51,7 @@ public class ConsoleContentAssistPDETest {
     console.typeText( "c" );
     console.typeKey( SWT.CTRL, ' ' );
     console.typeText( "omplex" );
-    new DisplayHelper().flushPendingEvents();
+    flushPendingEvents();
 
     assertThat( console ).showsContentAssist().withProposal( COMMAND_COMPLEX );
   }

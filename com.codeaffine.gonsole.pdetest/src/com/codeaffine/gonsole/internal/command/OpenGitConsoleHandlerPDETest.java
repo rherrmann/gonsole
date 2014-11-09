@@ -1,8 +1,10 @@
 package com.codeaffine.gonsole.internal.command;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.gonsole.internal.command.OpenGitConsoleHandler.COMMAND_ID;
-import static com.codeaffine.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
-import static com.codeaffine.test.util.workbench.PartHelper.INTRO_VIEW_ID;
+import static com.codeaffine.gonsole.test.io.Files.toCanonicalFile;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.ui.ISources.ACTIVE_CURRENT_SELECTION_NAME;
@@ -34,9 +36,8 @@ import org.junit.rules.TemporaryFolder;
 
 import com.codeaffine.console.core.internal.GenericConsole;
 import com.codeaffine.gonsole.internal.GitConsoleConfigurer;
-import com.codeaffine.test.resources.ProjectHelper;
-import com.codeaffine.test.util.swt.DisplayHelper;
-import com.codeaffine.test.util.workbench.PartHelper;
+import com.codeaffine.gonsole.test.resources.ProjectHelper;
+import com.codeaffine.gonsole.test.util.workbench.PartHelper;
 
 public class OpenGitConsoleHandlerPDETest {
 
@@ -58,7 +59,7 @@ public class OpenGitConsoleHandlerPDETest {
     IConsoleView consoleView = getConsoleView();
     assertThat( consoleView ).isNotNull();
     assertThat( consoleView.getSite().getPage().getActivePart() ).isEqualTo( consoleView );
-    assertThat( getCurrentConsoleRepository() ).isEqualTo( repository.getDirectory() );
+    assertThat( getCurrentConsoleRepository() ).isEqualTo( toCanonicalFile( repository.getDirectory() ) );
   }
 
   @Test
@@ -113,11 +114,11 @@ public class OpenGitConsoleHandlerPDETest {
     long start = System.currentTimeMillis();
     IViewPart result = partHelper.findView( CONSOLE_VIEW_ID );
     while( result == null && System.currentTimeMillis() - start < 5000 ) {
-      new DisplayHelper().flushPendingEvents();
+      flushPendingEvents();
       result = partHelper.findView( CONSOLE_VIEW_ID );
     }
     while( result != workbench.getActiveWorkbenchWindow().getActivePage().getActivePart() ) {
-      new DisplayHelper().flushPendingEvents();
+      flushPendingEvents();
     }
     return ( IConsoleView )result;
   }

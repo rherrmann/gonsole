@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferences;
-import com.codeaffine.test.util.swt.DisplayHelper;
 
 public class PreferencePagePDETest {
 

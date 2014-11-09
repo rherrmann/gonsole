@@ -1,6 +1,6 @@
 package com.codeaffine.console.core.pdetest.bot;
 
-import static com.codeaffine.test.util.swt.SWTEventHelper.trigger;
+import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.google.common.collect.Iterables.find;
 import static com.google.common.collect.Iterables.toArray;
 import static com.google.common.collect.Lists.newArrayList;

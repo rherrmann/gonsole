@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.internal.ConsoleEditor;
-import com.codeaffine.test.util.swt.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 
 public class ContentAssistTest {
 

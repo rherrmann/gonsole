@@ -16,7 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.console.core.internal.IoStreamProvider;
-import com.codeaffine.test.util.swt.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 
 public class ConsoleIoProviderTest {
 

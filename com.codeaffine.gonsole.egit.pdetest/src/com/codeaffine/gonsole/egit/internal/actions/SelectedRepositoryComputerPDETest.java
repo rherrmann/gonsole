@@ -1,7 +1,8 @@
 package com.codeaffine.gonsole.egit.internal.actions;
 
-import static com.codeaffine.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
-import static com.codeaffine.test.util.workbench.PartHelper.INTRO_VIEW_ID;
+import static com.codeaffine.gonsole.test.io.Files.toCanonicalFile;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
+import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -23,9 +24,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.gonsole.egit.pdetest.EGitRepositoryHelper;
-import com.codeaffine.test.resources.ProjectHelper;
-import com.codeaffine.test.resources.ResourceHelper;
-import com.codeaffine.test.util.workbench.PartHelper;
+import com.codeaffine.gonsole.test.resources.ProjectHelper;
+import com.codeaffine.gonsole.test.resources.ResourceHelper;
+import com.codeaffine.gonsole.test.util.workbench.PartHelper;
 
 public class SelectedRepositoryComputerPDETest {
 
@@ -41,7 +42,7 @@ public class SelectedRepositoryComputerPDETest {
 
     File selectedRepositoryLocation = computeSelectedRepository( projectHelper.getProject() );
 
-    assertThat( selectedRepositoryLocation ).isEqualTo( repositoryLocation );
+    assertThat( selectedRepositoryLocation ).isEqualTo( toCanonicalFile( repositoryLocation ) );
   }
 
   @Test
@@ -52,7 +53,7 @@ public class SelectedRepositoryComputerPDETest {
 
     File selectedRepositoryLocation = computeSelectedRepository( editor );
 
-    assertThat( selectedRepositoryLocation ).isEqualTo( repositoryLocation );
+    assertThat( selectedRepositoryLocation ).isEqualTo( toCanonicalFile( repositoryLocation ) );
   }
 
   @Test
@@ -83,7 +84,7 @@ public class SelectedRepositoryComputerPDETest {
 
     File selectedRepositoryLocation = computeSelectedRepository( file );
 
-    assertThat( selectedRepositoryLocation ).isEqualTo( repositoryLocation );
+    assertThat( selectedRepositoryLocation ).isEqualTo( toCanonicalFile( repositoryLocation ) );
   }
 
   @Before
