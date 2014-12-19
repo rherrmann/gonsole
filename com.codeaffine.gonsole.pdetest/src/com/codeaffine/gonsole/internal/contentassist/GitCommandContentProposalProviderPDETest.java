@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.codeaffine.console.core.Proposal;
-import com.codeaffine.gonsole.internal.interpreter.PgmResourceBundle;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 
 public class GitCommandContentProposalProviderPDETest {
@@ -30,6 +29,5 @@ public class GitCommandContentProposalProviderPDETest {
   public void setUp() {
     CompositeRepositoryProvider repositoryProvider = createWithSingleChildProvider();
     proposalProvider = new GitCommandContentProposalProvider( repositoryProvider );
-    new PgmResourceBundle().reset();
   }
 }

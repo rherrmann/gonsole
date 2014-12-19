@@ -77,7 +77,6 @@ public class GitCommandInterpreterPDETest {
 
   @Before
   public void setUp() {
-    new PgmResourceBundle().reset();
     File gitDirectory = configurer.createRepositories( "repo" )[ 0 ];
     CompositeRepositoryProvider repositoryProvider = createWithSingleChildProvider( gitDirectory );
     interpreter = new GitCommandInterpreter( mock( ConsoleOutput.class ), repositoryProvider );

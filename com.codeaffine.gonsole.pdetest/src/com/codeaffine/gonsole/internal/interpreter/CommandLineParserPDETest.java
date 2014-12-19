@@ -7,10 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kohsuke.args4j.CmdLineException;
 
-import com.codeaffine.gonsole.internal.interpreter.CommandInfo;
-import com.codeaffine.gonsole.internal.interpreter.CommandLineParser;
-import com.codeaffine.gonsole.internal.interpreter.PgmResourceBundle;
-
 public class CommandLineParserPDETest {
 
   private CommandLineParser commandLineParser;
@@ -86,7 +82,6 @@ public class CommandLineParserPDETest {
 
   @Before
   public void setUp() {
-    new PgmResourceBundle().reset();
     commandLineParser = new CommandLineParser();
   }
 }

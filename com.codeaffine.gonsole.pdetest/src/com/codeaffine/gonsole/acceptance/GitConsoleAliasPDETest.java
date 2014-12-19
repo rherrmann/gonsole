@@ -35,7 +35,7 @@ public class GitConsoleAliasPDETest {
     assertThat( consoleBot )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( line( "repo", "st" ), "# On branch master", line( "repo" ) );
+      .containsLines( line( "repo", "st" ), "On branch master", line( "repo" ) );
   }
 
   @Test
@@ -48,7 +48,7 @@ public class GitConsoleAliasPDETest {
     assertThat( consoleBot )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( line( "repo", "git st" ), "# On branch master", line( "repo" ) );
+      .containsLines( line( "repo", "git st" ), "On branch master", line( "repo" ) );
   }
 
   @Test

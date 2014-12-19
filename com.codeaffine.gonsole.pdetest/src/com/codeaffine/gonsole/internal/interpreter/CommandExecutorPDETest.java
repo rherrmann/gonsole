@@ -35,7 +35,7 @@ public class CommandExecutorPDETest {
     String actual = executor.execute( commandInfo );
 
     String expectedOutput = new String( outputStream.toByteArray(), ENCODING );
-    assertThat( expectedOutput ).startsWith( "# On branch master" );
+    assertThat( expectedOutput ).startsWith( "On branch master" );
     assertThat( actual ).isNull();
   }
 
@@ -64,7 +64,6 @@ public class CommandExecutorPDETest {
 
   @Before
   public void setUp() throws Exception {
-    new PgmResourceBundle().initialize();
     gitDirectory = createRepository();
     outputStream = new ByteArrayOutputStream();
     ConsoleOutput consoleOutput = Output.create( outputStream );

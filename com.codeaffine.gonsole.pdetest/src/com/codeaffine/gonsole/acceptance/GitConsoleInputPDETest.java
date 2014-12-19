@@ -32,7 +32,7 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( line( "repo", "status" ), "# On branch master", line( "repo" ) );
+      .containsLines( line( "repo", "status" ), "On branch master", line( "repo" ) );
   }
 
   @Test
@@ -96,7 +96,7 @@ public class GitConsoleInputPDETest {
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( line( "repo", "git status" ), "# On branch master" , line( "repo" ) );
+      .containsLines( line( "repo", "git status" ), "On branch master" , line( "repo" ) );
   }
 
   @Test

@@ -18,7 +18,6 @@ public class CommandLineParser {
   }
 
   public boolean isRecognized( String...commands ) {
-    pgmResourceBundle.initialize();
     boolean result = false;
     try {
       new CmdLineParser( new CommandInfo() ).parseArgument( commands );
@@ -29,7 +28,6 @@ public class CommandLineParser {
   }
 
   public CommandInfo parse( String... commands ) {
-    pgmResourceBundle.initialize();
     CommandInfo result = new CommandInfo();
     try {
       new CmdLineParser( result ).parseArgument( commands );
@@ -40,7 +38,6 @@ public class CommandLineParser {
   }
 
   public String getUsage( String command ) {
-    pgmResourceBundle.initialize();
     CommandInfo commandInfo = new CommandInfo();
     CmdLineParser parser = new CmdLineParser( commandInfo );
     try {

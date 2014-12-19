@@ -23,6 +23,6 @@ public class GitConsoleLifecyclePDETest {
 
     assertThat( consoleBot )
       .caretIsAtEnd()
-      .containsLines( line( "repo", "status" ), "# On branch master" , line( "repo" ) );
+      .containsLines( line( "repo", "status" ), "On branch master" , line( "repo" ) );
   }
 }
