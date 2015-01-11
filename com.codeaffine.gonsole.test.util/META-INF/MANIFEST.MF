@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test Utilities
 Bundle-SymbolicName: com.codeaffine.gonsole.test.util;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: codeaffine.com
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.google.common.base;version="[12.0.0,13.0.0)",
@@ -16,10 +16,10 @@ Import-Package: com.google.common.base;version="[12.0.0,13.0.0)",
  org.junit.runner.notification;version="[4.11.0,5.0.0)",
  org.junit.runners;version="[4.11.0,5.0.0)",
  org.junit.runners.model;version="[4.11.0,5.0.0)"
-Export-Package: com.codeaffine.gonsole.test.io;version="1.0.0.qualifier",
- com.codeaffine.gonsole.test.resources;version="1.0.0.qualifier",
- com.codeaffine.gonsole.test.util.concurrency;version="1.0.0.qualifier",
- com.codeaffine.gonsole.test.util.workbench;version="1.0.0.qualifier"
+Export-Package: com.codeaffine.gonsole.test.io;version="1.1.0.qualifier",
+ com.codeaffine.gonsole.test.resources;version="1.1.0.qualifier",
+ com.codeaffine.gonsole.test.util.concurrency;version="1.1.0.qualifier",
+ com.codeaffine.gonsole.test.util.workbench;version="1.1.0.qualifier"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.core.commands;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.7.0,4.0.0)",
