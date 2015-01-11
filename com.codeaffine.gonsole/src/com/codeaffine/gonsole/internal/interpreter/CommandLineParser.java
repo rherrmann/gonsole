@@ -3,6 +3,7 @@ package com.codeaffine.gonsole.internal.interpreter;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 import java.io.StringWriter;
+import java.util.MissingResourceException;
 
 import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
@@ -59,7 +60,12 @@ public class CommandLineParser {
     if( result.getBuffer().length() > 0 ) {
       result.append( "\n\n" );
     }
-    parser.printUsage( result, pgmResourceBundle.getResourceBundle() );
+    try {
+      parser.printUsage( result, pgmResourceBundle.getResourceBundle() );
+    } catch( MissingResourceException ignore ) {
+      // [rh] workaround for Bug 457208: [pgm] resource bundle entry for "usage_bareClone" of the Clone command does not exist
+      //      https://bugs.eclipse.org/bugs/show_bug.cgi?id=457208
+    }
     return result.toString();
   }
 
