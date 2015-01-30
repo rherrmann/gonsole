@@ -14,6 +14,7 @@
   <properties>
     <tycho-version>0.21.0</tycho-version>
     <tycho-extras-version>0.21.0</tycho-extras-version>
+    <target-platform-classifier>eclipse-4.4</target-platform-classifier>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -73,7 +74,7 @@
 			            <groupId>com.codeaffine.gonsole</groupId>
 			            <artifactId>com.codeaffine.gonsole.parent</artifactId>
                   <version>${project.version}</version>
-                  <classifier>eclipse-4.4</classifier>
+                  <classifier>${target-platform-classifier}</classifier>
 			         </artifact>
           	</target>
             <includePackedArtifacts>true</includePackedArtifacts>

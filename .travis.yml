@@ -19,7 +19,9 @@ branches:
   only:
     - master
 
-script: mvn -f com.codeaffine.gonsole.releng/pom.xml clean verify
+script: 
+  - mvn -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-3.8
+  - mvn -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.4
 
 before_script:
   - "export DISPLAY=:99.0"
