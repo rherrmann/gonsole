@@ -71,7 +71,7 @@
             </repository>
             <!-- Repository for JGit -->
             <repository>
-              <url>http://download.eclipse.org/egit/updates-3.6/</url>
+              <url>http://download.eclipse.org/egit/updates-3.6.2/</url>
               <layout>p2</layout>
             </repository>
             <!-- Repository for Xiliary -->
