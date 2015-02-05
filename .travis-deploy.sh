@@ -7,7 +7,7 @@ function error_exit
 }
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-  echo -e "Starting to deploy to gh-pages\n"
+  echo -e "Starting to deploy to gh-pages...\n"
 
   # create and cd into temporary deployment work directory
   mkdir deployment-work
