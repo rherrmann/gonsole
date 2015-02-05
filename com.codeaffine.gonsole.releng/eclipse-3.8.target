@@ -16,11 +16,11 @@
 <repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.codeaffine.test.util.feature.feature.group" version="0.1.0.20150124-1820"/>
-<unit id="com.codeaffine.eclipse.swt.test.util.feature.feature.group" version="0.1.0.20150124-1820"/>
-<unit id="com.codeaffine.eclipse.core.runtime.feature.feature.group" version="0.1.0.20150124-1820"/>
-<unit id="com.codeaffine.eclipse.core.runtime.test.util.feature.feature.group" version="0.1.0.20150124-1820"/>
-<unit id="com.codeaffine.eclipse.swt.feature.feature.group" version="0.1.0.20150124-1820"/>
+<unit id="com.codeaffine.test.util.feature.feature.group" version="0.1.0.20150204-0441"/>
+<unit id="com.codeaffine.eclipse.swt.test.util.feature.feature.group" version="0.1.0.20150204-0441"/>
+<unit id="com.codeaffine.eclipse.core.runtime.feature.feature.group" version="0.1.0.20150204-0441"/>
+<unit id="com.codeaffine.eclipse.core.runtime.test.util.feature.feature.group" version="0.1.0.20150204-0441"/>
+<unit id="com.codeaffine.eclipse.swt.feature.feature.group" version="0.1.0.20150204-0441"/>
 <repository location="http://fappel.github.io/xiliary/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
