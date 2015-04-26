@@ -2,6 +2,7 @@ package com.codeaffine.gonsole.internal.activator;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -18,6 +19,16 @@ public class GonsolePlugin extends AbstractUIPlugin {
   public void start( BundleContext context ) throws Exception {
     super.start( context );
     instance = this;
+    // [rh] workaround for bug 465498: CommandCatalog cannot be used in OSGi
+    // https://bugs.eclipse.org/bugs/show_bug.cgi?id=465498
+    ClassLoader bufferedContextClassLoader = Thread.currentThread().getContextClassLoader();
+    try {
+      Thread.currentThread().setContextClassLoader( CommandCatalog.class.getClassLoader() );
+      CommandCatalog.all();
+    } finally {
+      Thread.currentThread().setContextClassLoader( bufferedContextClassLoader );
+    }
+    // end workaround
   }
 
   @Override
