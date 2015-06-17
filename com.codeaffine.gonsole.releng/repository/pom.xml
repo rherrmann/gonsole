@@ -66,7 +66,7 @@
           <source>
             <!-- Repository for Guava, Args4J, Apache Commons Compress -->
             <repository>
-              <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</url>
+              <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url>
               <layout>p2</layout>
             </repository>
             <!-- Repository for JGit -->
@@ -167,6 +167,14 @@
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
                 <parameters>com.jcraft.jsch,0.1.50,0.2.0</parameters>
+              </query>
+            </iu>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.slf4j.api,1.7.0,2.0.0</parameters>
               </query>
             </iu>
           </ius>
