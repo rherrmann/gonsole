@@ -21,6 +21,7 @@ public class Input {
     } catch( NoSuchElementException endOfFile ) {
       result = null;
     }
+    scanner.close();
     return result;
   }
 }

@@ -64,21 +64,24 @@ public class GitConsoleRefreshPDETest {
 
   private void createBranch( String branchName ) throws IOException, GitAPIException {
     Repository repository = openCurrentRepository();
-    new Git( repository ).branchCreate().setName( branchName ).call();
-    repository.close();
+    Git git = new Git( repository );
+    git.branchCreate().setName( branchName ).call();
+    git.close();
   }
 
   private void checkoutBranch( String branchName ) throws IOException, GitAPIException {
     Repository repository = openCurrentRepository();
-    new Git( repository ).checkout().setName( branchName ).call();
-    repository.close();
+    Git git = new Git( repository );
+    git.checkout().setName( branchName ).call();
+    git.close();
   }
 
   private void commit() throws IOException, GitAPIException {
     Repository repository = openCurrentRepository();
-    new Git( repository ).add().addFilepattern( "." ).call();
-    new Git( repository ).commit().setMessage( "Commit all changes" ).call();
-    repository.close();
+    Git git = new Git( repository );
+    git.add().addFilepattern( "." ).call();
+    git.commit().setMessage( "Commit all changes" ).call();
+    git.close();
   }
 
   private void createSharedProject() throws IOException {

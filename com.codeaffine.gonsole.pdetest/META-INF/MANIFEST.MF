@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.codeaffine.gonsole.pdetest;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: codeaffine.com
 Fragment-Host: com.codeaffine.gonsole;bundle-version="[1.1.0,2.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
  org.mockito.mockito-all;bundle-version="[1.9.5,2.0.0)",
  org.assertj.core;bundle-version="[1.6.0,2.0.0)",
@@ -19,5 +19,5 @@ Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
 Import-Package: com.codeaffine.console.core.pdetest,
  com.codeaffine.console.core.pdetest.bot,
  com.codeaffine.console.core.pdetest.console,
- com.codeaffine.gonsole.internal.preference;version="1.1.0.qualifier",
+ com.codeaffine.gonsole.internal.preference,
  com.codeaffine.test.util.util.concurrent;version="[0.1.0,1.0.0)"

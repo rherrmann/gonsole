@@ -4,7 +4,7 @@ Bundle-Name: Calculator PDETests
 Bundle-SymbolicName: com.codeaffine.console.calculator.pdetest;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: com.codeaffine.console.calculator;bundle-version="[1.1.0,2.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
  org.assertj.core;bundle-version="[1.6.0,2.0.0)",
  junitparams;bundle-version="[1.0.0,2.0.0)",

@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.codeaffine.console.core.test;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: codeaffine.com
 Fragment-Host: com.codeaffine.console.core;bundle-version="[1.1.0,2.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
  org.mockito.mockito-all;bundle-version="[1.9.5,2.0.0)",
  junitparams;bundle-version="[1.0.0,2.0.0)",
