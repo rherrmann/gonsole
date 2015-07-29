@@ -13,7 +13,7 @@ before_install:
 language: java
 
 jdk:
-  - openjdk6
+  - openjdk7
 
 branches:
   only:
