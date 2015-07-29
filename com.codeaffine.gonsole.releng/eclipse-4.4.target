@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="com.codeaffine.gonsole on Eclipse 4.4" sequenceNumber="104">
+<?pde version="3.8"?><target name="com.codeaffine.gonsole on Eclipse 4.4" sequenceNumber="105">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="com.google.guava" version="12.0.0.v201212092141"/>
@@ -20,18 +20,17 @@
 <repository location="http://fappel.github.io/test-libraries/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.egit.feature.group" version="3.7.0.201502260915-r"/>
-<unit id="org.eclipse.egit.source.feature.group" version="3.7.0.201502260915-r"/>
-<unit id="org.eclipse.jgit.pgm.feature.group" version="3.7.0.201502260915-r"/>
-<unit id="org.eclipse.jgit.pgm.source.feature.group" version="3.7.0.201502260915-r"/>
-<unit id="org.eclipse.jgit.feature.group" version="3.7.0.201502260915-r"/>
-<unit id="org.eclipse.jgit.java7.feature.group" version="3.7.0.201502260915-r"/>
-<unit id="org.eclipse.jgit.source.feature.group" version="3.7.0.201502260915-r"/>
-<repository location="http://download.eclipse.org/egit/updates-3.7"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.sdk" version="4.4.2.M20150204-1700"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.4/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.egit.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.jgit.pgm.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.egit.source.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.jgit.pgm.source.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.jgit.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.jgit.source.feature.group" version="4.0.1.201506240215-r"/>
+<repository location="http://download.eclipse.org/egit/updates-4.0.1"/>
 </location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>

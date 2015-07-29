@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="com.codeaffine.gonsole on Eclipse 4.5" sequenceNumber="106">
+<?pde version="3.8"?><target name="com.codeaffine.gonsole on Eclipse 4.5" sequenceNumber="107">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="com.google.guava" version="12.0.0.v201212092141"/>
@@ -24,13 +24,13 @@
 <repository location="http://download.eclipse.org/eclipse/updates/4.5milestones"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.jgit.pgm.feature.group" version="4.1.0.201506091550"/>
-<unit id="org.eclipse.jgit.feature.group" version="4.1.0.201506091550"/>
-<unit id="org.eclipse.jgit.pgm.source.feature.group" version="4.1.0.201506091550"/>
-<unit id="org.eclipse.jgit.source.feature.group" version="4.1.0.201506091550"/>
-<unit id="org.eclipse.egit.source.feature.group" version="4.1.0.201506091616"/>
-<unit id="org.eclipse.egit.feature.group" version="4.1.0.201506091616"/>
-<repository location="http://download.eclipse.org/egit/updates-nightly"/>
+<unit id="org.eclipse.egit.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.jgit.pgm.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.egit.source.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.jgit.pgm.source.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.jgit.feature.group" version="4.0.1.201506240215-r"/>
+<unit id="org.eclipse.jgit.source.feature.group" version="4.0.1.201506240215-r"/>
+<repository location="http://download.eclipse.org/egit/updates-4.0.1"/>
 </location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
