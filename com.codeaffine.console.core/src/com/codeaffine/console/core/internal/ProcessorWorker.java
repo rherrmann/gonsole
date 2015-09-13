@@ -1,8 +1,6 @@
 package com.codeaffine.console.core.internal;
 
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ConsoleOutput;
@@ -17,7 +15,6 @@ class ProcessorWorker implements Runnable {
   private final ConsoleOutput consolePromptOutput;
   private final ConsoleOutput consoleErrorOutput;
   private final Input consoleInput;
-  AtomicBoolean shutdown = new AtomicBoolean();
 
   ProcessorWorker( ConsoleIoProvider ioProvider, ConsoleComponentFactory factory ) {
     this.consolePromptOutput = Output.create( ioProvider.getPromptStream() );
