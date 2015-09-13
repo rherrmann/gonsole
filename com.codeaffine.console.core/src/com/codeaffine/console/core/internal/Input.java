@@ -13,6 +13,7 @@ public class Input {
     this.consoleIOProvider = consoleIoProvider;
   }
 
+  @SuppressWarnings("resource")
   public String readLine() {
     Scanner scanner = new Scanner( consoleIOProvider.getInputStream() );
     String result;
@@ -21,7 +22,6 @@ public class Input {
     } catch( NoSuchElementException endOfFile ) {
       result = null;
     }
-    scanner.close();
     return result;
   }
 }

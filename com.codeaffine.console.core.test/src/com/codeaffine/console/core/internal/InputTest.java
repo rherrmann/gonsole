@@ -5,7 +5,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.BufferedInputStream;
@@ -39,6 +41,17 @@ public class InputTest {
     String read = consoleInput.readLine();
 
     assertThat( read ).isNull();
+  }
+
+  @Test
+  public void testReadLineLeavesInputStreamOpen() throws IOException {
+    InputStream inStream = createInputStreamSpy();
+    equipInputStreamWithIOException( inStream );
+    equipConsoleIOProviderWithIputStream( inStream );
+  
+    consoleInput.readLine();
+  
+    verify( inStream, never() ).close();
   }
 
   @Test
