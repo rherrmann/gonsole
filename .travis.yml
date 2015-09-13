@@ -4,12 +4,8 @@ env:
 
 install: true
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install gnome-themes-standard
-  - sudo apt-get install metacity
-  - sudo apt-get install libwebkit-dev
- 
+sudo: false
+
 language: java
 
 jdk:
@@ -19,6 +15,13 @@ branches:
   only:
     - master
 
+addons:
+  apt:
+    packages:
+    - gnome-themes-standard
+    - metacity
+    - libwebkit-dev
+    
 script: 
   - mvn -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.4
 
