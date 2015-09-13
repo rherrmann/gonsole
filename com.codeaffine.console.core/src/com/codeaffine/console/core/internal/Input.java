@@ -1,5 +1,7 @@
 package com.codeaffine.console.core.internal;
 
+import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
+
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -15,7 +17,7 @@ public class Input {
 
   @SuppressWarnings("resource")
   public String readLine() {
-    Scanner scanner = new Scanner( consoleIOProvider.getInputStream() );
+    Scanner scanner = new Scanner( consoleIOProvider.getInputStream(), ENCODING.name() );
     String result;
     try {
       result = scanner.nextLine();
