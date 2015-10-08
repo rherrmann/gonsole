@@ -22,8 +22,11 @@ class GenericConsolePage implements IPageBookViewPage, IAdaptable {
     this.consoleComponentFactory = factory;
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
+  @SuppressWarnings({
+    "rawtypes",
+    "unchecked"
+  })
   public Object getAdapter( Class adapter ) {
     return consolePage.getAdapter( adapter );
   }

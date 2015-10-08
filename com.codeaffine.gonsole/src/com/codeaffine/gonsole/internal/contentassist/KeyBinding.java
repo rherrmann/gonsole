@@ -74,8 +74,7 @@ class KeyBinding {
     return result;
   }
 
-  @SuppressWarnings("unchecked")
   private static <T> T getService( Class<T> type ) {
-    return ( T )PlatformUI.getWorkbench().getService( type );
+    return type.cast( PlatformUI.getWorkbench().getService( type ) );
   }
 }

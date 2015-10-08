@@ -99,7 +99,7 @@ public class OpenGitConsoleHandlerPDETest {
   }
 
   private Command getOpenGitConsoleCommand() {
-    ICommandService commandService = ( ICommandService )workbench.getService( ICommandService.class );
+    ICommandService commandService = ICommandService.class.cast( workbench.getService( ICommandService.class ) );
     return commandService.getCommand( COMMAND_ID );
   }
 
