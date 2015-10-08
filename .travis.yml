@@ -22,8 +22,8 @@ addons:
     - metacity
     - libwebkit-dev
     
-script: 
-  - mvn -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.4
+script:
+  - mvn -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.5
 
 before_script:
   - "export DISPLAY=:99.0"
