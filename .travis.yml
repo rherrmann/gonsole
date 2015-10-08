@@ -23,6 +23,7 @@ addons:
     - libwebkit-dev
     
 script:
+  - mvn -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.4
   - mvn -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.5
 
 before_script:
