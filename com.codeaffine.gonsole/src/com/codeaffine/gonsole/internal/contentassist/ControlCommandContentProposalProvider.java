@@ -10,7 +10,7 @@ public class ControlCommandContentProposalProvider implements ContentProposalPro
 
   private static final String USAGE
     = "use repository - Change the current repository\n\n"
-    + "repository: Name of the repository to use. "
+    + "repository: Name or full path to the .git directory of the repository to use. "
     + "The name is taken from the last segment of the path to the repository (without .git). "
     + "E.g. the name of /path/to/repo/.git is 'repo'.";
 
