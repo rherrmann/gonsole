@@ -1,9 +1,7 @@
 package com.codeaffine.gonsole.internal.command;
 
-import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.gonsole.internal.command.OpenGitConsoleHandler.COMMAND_ID;
 import static com.codeaffine.gonsole.test.io.Files.toCanonicalFile;
-import static com.codeaffine.gonsole.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
 import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,12 +19,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.IConsoleView;
 import org.junit.After;
 import org.junit.Before;
@@ -37,6 +32,7 @@ import org.junit.rules.TemporaryFolder;
 import com.codeaffine.console.core.internal.GenericConsole;
 import com.codeaffine.gonsole.internal.GitConsoleConfigurer;
 import com.codeaffine.gonsole.test.resources.ProjectHelper;
+import com.codeaffine.gonsole.test.util.workbench.ConsoleHelper;
 import com.codeaffine.gonsole.test.util.workbench.PartHelper;
 
 public class OpenGitConsoleHandlerPDETest {
@@ -45,6 +41,7 @@ public class OpenGitConsoleHandlerPDETest {
   public final TemporaryFolder tempFolder = new TemporaryFolder();
 
   private IWorkbench workbench;
+  private ConsoleHelper consoleHelper;
   private PartHelper partHelper;
   private ProjectHelper projectHelper;
   private Repository repository;
@@ -56,17 +53,29 @@ public class OpenGitConsoleHandlerPDETest {
 
     executeOpenGitConsoleHandler( selection );
 
-    IConsoleView consoleView = getConsoleView();
+    IConsoleView consoleView = consoleHelper.getConsoleView();
     assertThat( consoleView ).isNotNull();
     assertThat( consoleView.getSite().getPage().getActivePart() ).isEqualTo( consoleView );
     assertThat( getCurrentConsoleRepository() ).isEqualTo( toCanonicalFile( repository.getDirectory() ) );
   }
 
   @Test
+  public void testExecuteTwiceWithSameLocation() {
+    projectHelper = new ProjectHelper( repository.getWorkTree() );
+    ISelection selection = new StructuredSelection( projectHelper.getProject() );
+    executeOpenGitConsoleHandler( selection );
+
+    executeOpenGitConsoleHandler( selection );
+
+    assertThat( consoleHelper.getConsoleView() ).isNotNull();
+    assertThat( consoleHelper.getConsoles() ).hasSize( 2 );
+  }
+
+  @Test
   public void testExecuteWithEmptySelection() {
     executeOpenGitConsoleHandler( StructuredSelection.EMPTY );
 
-    IConsoleView consoleView = getConsoleView();
+    IConsoleView consoleView = consoleHelper.getConsoleView();
     assertThat( consoleView ).isNotNull();
     assertThat( consoleView.getSite().getPage().getActivePart() ).isEqualTo( consoleView );
     assertThat( getCurrentConsoleRepository() ).isNull();
@@ -75,6 +84,7 @@ public class OpenGitConsoleHandlerPDETest {
   @Before
   public void setUp() throws GitAPIException {
     workbench = PlatformUI.getWorkbench();
+    consoleHelper = new ConsoleHelper();
     partHelper = new PartHelper();
     partHelper.hideView( INTRO_VIEW_ID );
     repository = Git.init().setDirectory( tempFolder.getRoot() ).call().getRepository();
@@ -85,8 +95,7 @@ public class OpenGitConsoleHandlerPDETest {
     if( projectHelper != null ) {
       projectHelper.dispose();
     }
-    partHelper.hideView( CONSOLE_VIEW_ID );
-    removeAllConsoles();
+    consoleHelper.hideConsoleView();
   }
 
   private void executeOpenGitConsoleHandler( ISelection selection ) {
@@ -103,28 +112,10 @@ public class OpenGitConsoleHandlerPDETest {
     return commandService.getCommand( COMMAND_ID );
   }
 
-  private static File getCurrentConsoleRepository() {
-    GenericConsole console = ( GenericConsole )ConsolePlugin.getDefault().getConsoleManager().getConsoles()[ 0 ];
+  private File getCurrentConsoleRepository() {
+    GenericConsole console = ( GenericConsole )consoleHelper.getConsoles()[ 0 ];
     GitConsoleConfigurer consoleConfigurer = ( GitConsoleConfigurer )console.getConsoleConfigurer();
     consoleConfigurer.getRepositoryProvider().getCurrentRepositoryLocation();
     return consoleConfigurer.getRepositoryProvider().getCurrentRepositoryLocation();
-  }
-
-  private IConsoleView getConsoleView() {
-    long start = System.currentTimeMillis();
-    IViewPart result = partHelper.findView( CONSOLE_VIEW_ID );
-    while( result == null && System.currentTimeMillis() - start < 5000 ) {
-      flushPendingEvents();
-      result = partHelper.findView( CONSOLE_VIEW_ID );
-    }
-    while( result != workbench.getActiveWorkbenchWindow().getActivePage().getActivePart() ) {
-      flushPendingEvents();
-    }
-    return ( IConsoleView )result;
-  }
-
-  private static void removeAllConsoles() {
-    IConsoleManager consoleManager = ConsolePlugin.getDefault().getConsoleManager();
-    consoleManager.removeConsoles( consoleManager.getConsoles() );
   }
 }
