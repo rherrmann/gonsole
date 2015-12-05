@@ -83,6 +83,25 @@
       </colorDefinition>
    </extension>
    <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.menus.showInMenu">
+         <command
+               commandId="com.codeaffine.gonsole.internal.command.ShowInGitConsole"
+               label="Git Console"
+               mnemonic="G"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="org.eclipse.ui.ide.showInDefinition">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
          point="org.eclipse.ui.commands">
       <command
             categoryId="org.eclipse.team.ui.category.team"
@@ -91,6 +110,12 @@
             id="com.codeaffine.gonsole.internal.command.OpenGitConsole"
             name="Open Git Console">
       </command>
+      <command
+            categoryId="org.eclipse.team.ui.category.team"
+            description="Show the selected resource in the Git Console View"
+            id="com.codeaffine.gonsole.internal.command.ShowInGitConsole"
+            name="Show In Git Console">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.commandImages">
@@ -98,6 +123,22 @@
             commandId="com.codeaffine.gonsole.internal.command.OpenGitConsole"
             icon="icons/etool16/gonsole.png">
       </image>
+      <image
+            commandId="com.codeaffine.gonsole.internal.command.ShowInGitConsole"
+            icon="icons/etool16/gonsole.png">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.codeaffine.gonsole.internal.command.ShowInGitConsoleHandler"
+            commandId="com.codeaffine.gonsole.internal.command.ShowInGitConsole">
+         <enabledWhen>
+            <reference
+                  definitionId="org.eclipse.ui.ide.showInDefinition">
+            </reference>
+         </enabledWhen>
+      </handler>
    </extension>
    <extension
          point="com.codeaffine.gonsole.repositoryProviders">

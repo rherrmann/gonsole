@@ -4,9 +4,6 @@ import java.io.File;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.codeaffine.console.core.ConsoleViewOpener;
 import com.codeaffine.gonsole.GitConsoleFactory;
@@ -18,24 +15,18 @@ public class OpenGitConsoleHandler extends AbstractHandler {
 
   @Override
   public Object execute( ExecutionEvent event ) {
-    openConsoleView( event );
-    openConsole( event );
+    WorkbenchState workbenchState = new WorkbenchState( event );
+    openConsoleView( workbenchState );
+    openConsole( workbenchState );
     return null;
   }
 
-  private static void openConsoleView( ExecutionEvent event ) {
-    IWorkbenchPart activePart = HandlerUtil.getActivePart( event );
-    new ConsoleViewOpener( activePart.getSite().getPage() ).open();
+  private static void openConsoleView( WorkbenchState workbenchState ) {
+    new ConsoleViewOpener( workbenchState.getActivePart().getSite().getPage() ).open();
   }
 
-  private static void openConsole( ExecutionEvent event ) {
-    File initialRepositoryLocation = getInitialRepositoryLocation( event );
+  private static void openConsole( WorkbenchState workbenchState ) {
+    File initialRepositoryLocation = new RepositoryLocationComputer( workbenchState ).compute();
     new GitConsoleFactory( initialRepositoryLocation ).openConsole();
-  }
-
-  private static File getInitialRepositoryLocation( ExecutionEvent event ) {
-    ISelection selection = HandlerUtil.getCurrentSelection( event );
-    IWorkbenchPart activePart = HandlerUtil.getActivePart( event );
-    return new RepositoryLocationComputer( selection, activePart ).compute();
   }
 }

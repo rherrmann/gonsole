@@ -4,6 +4,8 @@ import static com.codeaffine.gonsole.test.io.Files.toCanonicalFile;
 import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.jface.viewers.StructuredSelection.EMPTY;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -12,7 +14,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.text.TextSelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -43,7 +45,8 @@ public class RepositoryLocationComputerPDETest {
 
   @Test
   public void testComputeWithEmptySelection() {
-    File repositoryLocation = new RepositoryLocationComputer( EMPTY, null ).compute();
+    WorkbenchState workbenchState = mockWorkbenchState( null, EMPTY );
+    File repositoryLocation = new RepositoryLocationComputer( workbenchState ).compute();
 
     assertThat( repositoryLocation ).isNull();
   }
@@ -124,17 +127,26 @@ public class RepositoryLocationComputerPDETest {
     partHelper.closeEditors();
   }
 
+  private static WorkbenchState mockWorkbenchState( IWorkbenchPart activePart, IStructuredSelection selection ) {
+    WorkbenchState result = mock( WorkbenchState.class );
+    when( result.getActivePart() ).thenReturn( activePart );
+    when( result.getSelection() ).thenReturn( selection );
+    return result;
+  }
+
   private Repository initRepository() throws GitAPIException {
     File directory = new File( tempFolder.getRoot(), "repo" );
     return Git.init().setDirectory( directory ).call().getRepository();
   }
 
   private static File computeRepositoryLocation( IResource... resources ) {
-    return new RepositoryLocationComputer( new StructuredSelection( resources ), null ).compute();
+    WorkbenchState workbenchState = mockWorkbenchState( null, new StructuredSelection( resources ) );
+    return new RepositoryLocationComputer( workbenchState ).compute();
   }
 
   private static File computeRepositoryLocation( IWorkbenchPart activePart ) {
-    return new RepositoryLocationComputer( new TextSelection( 0, 0 ), activePart ).compute();
+    WorkbenchState workbenchState = mockWorkbenchState( activePart, StructuredSelection.EMPTY );
+    return new RepositoryLocationComputer( workbenchState ).compute();
   }
 
   private static IEditorPart openEditor( IFile file ) throws PartInitException {

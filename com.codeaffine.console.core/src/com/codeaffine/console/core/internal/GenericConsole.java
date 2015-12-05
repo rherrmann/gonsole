@@ -33,6 +33,7 @@ public class GenericConsole extends IOConsole implements Console {
     this.consoleConfigurer = consoleConfigurer;
   }
 
+  @Override
   public ConsoleConfigurer getConsoleConfigurer() {
     return consoleConfigurer;
   }

@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsoleManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,16 +11,28 @@ import org.junit.Test;
 import com.codeaffine.console.core.internal.GenericConsole;
 import com.codeaffine.gonsole.internal.GitConsoleConfigurer;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
+import com.codeaffine.gonsole.test.util.workbench.ConsoleHelper;
 
 public class GitConsoleFactoryPDETest {
 
-  private IConsoleManager consoleManager;
+  private ConsoleHelper consoleHelper;
+
+  @Before
+  public void setUp() {
+    consoleHelper = new ConsoleHelper();
+    consoleHelper.hideConsoleView();
+  }
+
+  @After
+  public void tearDown() {
+    consoleHelper.hideConsoleView();
+  }
 
   @Test
   public void testOpenConsole() {
     new GitConsoleFactory().openConsole();
 
-    assertThat( consoleManager.getConsoles() ).hasSize( 1 );
+    assertThat( consoleHelper.getConsoles() ).hasSize( 1 );
   }
 
   @Test
@@ -31,20 +41,9 @@ public class GitConsoleFactoryPDETest {
 
     new GitConsoleFactory( initialRepositoryLocation ).openConsole();
 
-    GenericConsole console = ( GenericConsole )consoleManager.getConsoles()[ 0 ];
+    GenericConsole console = ( GenericConsole )consoleHelper.getConsoles()[ 0 ];
     File currentRepositoryLocation = getCurrentRepositoryLocation( console );
     assertThat( currentRepositoryLocation ).isEqualTo( initialRepositoryLocation );
-  }
-
-  @Before
-  public void setUp() {
-    consoleManager = ConsolePlugin.getDefault().getConsoleManager();
-    removeAllConsoles();
-  }
-
-  @After
-  public void tearDown() {
-    removeAllConsoles();
   }
 
   private static File getCurrentRepositoryLocation( GenericConsole console ) {
@@ -53,7 +52,4 @@ public class GitConsoleFactoryPDETest {
     return repositoryProvider.getCurrentRepositoryLocation();
   }
 
-  private void removeAllConsoles() {
-    consoleManager.removeConsoles( consoleManager.getConsoles() );
-  }
 }

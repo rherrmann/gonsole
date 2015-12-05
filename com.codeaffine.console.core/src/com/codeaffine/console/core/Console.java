@@ -9,4 +9,6 @@ public interface Console {
   void setColorScheme( ColorScheme colorScheme );
   void setConsoleComponentFactory( ConsoleComponentFactory consoleComponentFactory );
   boolean isDisposed();
+  ConsoleConfigurer getConsoleConfigurer();
+  void activate();
 }

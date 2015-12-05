@@ -7,9 +7,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.ui.IEditorInput;
@@ -23,9 +21,9 @@ class RepositoryLocationComputer {
   private final IStructuredSelection selection;
   private final IWorkbenchPart activePart;
 
-  RepositoryLocationComputer( ISelection selection, IWorkbenchPart activePart ) {
-    this.selection = selection instanceof IStructuredSelection ? ( IStructuredSelection )selection : StructuredSelection.EMPTY;
-    this.activePart = activePart;
+  RepositoryLocationComputer( WorkbenchState workbenchState ) {
+    this.selection = workbenchState.getSelection();
+    this.activePart = workbenchState.getActivePart();
   }
 
   File compute() {

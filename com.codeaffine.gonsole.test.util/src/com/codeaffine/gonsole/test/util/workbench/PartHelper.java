@@ -20,6 +20,10 @@ public class PartHelper {
     activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
   }
 
+  public IWorkbenchPage getActivePage() {
+    return activePage;
+  }
+
   public IViewPart findView( String viewId ) {
     return activePage.findView( viewId );
   }

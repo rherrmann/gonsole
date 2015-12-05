@@ -30,9 +30,7 @@ public class GitConsoleFactory extends ConsoleFactory {
 
   private CompositeRepositoryProvider createCompositeRepositoryProvider() {
     CompositeRepositoryProvider result = new CompositeRepositoryProviderFactory().create();
-    if( initialRepositoryLocation != null ) {
-      result.setCurrentRepositoryLocation( initialRepositoryLocation );
-    }
+    result.setCurrentRepositoryLocation( initialRepositoryLocation );
     return result;
   }
 }
