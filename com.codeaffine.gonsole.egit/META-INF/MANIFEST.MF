@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EGit Repository Provider for Gonsole
 Bundle-SymbolicName: com.codeaffine.gonsole.egit;singleton:=true
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: codeaffine.com
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: com.codeaffine.console.core;bundle-version="[1.1.0,2.0.0)",

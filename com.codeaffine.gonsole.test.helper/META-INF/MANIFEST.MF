@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gonsole Test Helper
 Bundle-SymbolicName: com.codeaffine.gonsole.test.helper;singleton:=true
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: CODEAFFINE
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: com.codeaffine.gonsole;bundle-version="[1.1.0,2.0.0)",
