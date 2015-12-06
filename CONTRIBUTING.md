@@ -17,7 +17,7 @@ the following steps describe the setup of the development environment.
 3. The necessary projects are located at the root of the repository. 
  Import all of them into your workspace.
  
-4. In the com.codeaffine.gonsole.releng project there are [Target Platform Definitions](http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.pde.doc.user%2Fconcepts%2Ftarget.htm) for Eclipse 3.8 and 4.4.
+4. In the [com.codeaffine.gonsole.releng project](https://github.com/rherrmann/gonsole/tree/master/com.codeaffine.gonsole.releng) there are [Target Platform Definitions](http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.pde.doc.user%2Fconcepts%2Ftarget.htm) named `eclipse-4.x.target` for the most recent Eclipse versions.
 Open one of them and select the 'Set as Target Platform' link.
 
 
