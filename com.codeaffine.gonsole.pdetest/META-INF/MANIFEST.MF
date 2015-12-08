@@ -4,15 +4,15 @@ Bundle-Name: Gonsole PDE Tests
 Bundle-SymbolicName: com.codeaffine.gonsole.pdetest;singleton:=true
 Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: codeaffine.com
-Fragment-Host: com.codeaffine.gonsole;bundle-version="[1.1.0,2.0.0)"
+Fragment-Host: com.codeaffine.gonsole;bundle-version="[1.2.0,2.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
  org.mockito.mockito-all;bundle-version="[1.9.5,2.0.0)",
  org.assertj.core;bundle-version="[1.6.0,2.0.0)",
  junitparams;bundle-version="[1.0.0,2.0.0)",
  org.eclipse.jface.text;bundle-version="[3.7.0,4.0.0)",
- com.codeaffine.gonsole.test.util;bundle-version="[1.1.0,2.0.0)",
- com.codeaffine.gonsole.test.helper;bundle-version="[1.1.0,2.0.0)",
+ com.codeaffine.gonsole.test.util;bundle-version="[1.2.0,2.0.0)",
+ com.codeaffine.gonsole.test.helper;bundle-version="[1.2.0,2.0.0)",
  com.codeaffine.eclipse.swt.test.util;bundle-version="[0.1.0,1.0.0)",
  com.codeaffine.eclipse.core.runtime;bundle-version="[0.1.0,1.0.0)",
  com.codeaffine.eclipse.core.runtime.test.util;bundle-version="[0.1.0,1.0.0)"
