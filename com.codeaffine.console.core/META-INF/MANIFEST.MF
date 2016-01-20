@@ -14,6 +14,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.jface.text;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.core.expressions;bundle-version="[3.4.0,4.0.0)",
  org.eclipse.ui.workbench.texteditor;bundle-version="[3.7.0,4.0.0)",
- com.google.guava;bundle-version="[12.0.0,13.0.0)"
+ com.google.guava;bundle-version="[15.0.0,16.0.0)"
 Export-Package: com.codeaffine.console.core;version="1.2.0.qualifier",
  com.codeaffine.console.core.history;version="1.2.0.qualifier"
