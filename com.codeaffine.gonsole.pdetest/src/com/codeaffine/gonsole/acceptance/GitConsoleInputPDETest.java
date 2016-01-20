@@ -138,6 +138,19 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
+  public void testEnterUnrecognizedCommandWhileNoRepositoryInUse() {
+    console.open( configurer.createConfigurer() );
+
+    console.enterCommandLine( "foo" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( line( "no repository", "foo" ), "Unrecognized command: foo", line( "no repository" ) );
+
+  }
+
+  @Test
   public void testType() {
     console.open( configurer.createConfigurer( "repo" ) );
 

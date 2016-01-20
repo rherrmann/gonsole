@@ -22,10 +22,17 @@ public class GitCommandInterpreterPDETest {
   @Rule public final RunInThreadRule runInThreadRule = new RunInThreadRule();
   @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
 
-  private GitCommandInterpreter interpreter;
+  private CompositeRepositoryProvider repositoryProvider;
+  @Before
+  public void setUp() {
+    File gitDirectory = configurer.createRepositories( "repo" )[ 0 ];
+    repositoryProvider = createWithSingleChildProvider( gitDirectory );
+  }
 
   @Test
   public void testIsRecognizedForKnownCommand() {
+    GitCommandInterpreter interpreter = createInterpreter();
+
     boolean recognized = interpreter.isRecognized( "status" );
 
     assertThat( recognized ).isTrue();
@@ -33,6 +40,8 @@ public class GitCommandInterpreterPDETest {
 
   @Test
   public void testIsRecognizedForKnownCommandWithInvalidArguments() {
+    GitCommandInterpreter interpreter = createInterpreter();
+
     boolean recognized = interpreter.isRecognized( "status", "invalid", "argument" );
 
     assertThat( recognized ).isTrue();
@@ -40,6 +49,18 @@ public class GitCommandInterpreterPDETest {
 
   @Test
   public void testIsRecognizedForUnknownCommand() {
+    GitCommandInterpreter interpreter = createInterpreter();
+
+    boolean recognized = interpreter.isRecognized( "unknown" );
+
+    assertThat( recognized ).isFalse();
+  }
+
+  @Test
+  public void testIsRecognizedForUnknownCommandWhileNoRepositoryInUse() {
+    repositoryProvider.setCurrentRepositoryLocation( null );
+    GitCommandInterpreter interpreter = createInterpreter();
+
     boolean recognized = interpreter.isRecognized( "unknown" );
 
     assertThat( recognized ).isFalse();
@@ -48,6 +69,8 @@ public class GitCommandInterpreterPDETest {
   @Test
   @RunInThread
   public void testIsRecognizedFromBackgroundThread() {
+    GitCommandInterpreter interpreter = createInterpreter();
+
     boolean recognized = interpreter.isRecognized( "status" );
 
     assertThat( recognized ).isTrue();
@@ -55,6 +78,8 @@ public class GitCommandInterpreterPDETest {
 
   @Test
   public void testExecuteForKnownCommand() {
+    GitCommandInterpreter interpreter = createInterpreter();
+
     String executionResult = interpreter.execute( "status" );
 
     assertThat( executionResult ).isNull();
@@ -62,6 +87,8 @@ public class GitCommandInterpreterPDETest {
 
   @Test
   public void testExecuteForKnownCommandWithInvalidArguments() {
+    GitCommandInterpreter interpreter = createInterpreter();
+
     String executionResult = interpreter.execute( "status", "invalid", "argument" );
 
     assertThat( executionResult ).isNull();
@@ -70,15 +97,17 @@ public class GitCommandInterpreterPDETest {
   @Test
   @RunInThread
   public void testExecuteFromBackgroundThread() {
+    GitCommandInterpreter interpreter = createInterpreter();
+
     String executionResult = interpreter.execute( "status" );
 
     assertThat( executionResult ).isNull();
   }
 
-  @Before
-  public void setUp() {
-    File gitDirectory = configurer.createRepositories( "repo" )[ 0 ];
-    CompositeRepositoryProvider repositoryProvider = createWithSingleChildProvider( gitDirectory );
-    interpreter = new GitCommandInterpreter( mock( ConsoleOutput.class ), repositoryProvider );
+  private GitCommandInterpreter createInterpreter() {
+    ConsoleOutput consoleOutput = mock( ConsoleOutput.class );
+    File currentRepositoryLocation = repositoryProvider.getCurrentRepositoryLocation();
+    CommandExecutor commandExecutor = new CommandExecutor( consoleOutput, currentRepositoryLocation );
+    return new GitCommandInterpreter( commandExecutor, new CommandLineParser() );
   }
 }

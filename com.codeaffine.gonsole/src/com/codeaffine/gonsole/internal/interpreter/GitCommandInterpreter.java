@@ -44,7 +44,7 @@ public class GitCommandInterpreter implements ConsoleCommandInterpreter {
 
   private String[] resolveAlias( String[] commandLine ) {
     String[] result = commandLine.clone();
-    if( result.length >= 1 ) {
+    if( result.length >= 1 && commandExecutor.getRepositoryLocation() != null ) {
       AliasConfig aliasConfig = new AliasConfig( commandExecutor.getRepositoryLocation() );
       String command = aliasConfig.getCommand( commandLine[ 0 ] );
       if( command != null ) {
