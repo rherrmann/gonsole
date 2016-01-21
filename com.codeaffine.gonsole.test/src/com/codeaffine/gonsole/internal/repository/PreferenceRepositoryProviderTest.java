@@ -18,6 +18,12 @@ public class PreferenceRepositoryProviderTest {
   private WorkspaceScopePreferences preferences;
   private RepositoryProvider repositoryProvider;
 
+  @Before
+  public void setUp() {
+    preferences = mock( WorkspaceScopePreferences.class );
+    repositoryProvider = new PreferenceRepositoryProvider( preferences );
+  }
+
   @Test
   public void testGetRepositoryLocationsWithEmptyPreferences() {
     when( preferences.getRepositoryLocations() ).thenReturn( "" );
@@ -61,11 +67,5 @@ public class PreferenceRepositoryProviderTest {
     File[] repositoryLocations = repositoryProvider.getRepositoryLocations();
 
     assertThat( repositoryLocations ).contains( new File( "a" ) );
-  }
-
-  @Before
-  public void setUp() {
-    preferences = mock( WorkspaceScopePreferences.class );
-    repositoryProvider = new PreferenceRepositoryProvider( preferences );
   }
 }

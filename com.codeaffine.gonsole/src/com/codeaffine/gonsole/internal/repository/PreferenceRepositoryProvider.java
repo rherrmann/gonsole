@@ -1,7 +1,6 @@
 package com.codeaffine.gonsole.internal.repository;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +25,7 @@ public class PreferenceRepositoryProvider implements RepositoryProvider {
 
   @Override
   public File[] getRepositoryLocations() {
-    return getLocationNames().stream().map( location -> toFile( location ) ).toArray( File[]::new );
+    return getLocationNames().stream().map( File::new ).toArray( File[]::new );
   }
 
   private Collection<String> getLocationNames() {
@@ -36,13 +35,4 @@ public class PreferenceRepositoryProvider implements RepositoryProvider {
       .filter( line -> !line.isEmpty() )
       .collect( Collectors.toList() );
   }
-
-  private static File toFile( String path ) {
-    try {
-      return new File( path ).getCanonicalFile();
-    } catch( IOException ioe ) {
-      throw new RuntimeException( ioe );
-    }
-  }
-
 }
