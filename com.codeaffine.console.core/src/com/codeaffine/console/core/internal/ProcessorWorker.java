@@ -6,7 +6,7 @@ import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.console.core.ConsolePrompt;
 import com.codeaffine.console.core.internal.resource.ConsoleIoProvider;
-import com.google.common.base.Throwables;
+import com.codeaffine.console.core.util.Throwables;
 
 class ProcessorWorker implements Runnable {
 

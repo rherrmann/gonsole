@@ -1,12 +1,10 @@
 package com.codeaffine.console.core.pdetest.bot;
 
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
-import static com.google.common.collect.Iterables.find;
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Lists.newArrayList;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -16,8 +14,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.console.TextConsoleViewer;
-
-import com.google.common.base.Predicate;
 
 class ConsolePageBot {
 
@@ -94,28 +90,25 @@ class ConsolePageBot {
     styledText.setSelectionRange( start, length );
   }
 
-  void runToolBarAction( final String text ) {
-    IAction[] actions = getToolBarActions();
-    IAction action = find( Arrays.asList( actions ), new Predicate<IAction>() {
-      @Override
-      public boolean apply( IAction input ) {
-        return input.getText().replaceAll( "&", "" ).equals( text );
-      }
-    } );
+  void runToolBarAction( String text ) {
+    IAction action = Stream.of( getToolBarActions() )
+      .filter( input -> input.getText().replaceAll( "&", "" ).equals( text ) )
+      .findFirst()
+      .orElse( null );
     action.run();
   }
 
   IAction[] getToolBarActions() {
     IActionBars actionBars = consolePage.getSite().getActionBars();
     IContributionItem[] items = actionBars.getToolBarManager().getItems();
-    Collection<IAction> actions = newArrayList();
+    Collection<IAction> actions = new ArrayList<>();
     for( IContributionItem item : items ) {
       if( item instanceof ActionContributionItem ) {
         ActionContributionItem actionItem = ( ActionContributionItem )item;
         actions.add( actionItem.getAction() );
       }
     }
-    return toArray( actions, IAction.class );
+    return actions.stream().toArray( IAction[]::new );
   }
 
   private void captureText() {

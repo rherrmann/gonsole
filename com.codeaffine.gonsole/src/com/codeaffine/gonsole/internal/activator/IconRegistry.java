@@ -1,7 +1,5 @@
 package com.codeaffine.gonsole.internal.activator;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 
 public class IconRegistry {
@@ -17,9 +15,6 @@ public class IconRegistry {
   }
 
   IconRegistry( GonsolePlugin pluginInstance ) {
-    checkArgument( pluginInstance != null, "Parameter 'pluginInstance' must not be null." );
-    checkArgument( pluginInstance.isActive(), "Parameter 'pluginInstance' must be active." );
-
     this.pluginInstance = pluginInstance;
   }
 

@@ -3,7 +3,6 @@ package com.codeaffine.console.core.pdetest.bot;
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.gonsole.test.util.workbench.PartHelper.CONSOLE_VIEW_ID;
 import static com.codeaffine.gonsole.test.util.workbench.PartHelper.INTRO_VIEW_ID;
-import static com.google.common.base.Preconditions.checkState;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -75,8 +74,7 @@ public class ConsoleBot implements MethodRule {
   }
 
   public void enterCommandLine( String commandLine ) {
-    checkState( consolePageBot != null, "GitConsole has not been opened yet." );
-
+    checkState();
     consolePageBot.enterCommandLine( commandLine );
   }
 
@@ -149,6 +147,12 @@ public class ConsoleBot implements MethodRule {
       }
     }
     return result;
+  }
+
+  private void checkState() {
+    if( consolePageBot == null ) {
+      throw new IllegalStateException( "GitConsole has not been opened yet" );
+    }
   }
 
   private static boolean isAdditionalInfoPopup( Shell popupShell ) {

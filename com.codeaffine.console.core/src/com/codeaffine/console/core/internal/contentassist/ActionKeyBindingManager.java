@@ -1,7 +1,6 @@
 package com.codeaffine.console.core.internal.contentassist;
 
-import static com.google.common.collect.Maps.newHashMap;
-
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jface.action.IAction;
@@ -19,7 +18,7 @@ public class ActionKeyBindingManager {
   private KeyStroke activeKeyStroke;
 
   public ActionKeyBindingManager() {
-    keyBindings = newHashMap();
+    keyBindings = new HashMap<>();
   }
 
   public void addKeyBinding( KeyStroke keyStroke, IAction action ) {

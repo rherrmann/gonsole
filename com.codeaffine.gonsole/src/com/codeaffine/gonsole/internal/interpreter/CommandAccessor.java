@@ -3,6 +3,7 @@ package com.codeaffine.gonsole.internal.interpreter;
 import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.lang.reflect.Field;
@@ -13,7 +14,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.Die;
 import org.eclipse.jgit.pgm.TextBuiltin;
 
-import com.google.common.base.Throwables;
+import com.codeaffine.console.core.util.Throwables;
 
 class CommandAccessor {
 
@@ -72,8 +73,8 @@ class CommandAccessor {
           writer.flush();
         }
       }
-    } catch( Exception exception ) {
-      Throwables.propagate( exception );
+    } catch( IOException | IllegalAccessException exception ) {
+      throw new RuntimeException( exception );
     }
   }
 
@@ -84,8 +85,8 @@ class CommandAccessor {
       initMethod.invoke( commandInfo.getCommand(), repository, null );
     } catch( InvocationTargetException exception ) {
       Throwables.propagate( exception.getCause() );
-    } catch( Exception exception ) {
-      Throwables.propagate( exception );
+    } catch( NoSuchMethodException | IllegalAccessException exception ) {
+      throw new RuntimeException( exception );
     }
   }
 
@@ -96,7 +97,7 @@ class CommandAccessor {
         try {
           field.set( commandInfo.getCommand(), outputStream );
         } catch( IllegalAccessException e ) {
-          Throwables.propagate( e );
+          throw new RuntimeException( e );
         }
       }
     }

@@ -1,7 +1,5 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -19,7 +17,7 @@ class RepositoryContext {
   }
 
   Repository getRepository() {
-    checkState( !disposed, "Repository has been disposed." );
+    checkState();
     if( repository == null ) {
       create();
     }
@@ -43,6 +41,12 @@ class RepositoryContext {
       repository = new RepositoryBuilder().setGitDir( gitDirectory ).setMustExist( true ).build();
     } catch( IOException e ) {
       throw new RuntimeException( e );
+    }
+  }
+
+  private void checkState() {
+    if( disposed ) {
+      throw new IllegalStateException( "RepositoryContext has been disposed." );
     }
   }
 }

@@ -1,16 +1,11 @@
 package com.codeaffine.gonsole.egit.internal;
 
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Iterables.transform;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.egit.core.Activator;
 import org.eclipse.egit.core.RepositoryUtil;
-
-import com.google.common.base.Function;
 
 
 @SuppressWarnings("restriction")
@@ -23,22 +18,18 @@ public class EGitFacade {
   }
 
   public File[] getConfiguredRepositoryLocations() {
-    Iterable<File> files = transform( getConfiguredRepositories(), new ToFileFunction() );
-    return toArray( files, File.class );
+    return getConfiguredRepositories().stream().map( EGitFacade::toFile ).toArray( File[]::new );
   }
 
   private List<String> getConfiguredRepositories() {
     return repositoryUtil.getConfiguredRepositories();
   }
 
-  private static class ToFileFunction implements Function<String, File> {
-    @Override
-    public File apply( String input ) {
-      try {
-        return new File( input ).getCanonicalFile();
-      } catch( IOException ioe ) {
-        throw new RuntimeException( ioe );
-      }
+  private static File toFile( String path ) {
+    try {
+      return new File( path ).getCanonicalFile();
+    } catch( IOException ioe ) {
+      throw new RuntimeException( ioe );
     }
   }
 }

@@ -1,16 +1,15 @@
 package com.codeaffine.gonsole.internal.preference;
 
-import static com.google.common.collect.Iterables.toArray;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.codeaffine.gonsole.internal.activator.GonsolePlugin;
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 
 public class WorkspaceScopePreferences {
 
-  private static final char SEPARATOR = '\u0000';
+  private static final String SEPARATOR = "\u0000";
   public static final String PREF_REPOSITORY_LOCATIONS = "repository_locations";
   private static final String PREF_HISTORY = "history";
 
@@ -37,13 +36,13 @@ public class WorkspaceScopePreferences {
   }
 
   public void setHistoryItems( String... items ) {
-    String joinedItems = Joiner.on( SEPARATOR ).join( items );
+    String joinedItems = Stream.of( items ).collect( Collectors.joining( SEPARATOR ) );
     preferenceStore.setValue( PREF_HISTORY, joinedItems );
   }
 
   public String[] getHistoryItems() {
     String preferenceValue = preferenceStore.getString( PREF_HISTORY );
-    Iterable<String> items = Splitter.on( SEPARATOR ).omitEmptyStrings().split( preferenceValue );
-    return toArray( items, String.class );
+    String[] items = preferenceValue.split( SEPARATOR );
+    return Stream.of( items ).filter( string -> !string.isEmpty() ).toArray( String[]::new );
   }
 }

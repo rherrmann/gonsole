@@ -1,14 +1,12 @@
 package com.codeaffine.gonsole.internal.contentassist;
 
 import static com.codeaffine.gonsole.internal.activator.IconRegistry.GIT_PROPOSAL;
-import static com.google.common.collect.Iterables.concat;
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Iterables.transform;
-import static com.google.common.collect.Lists.newLinkedList;
-import static java.util.Arrays.asList;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -21,7 +19,6 @@ import com.codeaffine.gonsole.internal.activator.IconRegistry;
 import com.codeaffine.gonsole.internal.interpreter.AliasConfig;
 import com.codeaffine.gonsole.internal.interpreter.CommandLineParser;
 import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
-import com.google.common.base.Function;
 
 public class GitCommandContentProposalProvider implements ContentProposalProvider {
 
@@ -33,7 +30,8 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
 
   @Override
   public Proposal[] getContentProposals() {
-    return toArray( concat( getCommandProposals(), getAliasProposals() ), Proposal.class );
+    return Stream.concat( getCommandProposals().stream(), getAliasProposals().stream() )
+      .toArray( Proposal[]::new );
   }
 
   @Override
@@ -41,12 +39,14 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
     return new KeyBinding().getContentAssistKeyBinding();
   }
 
-  private static Iterable<Proposal> getCommandProposals() {
-    return transform( asList( CommandCatalog.common() ), new CommandRefToProposalTransform() );
+  private static Collection<Proposal> getCommandProposals() {
+    return Stream.of( CommandCatalog.common() )
+      .map( GitCommandContentProposalProvider::toProposal )
+      .collect( Collectors.toList() );
   }
 
-  private Iterable<Proposal> getAliasProposals() {
-    Collection<Proposal> result = newLinkedList();
+  private Collection<Proposal> getAliasProposals() {
+    Collection<Proposal> result = new LinkedList<>();
     File currentRepositoryLocation = repositoryProvider.getCurrentRepositoryLocation();
     if ( currentRepositoryLocation != null ) {
       AliasConfig aliasConfig = new AliasConfig( currentRepositoryLocation );
@@ -59,16 +59,13 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
     return result;
   }
 
+  private static Proposal toProposal( CommandRef input ) {
+    String additionalInfo = new CommandLineParser().getUsage( input.getName() );
+    return createProposal( input.getName(), additionalInfo );
+  }
+
   private static Proposal createProposal( String text, String info ) {
     ImageDescriptor imageDescriptor = new IconRegistry().getDescriptor( GIT_PROPOSAL );
     return new Proposal( text, text, info, imageDescriptor );
-  }
-
-  private static class CommandRefToProposalTransform implements Function<CommandRef, Proposal> {
-    @Override
-    public Proposal apply( CommandRef input ) {
-      String additionalInfo = new CommandLineParser().getUsage( input.getName() );
-      return createProposal( input.getName(), additionalInfo );
-    }
   }
 }

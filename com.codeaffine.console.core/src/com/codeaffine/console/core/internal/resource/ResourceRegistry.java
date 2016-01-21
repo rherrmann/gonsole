@@ -1,7 +1,6 @@
 package com.codeaffine.console.core.internal.resource;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
@@ -19,8 +18,7 @@ public class ResourceRegistry {
   private final LocalResourceManager resourceManager;
 
   public ResourceRegistry( Display display ) {
-    checkArgument( display != null, "Parameter 'display' must not be null." );
-
+    requireNonNull( display );
     this.resourceManager = new LocalResourceManager( JFaceResources.getResources( display ) );
   }
 
@@ -49,6 +47,8 @@ public class ResourceRegistry {
   }
 
   private void checkDisposeState() {
-    checkState( !resourceManager.getDevice().isDisposed(), "Display has been disposed." );
+    if( resourceManager.getDevice().isDisposed() ) {
+      throw new IllegalStateException( "Display has been disposed" );
+    }
   }
 }

@@ -1,10 +1,6 @@
 package com.codeaffine.console.core.pdetest.console;
 
 import static com.codeaffine.console.core.pdetest.console.TestConsoleCommandInterpreter.COMMANDS;
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Sets.newHashSet;
-
-import java.util.Collection;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;
@@ -17,11 +13,9 @@ class TestContentProposalProvider implements ContentProposalProvider {
 
   @Override
   public Proposal[] getContentProposals() {
-    Collection<Proposal> result = newHashSet();
-    for( String command : COMMANDS ) {
-      result.add( new Proposal( command, command, command + " info", new TestImageDescriptor() ) );
-    }
-    return toArray( result, Proposal.class );
+    return COMMANDS.stream()
+      .map( command -> new Proposal( command, command, command + " info", new TestImageDescriptor() ) )
+      .toArray( Proposal[]::new );
   }
 
   @Override

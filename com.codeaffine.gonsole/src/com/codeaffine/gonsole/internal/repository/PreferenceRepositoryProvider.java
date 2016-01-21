@@ -1,20 +1,18 @@
 package com.codeaffine.gonsole.internal.repository;
 
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Iterables.transform;
-
 import java.io.File;
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.codeaffine.gonsole.RepositoryProvider;
 import com.codeaffine.gonsole.internal.preference.WorkspaceScopePreferences;
-import com.google.common.base.Function;
-import com.google.common.base.Splitter;
 
 
 public class PreferenceRepositoryProvider implements RepositoryProvider {
 
-  private static final Pattern NEW_LINE_PATTERN = Pattern.compile( "\r?\n" );
+  private static final String NEW_LINE_PATTERN = "\r?\n";
 
   private final WorkspaceScopePreferences preferences;
 
@@ -28,22 +26,22 @@ public class PreferenceRepositoryProvider implements RepositoryProvider {
 
   @Override
   public File[] getRepositoryLocations() {
-    Iterable<String> locationNames = getLocationNames();
-    Iterable<File> locationFiles = transform( locationNames, new StringToFileTransform() );
-    return toArray( locationFiles, File.class );
+    return getLocationNames().stream().map( location -> toFile( location ) ).toArray( File[]::new );
   }
 
-  private Iterable<String> getLocationNames() {
-    return Splitter.on( NEW_LINE_PATTERN )
-      .trimResults()
-      .omitEmptyStrings()
-      .split( preferences.getRepositoryLocations() );
+  private Collection<String> getLocationNames() {
+    String[] lines = preferences.getRepositoryLocations().split( NEW_LINE_PATTERN );
+    return Stream.of( lines )
+      .map( String::trim )
+      .filter( line -> !line.isEmpty() )
+      .collect( Collectors.toList() );
   }
 
-  private static class StringToFileTransform implements Function<String, File> {
-    @Override
-    public File apply( String input ) {
-      return new File( input );
+  private static File toFile( String path ) {
+    try {
+      return new File( path ).getCanonicalFile();
+    } catch( IOException ioe ) {
+      throw new RuntimeException( ioe );
     }
   }
 

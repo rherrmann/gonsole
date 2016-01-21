@@ -1,14 +1,14 @@
 package com.codeaffine.gonsole.internal.activator;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 
 @RunWith(JUnitParamsRunner.class)
 public class IconRegistryPDETest {
@@ -33,16 +33,6 @@ public class IconRegistryPDETest {
     assertThat( icon )
       .describedAs( "Unable to create icon for: '%s'", iconPath )
       .isNotNull();
-  }
-
-  @Test( expected = IllegalArgumentException.class )
-  public void testConstructorIfPluginIsNotAvailable() {
-    new IconRegistry( null );
-  }
-
-  @Test( expected = IllegalArgumentException.class )
-  public void testConstructorIfPluginIsNotActive() {
-    new IconRegistry( mock( GonsolePlugin.class ) );
   }
 
   private static Image createAndDisposeIcon( ImageDescriptor descriptor ) {

@@ -3,9 +3,8 @@ package com.codeaffine.console.core.internal.contentassist;
 import static com.codeaffine.console.core.internal.contentassist.ConsoleInformationControl.createInformationControlCreator;
 import static com.codeaffine.console.core.internal.contentassist.ConsoleInformationControlCreator.Appearance.FIXED;
 import static com.codeaffine.console.core.internal.contentassist.PartitionType.INPUT;
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Sets.newHashSet;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
@@ -77,12 +76,12 @@ public class ContentAssist implements ConsoleContentAssist, DisposeListener {
   }
 
   private KeyStroke[] collectActivationKeyStrokes() {
-    Set<KeyStroke> activationKeySequences = newHashSet();
+    Set<KeyStroke> activationKeySequences = new HashSet<>();
     ContentProposalProvider[] proposalProviders = consoleComponentFactory.createProposalProviders();
     for( ContentProposalProvider proposalProvider : proposalProviders ) {
       activationKeySequences.add( proposalProvider.getActivationKeySequence() );
     }
-    return toArray( activationKeySequences, KeyStroke.class );
+    return activationKeySequences.stream().toArray( KeyStroke[]::new );
   }
 
   private void ensurePartitioningIsUpToDate() {

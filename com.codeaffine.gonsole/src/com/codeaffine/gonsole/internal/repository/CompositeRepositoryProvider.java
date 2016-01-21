@@ -1,15 +1,13 @@
 package com.codeaffine.gonsole.internal.repository;
 
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.newLinkedHashSet;
-
 import java.io.File;
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.codeaffine.gonsole.RepositoryProvider;
-import com.google.common.base.Objects;
 
 
 public class CompositeRepositoryProvider implements RepositoryProvider {
@@ -20,16 +18,15 @@ public class CompositeRepositoryProvider implements RepositoryProvider {
 
   public CompositeRepositoryProvider( RepositoryProvider... repositoryProviders ) {
     this.repositoryProviders = repositoryProviders;
-    this.listeners = newHashSet();
+    this.listeners = new HashSet<>();
   }
 
   @Override
   public File[] getRepositoryLocations() {
-    Set<File> allLocations = newLinkedHashSet();
-    for( RepositoryProvider repositoryProvider : repositoryProviders ) {
-      addRepositoryLocations( allLocations, repositoryProvider.getRepositoryLocations() );
-    }
-    return toArray( allLocations, File.class );
+    Set<File> set = Stream.of( repositoryProviders )
+      .flatMap( repositoryProvider -> stream( repositoryProvider ) )
+      .collect( Collectors.toSet() );
+    return set.stream().sorted().toArray( File[]::new );
   }
 
   public File getCurrentRepositoryLocation() {
@@ -37,7 +34,7 @@ public class CompositeRepositoryProvider implements RepositoryProvider {
   }
 
   public void setCurrentRepositoryLocation( File currentRepositoryLocation ) {
-    if( !Objects.equal( this.currentRepositoryLocation, currentRepositoryLocation ) ) {
+    if( !Objects.equals( this.currentRepositoryLocation, currentRepositoryLocation ) ) {
       this.currentRepositoryLocation = currentRepositoryLocation;
       sendCurrentRepositoryChangedEvent();
     }
@@ -51,16 +48,15 @@ public class CompositeRepositoryProvider implements RepositoryProvider {
     listeners.remove( listener );
   }
 
-  private static void addRepositoryLocations( Set<File> allLocations, File[] locations ) {
-    if( locations != null ) {
-      allLocations.addAll( Arrays.asList( locations ) );
-    }
-  }
-
   private void sendCurrentRepositoryChangedEvent() {
-    RepositoryChangeListener[] listenerArray = toArray( listeners, RepositoryChangeListener.class );
+    RepositoryChangeListener[] listenerArray = listeners.stream().toArray( RepositoryChangeListener[]::new );
     for( RepositoryChangeListener listener : listenerArray ) {
       listener.currentRepositoryChanged();
     }
+  }
+
+  private static Stream<File> stream( RepositoryProvider repositoryProvider ) {
+    File[] repositoryLocations = repositoryProvider.getRepositoryLocations();
+    return repositoryLocations == null ? Stream.empty() : Stream.of( repositoryLocations );
   }
 }

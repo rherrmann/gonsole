@@ -1,17 +1,14 @@
 package com.codeaffine.console.core.pdetest.bot;
 
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
-import static com.google.common.collect.Iterables.tryFind;
 import static org.assertj.core.api.Assertions.fail;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.console.IConsoleDocumentPartitioner;
 import org.eclipse.ui.console.TextConsoleViewer;
-
-import com.google.common.base.Predicate;
 
 class TextViewerChangeObserver {
 
@@ -55,13 +52,11 @@ class TextViewerChangeObserver {
     return ( IConsoleDocumentPartitioner )viewer.getDocument().getDocumentPartitioner();
   }
 
-  private StyleRange getStyleRangeAt( final int offset ) {
-    return tryFind( Arrays.asList( getStyleRanges() ), new Predicate<StyleRange>() {
-      @Override
-      public boolean apply( StyleRange input ) {
-        return input.start <= offset && offset <= input.start + input.length;
-      }
-    } ).orNull();
+  private StyleRange getStyleRangeAt( int offset ) {
+    return Stream.of( getStyleRanges() )
+      .filter( input -> input.start <= offset && offset <= input.start + input.length )
+      .findFirst()
+      .orElse( null );
   }
 
   private static void flushEventQueue() {

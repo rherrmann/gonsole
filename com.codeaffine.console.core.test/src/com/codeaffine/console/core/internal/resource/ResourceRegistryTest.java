@@ -111,7 +111,7 @@ public class ResourceRegistryTest {
     assertThat( image.isDisposed() ).isTrue();
   }
 
-  @Test( expected = IllegalArgumentException.class )
+  @Test( expected = NullPointerException.class )
   public void testConstructWithNullAsDisplay() {
     new ResourceRegistry( null );
   }

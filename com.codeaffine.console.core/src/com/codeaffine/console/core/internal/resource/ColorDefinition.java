@@ -4,7 +4,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import com.codeaffine.console.core.ColorScheme;
-import com.google.common.base.Preconditions;
 
 public class ColorDefinition {
 
@@ -48,6 +47,8 @@ public class ColorDefinition {
   }
 
   void checkDisposed() {
-    Preconditions.checkState( !disposed, "ColorDefinition has been disposed." );
+    if( disposed ) {
+      throw new IllegalStateException( "ColorDefinition has been disposed" );
+    }
   }
 }

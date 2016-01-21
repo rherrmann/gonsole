@@ -2,7 +2,6 @@
 <?pde version="3.8"?><target name="com.codeaffine.gonsole on Eclipse 4.4" sequenceNumber="110">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.google.guava" version="15.0.0.v201403281430"/>
 <unit id="org.kohsuke.args4j" version="2.0.21.v201301150030"/>
 <unit id="org.kohsuke.args4j.source" version="2.0.21.v201301150030"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/"/>

@@ -1,7 +1,5 @@
 package com.codeaffine.gonsole.internal.activator;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -13,10 +11,6 @@ class IconRegistrar {
   private final ImageRegistry registry;
 
   IconRegistrar( GonsolePlugin pluginInstance, ImageRegistry registry ) {
-    checkArgument( pluginInstance != null, "Parameter 'pluginInstance' must not be null." );
-    checkArgument( pluginInstance.isActive(), "Parameter 'pluginInstance' must be active." );
-    checkArgument( registry != null, "Parameter 'registry' must not be null." );
-
     this.registry = registry;
     this.pluginInstance = pluginInstance;
   }

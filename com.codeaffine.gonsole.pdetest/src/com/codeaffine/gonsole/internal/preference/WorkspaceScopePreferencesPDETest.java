@@ -42,6 +42,13 @@ public class WorkspaceScopePreferencesPDETest {
   }
 
   @Test
+  public void testSetHistoryWithEmptyItems() {
+    preferences.setHistoryItems( "a", "", "b" );
+
+    assertThat( preferences.getHistoryItems() ).containsExactly( "a", "b" );
+  }
+
+  @Test
   public void testGetHistory() {
     String[] historyItems = preferences.getHistoryItems();
 

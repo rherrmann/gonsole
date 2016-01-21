@@ -8,8 +8,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
-import com.google.common.collect.Iterables;
-
 public class AliasConfig {
 
   private static final String ALIAS_SECTION = "alias";
@@ -24,7 +22,7 @@ public class AliasConfig {
     StoredConfig config = repository.getConfig();
     Set<String> aliases = config.getNames( ALIAS_SECTION, true );
     repository.close();
-    return Iterables.toArray( aliases, String.class );
+    return aliases.stream().toArray( String[]::new );
   }
 
   public String getCommand( String alias ) {

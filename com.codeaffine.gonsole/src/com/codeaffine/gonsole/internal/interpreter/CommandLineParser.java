@@ -1,7 +1,5 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-
 import java.io.StringWriter;
 import java.util.MissingResourceException;
 
@@ -79,5 +77,9 @@ public class CommandLineParser {
       }
     }
     return result;
+  }
+
+  private static boolean isNullOrEmpty( String string ) {
+    return string == null || string.isEmpty();
   }
 }

@@ -1,8 +1,6 @@
 package com.codeaffine.console.core.internal;
 
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Lists.newArrayList;
-
+import java.util.ArrayList;
 import java.util.List;
 
 class CommandLineTokenizer {
@@ -13,7 +11,7 @@ class CommandLineTokenizer {
 
   CommandLineTokenizer( String commandLine ) {
     this.commandLine = commandLine;
-    this.tokens = newArrayList();
+    this.tokens = new ArrayList<>();
     this.currentToken = new StringBuilder();
   }
 
@@ -46,7 +44,7 @@ class CommandLineTokenizer {
     }
     appendCurrentToken();
     removeGitPrefixToken();
-    return toArray( tokens, String.class );
+    return tokens.stream().toArray( String[]::new );
   }
 
   private void appendCurrentToken() {

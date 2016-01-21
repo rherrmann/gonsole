@@ -1,11 +1,11 @@
 package com.codeaffine.gonsole.test.io;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.google.common.base.Charsets;
 
 
 public class Streams {
@@ -23,7 +23,7 @@ public class Streams {
   }
 
   public static byte[] toUtf8Bytes( String string ) {
-    return string.getBytes( Charsets.UTF_8 );
+    return string.getBytes( UTF_8 );
   }
 
   private Streams() {

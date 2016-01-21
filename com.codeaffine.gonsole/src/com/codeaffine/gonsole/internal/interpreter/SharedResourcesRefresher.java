@@ -1,10 +1,10 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
-import static com.google.common.collect.Lists.newLinkedList;
 import static org.eclipse.core.resources.IWorkspace.AVOID_UPDATE;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.MultiRule;
 
 import com.codeaffine.gonsole.util.Repositories;
-import com.google.common.collect.Iterables;
 
 
 class SharedResourcesRefresher {
@@ -32,7 +31,7 @@ class SharedResourcesRefresher {
 
   SharedResourcesRefresher( File repositoryLocation ) {
     this.repositoryLocation = repositoryLocation;
-    this.sharedProjects = newLinkedList();
+    this.sharedProjects = new LinkedList<>();
     this.workspace = ResourcesPlugin.getWorkspace();
   }
 
@@ -61,7 +60,8 @@ class SharedResourcesRefresher {
   }
 
   private ISchedulingRule getSchedulingRule() {
-    return MultiRule.combine( Iterables.toArray( sharedProjects, ISchedulingRule.class ) );
+    ISchedulingRule[] schedulingRules = sharedProjects.stream().toArray( ISchedulingRule[]::new );
+    return MultiRule.combine( schedulingRules );
   }
 
   private IProject[] getWorkspaceProjects() {

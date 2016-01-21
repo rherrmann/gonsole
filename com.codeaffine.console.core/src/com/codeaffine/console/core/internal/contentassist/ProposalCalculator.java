@@ -1,10 +1,10 @@
 package com.codeaffine.console.core.internal.contentassist;
 
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Lists.newLinkedList;
 import static java.util.Collections.sort;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -36,7 +36,7 @@ public class ProposalCalculator {
   }
 
   private List<Proposal> collectProposals() {
-    List<Proposal> result = newLinkedList();
+    List<Proposal> result = new LinkedList<>();
     for( ContentProposalProvider proposalProvider : proposalProviders ) {
       for( Proposal proposal : proposalProvider.getContentProposals() ) {
         if( matchesActivationKeySequence( proposalProvider ) ) {
@@ -56,14 +56,10 @@ public class ProposalCalculator {
                                                     int length,
                                                     List<Proposal> proposals )
   {
-    List<ICompletionProposal> result = newLinkedList();
-    for( Proposal proposal : proposals ) {
-      ICompletionProposal completionProposal = proposalCreator.create( prefix, proposal, start, length );
-      if( completionProposal != null ) {
-        result.add( completionProposal );
-      }
-    }
-    return toArray( result, ICompletionProposal.class );
+    return proposals.stream()
+      .map( proposal -> proposalCreator.create( prefix, proposal, start, length ) )
+      .filter( Objects::nonNull )
+      .toArray( ICompletionProposal[]::new );
   }
 
   private boolean matchesActivationKeySequence( ContentProposalProvider proposalProvider ) {

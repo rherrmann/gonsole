@@ -1,12 +1,13 @@
 package com.codeaffine.console.core.internal;
 
+import java.util.stream.Stream;
+
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ConsoleOutput;
 import com.codeaffine.console.core.ConsolePrompt;
 import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.history.HistoryTracker;
-import com.google.common.collect.ObjectArrays;
 
 class GenericConsoleComponentFactory implements ConsoleComponentFactory {
 
@@ -25,7 +26,7 @@ class GenericConsoleComponentFactory implements ConsoleComponentFactory {
   public ContentProposalProvider[] createProposalProviders() {
     ContentProposalProvider[] result = consoleComponentFactory.createProposalProviders();
     if( getHistoryTracker() != null ) {
-      result = ObjectArrays.concat( getHistoryTracker(), result );
+      result = Stream.concat( Stream.of( getHistoryTracker() ), Stream.of( result ) ).toArray( ContentProposalProvider[]::new );
     }
     return result;
   }
@@ -39,7 +40,7 @@ class GenericConsoleComponentFactory implements ConsoleComponentFactory {
   public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput consoleOutput ) {
     ConsoleCommandInterpreter[] result = consoleComponentFactory.createCommandInterpreters( consoleOutput );
     if( getHistoryTracker() != null ) {
-      result = ObjectArrays.concat( getHistoryTracker(), result );
+      result = Stream.concat( Stream.of( getHistoryTracker() ), Stream.of( result ) ).toArray( ConsoleCommandInterpreter[]::new );
     }
     return result;
   }

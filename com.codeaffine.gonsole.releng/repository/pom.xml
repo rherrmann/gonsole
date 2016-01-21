@@ -64,7 +64,7 @@
         </executions>
         <configuration>
           <source>
-            <!-- Repository for Guava, Args4J, Apache Commons Compress -->
+            <!-- Repository for Args4J, Apache Commons Compress -->
             <repository>
               <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url>
               <layout>p2</layout>
@@ -87,14 +87,6 @@
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
                 <parameters>com.codeaffine.eclipse.core.runtime,0.1.0,1.0.0</parameters>
-              </query>
-            </iu>
-            <iu>
-              <query>
-                <expression>
-                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
-                </expression>
-                <parameters>com.google.guava,15.0.0,16.0.0</parameters>
               </query>
             </iu>
             <iu>

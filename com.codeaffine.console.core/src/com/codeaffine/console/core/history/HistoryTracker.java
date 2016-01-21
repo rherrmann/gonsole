@@ -1,11 +1,9 @@
 package com.codeaffine.console.core.history;
 
-import static com.google.common.collect.Iterables.limit;
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Iterables.transform;
-import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -16,7 +14,6 @@ import org.eclipse.swt.SWT;
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
 import com.codeaffine.console.core.ContentProposalProvider;
 import com.codeaffine.console.core.Proposal;
-import com.google.common.base.Function;
 
 
 public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposalProvider {
@@ -40,10 +37,10 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
   @Override
   public boolean isRecognized( String... commandLine ) {
     String newItem = joinCommandLine( commandLine );
-    List<String> items = newArrayList( historyStore.getItems() );
+    List<String> items = new ArrayList<>( Arrays.asList( historyStore.getItems() ) );
     items.remove( newItem );
     items.add( 0, newItem );
-    historyStore.setItems( toArray( limit( items, itemLimit ), String.class ) );
+    historyStore.setItems( items.stream().limit( itemLimit ).toArray( String[]::new ) );
     return false;
   }
 
@@ -54,15 +51,14 @@ public class HistoryTracker implements ConsoleCommandInterpreter, ContentProposa
 
   @Override
   public Proposal[] getContentProposals() {
-    Iterable<Proposal> proposals = transform( getHistoryItems(), new Function<String,Proposal>() {
+    return getHistoryItems().stream().map( new java.util.function.Function<String, Proposal>() {
       private int sortKey;
       @Override
-      public Proposal apply( String input ) {
+      public Proposal apply( String historyItem ) {
         sortKey++;
-        return new Proposal( Integer.valueOf( sortKey ), input, null, imageDescriptor );
+        return new Proposal( Integer.valueOf( sortKey ), historyItem, null, imageDescriptor );
       }
-    } );
-    return toArray( proposals, Proposal.class );
+    } ).toArray( Proposal[]::new );
   }
 
   @Override
