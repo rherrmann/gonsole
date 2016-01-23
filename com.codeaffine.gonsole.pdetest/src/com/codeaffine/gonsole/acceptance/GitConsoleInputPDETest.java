@@ -226,13 +226,13 @@ public class GitConsoleInputPDETest {
   public void testEncoding() {
     console.open( configurer.createConfigurer( "repo" ) );
 
-    console.enterCommandLine( "status äöü" );
+    console.enterCommandLine( "status --äöü" );
 
     assertThat( console )
       .hasProcessedCommandLine()
       .caretIsAtEnd()
-      .containsLines( line( "repo", "status äöü" ),
-                      "No argument is allowed: äöü",
+      .containsLines( line( "repo", "status --äöü" ),
+                      "\"--äöü\" is not a valid option",
                       line( "repo" ) );
   }
 
