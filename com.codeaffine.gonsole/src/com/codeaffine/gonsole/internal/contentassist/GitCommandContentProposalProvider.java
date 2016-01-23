@@ -1,10 +1,11 @@
 package com.codeaffine.gonsole.internal.contentassist;
 
 import static com.codeaffine.gonsole.internal.activator.IconRegistry.GIT_PROPOSAL;
+import static java.util.stream.Collectors.toList;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,9 +24,11 @@ import com.codeaffine.gonsole.internal.repository.CompositeRepositoryProvider;
 public class GitCommandContentProposalProvider implements ContentProposalProvider {
 
   private final CompositeRepositoryProvider repositoryProvider;
+  private final CommandLineParser commandLineParser;
 
   public GitCommandContentProposalProvider( CompositeRepositoryProvider repositoryProvider ) {
     this.repositoryProvider = repositoryProvider;
+    this.commandLineParser = new CommandLineParser();
   }
 
   @Override
@@ -39,28 +42,24 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
     return new KeyBinding().getContentAssistKeyBinding();
   }
 
-  private static Collection<Proposal> getCommandProposals() {
-    return Stream.of( CommandCatalog.common() )
-      .map( GitCommandContentProposalProvider::toProposal )
-      .collect( Collectors.toList() );
+  private Collection<Proposal> getCommandProposals() {
+    return Stream.of( CommandCatalog.common() ).map( this::toProposal ).collect( toList() );
   }
 
   private Collection<Proposal> getAliasProposals() {
-    Collection<Proposal> result = new LinkedList<>();
+    Collection<Proposal> result = Collections.emptyList();
     File currentRepositoryLocation = repositoryProvider.getCurrentRepositoryLocation();
-    if ( currentRepositoryLocation != null ) {
+    if( currentRepositoryLocation != null ) {
       AliasConfig aliasConfig = new AliasConfig( currentRepositoryLocation );
-      String[] aliases = aliasConfig.getAliases();
-      for( String alias : aliases ) {
-        String info = "Alias for: " + aliasConfig.getCommand( alias );
-        result.add( createProposal( alias, info ) );
-      }
+      result = Stream.of( aliasConfig.getAliases() )
+        .map( alias -> createProposal( alias, "Alias for: " + aliasConfig.getCommand( alias ) ) )
+        .collect( Collectors.toList() );
     }
     return result;
   }
 
-  private static Proposal toProposal( CommandRef input ) {
-    String additionalInfo = new CommandLineParser().getUsage( input.getName() );
+  private Proposal toProposal( CommandRef input ) {
+    String additionalInfo = commandLineParser.getUsage( input.getName() );
     return createProposal( input.getName(), additionalInfo );
   }
 
