@@ -61,7 +61,7 @@ public class GitConsoleAliasPDETest {
 
     assertThat( consoleBot )
       .showsAdditionalInfo()
-      .containsText( "Alias for", "checkout" );
+      .containsAdditionalInfo( "Alias for", "checkout" );
   }
 
  @Before

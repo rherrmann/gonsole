@@ -42,7 +42,11 @@ class CommandAccessor {
 
   String execute() {
     try {
-      commandInfo.getCommand().execute( commandInfo.getArguments() );
+      if( commandInfo.isHelpRequested() ) {
+        printHelp();
+      } else {
+        executeCommand();
+      }
     } catch( Die ignore ) {
     } catch( Exception e ) {
       Throwables.propagate( e );
@@ -50,18 +54,6 @@ class CommandAccessor {
       flush();
     }
     return readErrorStream();
-  }
-
-  private String readErrorStream() {
-    String result = null;
-    byte[] bytes = errorStream.toByteArray();
-    if( bytes.length != 0 ) {
-      result = new String( bytes, ENCODING ).trim();
-      if( result.startsWith( FATAL_PREFIX ) ) {
-        result = result.substring( FATAL_PREFIX.length() );
-      }
-    }
-    return result;
   }
 
   void flush() {
@@ -76,6 +68,28 @@ class CommandAccessor {
     } catch( IOException | IllegalAccessException exception ) {
       throw new RuntimeException( exception );
     }
+  }
+
+  private void executeCommand() throws Exception {
+    commandInfo.getCommand().execute( commandInfo.getArguments() );
+  }
+
+  private void printHelp() throws IOException {
+    String usage = new CommandLineParser().getUsage( commandInfo.getCommandName() );
+    errorStream.write( usage.getBytes( ENCODING ) );
+    errorStream.flush();
+  }
+
+  private String readErrorStream() {
+    String result = null;
+    byte[] bytes = errorStream.toByteArray();
+    if( bytes.length != 0 ) {
+      result = new String( bytes, ENCODING ).trim();
+      if( result.startsWith( FATAL_PREFIX ) ) {
+        result = result.substring( FATAL_PREFIX.length() );
+      }
+    }
+    return result;
   }
 
   private void init( Repository repository ) {

@@ -28,8 +28,24 @@ public class CommandAccessorPDETest {
   @Rule public final GitConsoleHelper configurer = new GitConsoleHelper();
 
   private Repository repository;
+  private CommandInfo commandInfo;
   private OutputStream outputStream;
   private ByteArrayOutputStream errorStream;
+
+  @Before
+  public void setUp() throws Exception {
+    FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
+    repositoryBuilder.setGitDir( configurer.createRepositories( "repo" )[ 0 ] );
+    repository = repositoryBuilder.build();
+    commandInfo = new CommandInfo();
+    outputStream = mock( OutputStream.class );
+    errorStream = spy( new ByteArrayOutputStream() );
+  }
+
+  @After
+  public void tearDown() {
+    repository.close();
+  }
 
   @Test
   public void testInit() {
@@ -108,22 +124,7 @@ public class CommandAccessorPDETest {
     assertThat( executionResult ).isEqualTo( "message" );
   }
 
-  @Before
-  public void setUp() throws Exception {
-    FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
-    repositoryBuilder.setGitDir( configurer.createRepositories( "repo" )[ 0 ] );
-    repository = repositoryBuilder.build();
-    outputStream = mock( OutputStream.class );
-    errorStream = spy( new ByteArrayOutputStream() );
-  }
-
-  @After
-  public void tearDown() {
-    repository.close();
-  }
-
   private CommandAccessor createCommandAccessor( TestCommand command ) {
-    CommandInfo commandInfo = new CommandInfo();
     commandInfo.command = command;
     return new CommandAccessor( commandInfo, errorStream );
   }

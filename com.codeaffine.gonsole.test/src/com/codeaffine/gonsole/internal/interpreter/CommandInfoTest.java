@@ -13,10 +13,16 @@ public class CommandInfoTest {
 
   private CommandInfo commandInfo;
 
+  @Before
+  public void setUp() {
+    commandInfo = new CommandInfo();
+  }
+
   @Test
   public void testInitialValues() {
     assertThat( commandInfo.getCommand() ).isNull();
     assertThat( commandInfo.getArguments() ).isEmpty();
+    assertThat( commandInfo.isHelpRequested() ).isFalse();
   }
 
   @Test
@@ -37,8 +43,21 @@ public class CommandInfoTest {
     assertThat( commandInfo.getArguments() ).containsExactly( expected );
   }
 
-  @Before
-  public void setUp() {
-    commandInfo = new CommandInfo();
+  @Test
+  public void testGetCommandName() {
+    String expected = "expected";
+
+    commandInfo.commandName = expected;
+
+    assertThat( commandInfo.getCommandName() ).isEqualTo( expected );
+  }
+
+  @Test
+  public void testIsHelpRequested() {
+    boolean expected = true;
+
+    commandInfo.helpRequested = expected;
+
+    assertThat( commandInfo.isHelpRequested() ).isEqualTo( expected );
   }
 }

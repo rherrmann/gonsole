@@ -28,6 +28,8 @@ public class CommandLineParser {
 
   public CommandInfo parse( String... commands ) {
     CommandInfo result = new CommandInfo();
+    result.commandName = commands.length > 0 ? commands[ 0 ] : "";
+    result.helpRequested = TextBuiltin.containsHelp( commands );
     try {
       new CmdLineParser( result ).parseArgument( commands );
     } catch( CmdLineException e ) {

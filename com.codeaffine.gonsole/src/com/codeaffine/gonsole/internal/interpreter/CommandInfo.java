@@ -15,6 +15,9 @@ public class CommandInfo {
   @Argument(index = 1, metaVar = "metaVar_arg")
   final List<String> arguments;
 
+  String commandName;
+  boolean helpRequested;
+
   public CommandInfo() {
     arguments = new ArrayList<>();
   }
@@ -23,7 +26,15 @@ public class CommandInfo {
     return command;
   }
 
+  public String getCommandName() {
+    return commandName;
+  }
+
   public String[] getArguments() {
     return arguments.stream().toArray( String[]::new );
+  }
+
+  public boolean isHelpRequested() {
+    return helpRequested;
   }
 }

@@ -11,6 +11,11 @@ public class CommandLineParserPDETest {
 
   private CommandLineParser commandLineParser;
 
+  @Before
+  public void setUp() {
+    commandLineParser = new CommandLineParser();
+  }
+
   @Test
   public void testIsRecognized() {
     boolean actual = commandLineParser.isRecognized( "status" );
@@ -19,7 +24,7 @@ public class CommandLineParserPDETest {
   }
 
   @Test
-  public void testIsRecognizedWithUnknownArguments() {
+  public void testIsRecognizedWithUnknownOption() {
     boolean actual = commandLineParser.isRecognized( "status", "--unknown" );
 
     assertThat( actual ).isTrue();
@@ -33,11 +38,12 @@ public class CommandLineParserPDETest {
   }
 
   @Test
-  public  void testParseArgumentLessCommand() {
+  public  void testParseCommandWithoutOption() {
     CommandInfo commandInfo = commandLineParser.parse( "status" );
 
     assertThat( commandInfo.getCommand().getClass().getSimpleName() ).isEqualTo( "Status" );
     assertThat( commandInfo.getArguments() ).isEmpty();
+    assertThat( commandInfo.isHelpRequested() ).isFalse();
   }
 
   @Test
@@ -45,15 +51,59 @@ public class CommandLineParserPDETest {
     CommandInfo commandInfo = commandLineParser.parse( "commit", "-m" );
 
     assertThat( commandInfo.getCommand().getClass().getSimpleName() ).isEqualTo( "Commit" );
+    assertThat( commandInfo.getCommandName() ).isEqualTo( "commit" );
     assertThat( commandInfo.getArguments() ).containsOnly( "-m" );
+    assertThat( commandInfo.isHelpRequested() ).isFalse();
   }
 
   @Test
-  public  void testParseWithUnknownArguments() {
-    CommandInfo commandInfo = commandLineParser.parse( "status", "foo" );
+  public  void testParseWithHelpRequest() {
+    CommandInfo commandInfo = commandLineParser.parse( "commit", "-h" );
+
+    assertThat( commandInfo.getCommand().getClass().getSimpleName() ).isEqualTo( "Commit" );
+    assertThat( commandInfo.getCommandName() ).isEqualTo( "commit" );
+    assertThat( commandInfo.getArguments() ).isEmpty();
+    assertThat( commandInfo.isHelpRequested() ).isTrue();
+  }
+
+  @Test
+  public  void testParseWithLongHelpRequest() {
+    CommandInfo commandInfo = commandLineParser.parse( "commit", "--help" );
+
+    assertThat( commandInfo.getCommand().getClass().getSimpleName() ).isEqualTo( "Commit" );
+    assertThat( commandInfo.getCommandName() ).isEqualTo( "commit" );
+    assertThat( commandInfo.getArguments() ).isEmpty();
+    assertThat( commandInfo.isHelpRequested() ).isTrue();
+  }
+
+  @Test
+  public void testParseWithOptionAndHelpRequest() {
+    CommandInfo commandInfo = commandLineParser.parse( "commit", "--help", "--amend" );
+
+    assertThat( commandInfo.getCommand().getClass().getSimpleName() ).isEqualTo( "Commit" );
+    assertThat( commandInfo.getCommandName() ).isEqualTo( "commit" );
+    assertThat( commandInfo.getArguments() ).isEmpty();
+    assertThat( commandInfo.isHelpRequested() ).isTrue();
+  }
+
+  @Test
+  public  void testParseWithUnknownOption() {
+    CommandInfo commandInfo = commandLineParser.parse( "status", "--foo" );
 
     assertThat( commandInfo.getCommand().getClass().getSimpleName() ).isEqualTo( "Status" );
-    assertThat( commandInfo.getArguments() ).containsOnly( "foo" );
+    assertThat( commandInfo.getCommandName() ).isEqualTo( "status" );
+    assertThat( commandInfo.getArguments() ).containsOnly( "--foo" );
+    assertThat( commandInfo.isHelpRequested() ).isFalse();
+  }
+
+  @Test
+  public void testParseKnownCommandInWrongCasing() {
+    try {
+      commandLineParser.parse( "CommIT" );
+      fail();
+    } catch ( RuntimeException expected ) {
+      assertThat( expected.getCause() ).isInstanceOf( CmdLineException.class );
+    }
   }
 
   @Test
@@ -78,10 +128,5 @@ public class CommandLineParserPDETest {
     String usage = commandLineParser.getUsage( "unknown" );
 
     assertThat( usage ).isEmpty();
-  }
-
-  @Before
-  public void setUp() {
-    commandLineParser = new CommandLineParser();
   }
 }

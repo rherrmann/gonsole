@@ -174,6 +174,6 @@ public class GitConsoleContentAssistPDETest {
 
     assertThat( console )
       .showsAdditionalInfo()
-      .containsText( "filepattern", "help", "update" );
+      .containsAdditionalInfo( "filepattern", "help", "update" );
   }
 }

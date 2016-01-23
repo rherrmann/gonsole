@@ -21,8 +21,8 @@ class CommandExecutor {
     return repositoryLocation;
   }
 
-  String execute( final CommandInfo commandInfo ) {
-    final String[] result = new String[ 1 ];
+  String execute( CommandInfo commandInfo ) {
+    String[] result = new String[ 1 ];
     consoleOutput.write( new ConsoleWriter() {
       @Override
       public void write( OutputStream outputStream ) throws IOException {

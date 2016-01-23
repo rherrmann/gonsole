@@ -48,6 +48,11 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
     return this;
   }
 
+  public ConsoleAssert containsText( String... text ) {
+    Assertions.assertThat( actual.getText() ).contains( text );
+    return this;
+  }
+
   public ConsoleAssert showsNoContentAssist() {
     Assertions.assertThat( consoleBot.displayHelper.getNewShells() ).isEmpty();
     return this;
@@ -80,7 +85,7 @@ public class ConsoleAssert extends AbstractAssert<ConsoleAssert, ConsolePageBot>
     return this;
   }
 
-  public void containsText( String... texts ) {
+  public void containsAdditionalInfo( String... texts ) {
     for( String text : texts ) {
       Assertions.assertThat( consoleBot.getAdditionalInfoText() ).contains( text );
     }

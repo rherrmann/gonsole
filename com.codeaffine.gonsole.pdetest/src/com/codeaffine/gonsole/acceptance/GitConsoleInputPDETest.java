@@ -109,8 +109,20 @@ public class GitConsoleInputPDETest {
       .hasProcessedCommandLine()
       .caretIsAtEnd()
       .containsLines( line( "repo", "commit" ),
-                      "Option \"--message (-m)\" is required" ,
+                      "Option \"--message (-m)\" is required",
                       line( "repo" ) );
+  }
+
+  @Test
+  public void testEnterGitCommandWithHelpRequest() {
+    console.open( configurer.createConfigurer( "repo" ) );
+
+    console.enterCommandLine( "version --help" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsText( "Display the version of jgit" );
   }
 
   @Test
