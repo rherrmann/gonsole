@@ -41,7 +41,7 @@ public class CommandExecutorPDETest {
 
   @Test
   public void testExecuteWithIllegalArguments() {
-    CommandInfo commandInfo = new CommandLineParser().parse( "status", "illegal" );
+    CommandInfo commandInfo = new CommandLineParser().parse( "status", "--illegal" );
 
     String actual = executor.execute( commandInfo );
 
