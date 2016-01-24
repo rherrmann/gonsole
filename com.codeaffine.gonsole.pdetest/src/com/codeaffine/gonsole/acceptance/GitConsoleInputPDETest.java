@@ -165,6 +165,20 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
+  public void testEnterGitCommandWithoutRepositoryInUse() {
+    console.open( configurer.createConfigurer() );
+
+    console.enterCommandLine( "commit" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( line( "no repository", "commit" ),
+                      "The command requires a repository. Use the 'use' command to change to a repository.",
+                      line( "no repository" ) );
+  }
+
+  @Test
   public void testEnterUnrecognizedCommand() {
     console.open( configurer.createConfigurer( "repo" ) );
 

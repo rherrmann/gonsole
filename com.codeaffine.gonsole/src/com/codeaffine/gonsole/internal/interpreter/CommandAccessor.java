@@ -42,10 +42,14 @@ class CommandAccessor {
 
   String execute() {
     try {
-      if( commandInfo.isHelpRequested() ) {
-        printHelp();
+      if( commandRequiresRepository() && commandInfo.getCommand().getRepository() == null ) {
+        printRepositoryRequiredMessage();
       } else {
-        executeCommand();
+        if( commandInfo.isHelpRequested() ) {
+          printHelp();
+        } else {
+          executeCommand();
+        }
       }
     } catch( Die ignore ) {
     } catch( Exception e ) {
@@ -77,6 +81,12 @@ class CommandAccessor {
   private void printHelp() throws IOException {
     String usage = new CommandLineParser().getUsage( commandInfo.getCommandName() );
     errorStream.write( usage.getBytes( ENCODING ) );
+    errorStream.flush();
+  }
+
+  private void printRepositoryRequiredMessage() throws IOException {
+    String msg = "The command requires a repository. Use the 'use' command to change to a repository.";
+    errorStream.write( msg.getBytes( ENCODING ) );
     errorStream.flush();
   }
 
@@ -115,5 +125,19 @@ class CommandAccessor {
         }
       }
     }
+  }
+
+  private boolean commandRequiresRepository() {
+    boolean result = false;
+    try {
+      Method method = COMMAND_TYPE.getDeclaredMethod( "requiresRepository" );
+      method.setAccessible( true );
+      result = ( ( Boolean )method.invoke( commandInfo.getCommand() ) ).booleanValue();
+    } catch( InvocationTargetException exception ) {
+      Throwables.propagate( exception.getCause() );
+    } catch( NoSuchMethodException | IllegalAccessException exception ) {
+      throw new RuntimeException( exception );
+    }
+    return result;
   }
 }

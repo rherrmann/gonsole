@@ -26,11 +26,31 @@ public class RepositoryContextPDETest {
   private RepositoryContext repositoryContext;
   private File gitDirectory;
 
+  @Before
+  public void setUp() throws Exception {
+    gitDirectory = createRepository();
+    repositoryContext = new RepositoryContext( gitDirectory );
+  }
+
+  @After
+  public void tearDown() {
+    repositoryContext.dispose();
+  }
+
   @Test
   public void testGetRepository() {
     Repository actual = repositoryContext.getRepository();
 
     assertThat( actual.getDirectory() ).isEqualTo( gitDirectory );
+  }
+
+  @Test
+  public void testGetRepositoryWithoutGitDirectory() {
+    RepositoryContext repositoryContext = new RepositoryContext( null );
+
+    Repository actual = repositoryContext.getRepository();
+
+    assertThat( actual ).isNull();
   }
 
   @Test
@@ -92,17 +112,6 @@ public class RepositoryContextPDETest {
     } catch( Exception expected ) {
       assertThat( expected.getCause() ).isInstanceOf( RepositoryNotFoundException.class );
     }
-  }
-
-  @Before
-  public void setUp() throws Exception {
-    gitDirectory = createRepository();
-    repositoryContext = new RepositoryContext( gitDirectory );
-  }
-
-  @After
-  public void tearDown() {
-    repositoryContext.dispose();
   }
 
   private File createRepository() throws GitAPIException, IOException {

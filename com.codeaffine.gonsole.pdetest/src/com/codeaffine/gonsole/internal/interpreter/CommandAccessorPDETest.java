@@ -124,6 +124,16 @@ public class CommandAccessorPDETest {
     assertThat( executionResult ).isEqualTo( "message" );
   }
 
+  @Test
+  public void testExecuteWithoutRepository() {
+    CommandAccessor accessor = createCommandAccessor( new TestCommand() );
+
+    accessor.init( null, outputStream );
+    String executionResult = accessor.execute();
+
+    assertThat( executionResult ).startsWith( "The command requires a repository" );
+  }
+
   private CommandAccessor createCommandAccessor( TestCommand command ) {
     commandInfo.command = command;
     return new CommandAccessor( commandInfo, errorStream );

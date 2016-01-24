@@ -18,7 +18,7 @@ class RepositoryContext {
 
   Repository getRepository() {
     checkState();
-    if( repository == null ) {
+    if( repository == null && gitDirectory != null ) {
       create();
     }
     return repository;
