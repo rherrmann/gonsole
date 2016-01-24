@@ -44,6 +44,7 @@
       <import plugin="org.eclipse.jgit" version="4.2.0" match="compatible"/>
       <import plugin="org.eclipse.jgit.pgm" version="4.2.0" match="compatible"/>
       <import plugin="org.eclipse.jgit.archive" version="4.2.0" match="compatible"/>
+      <import plugin="org.eclipse.jgit.http.apache" version="4.2.0" match="compatible"/>
       <import plugin="org.eclipse.core.net" version="1.2.0" match="compatible"/>
       <import plugin="org.eclipse.ui.console" version="3.5.0" match="compatible"/>
       <import plugin="org.slf4j.api"/>
