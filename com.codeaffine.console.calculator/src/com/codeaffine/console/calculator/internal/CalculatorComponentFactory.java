@@ -20,8 +20,8 @@ class CalculatorComponentFactory implements ConsoleComponentFactory {
   }
 
   @Override
-  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput consoleOutput ) {
-    return new ConsoleCommandInterpreter[] { new CalculatorConsoleCommandInterpreter( consoleOutput ) };
+  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut ) {
+    return new ConsoleCommandInterpreter[] { new CalculatorConsoleCommandInterpreter( stdOut ) };
   }
 
   @Override

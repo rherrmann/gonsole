@@ -15,8 +15,8 @@ public class TestConsoleComponentFactory implements ConsoleComponentFactory {
   }
 
   @Override
-  public ConsoleCommandInterpreter[] createCommandInterpreters( final ConsoleOutput consoleOutput ) {
-    return new ConsoleCommandInterpreter[] { new TestConsoleCommandInterpreter( consoleOutput ) };
+  public ConsoleCommandInterpreter[] createCommandInterpreters( final ConsoleOutput stdOut, ConsoleOutput errorOut ) {
+    return new ConsoleCommandInterpreter[] { new TestConsoleCommandInterpreter( stdOut ) };
   }
 
   @Override

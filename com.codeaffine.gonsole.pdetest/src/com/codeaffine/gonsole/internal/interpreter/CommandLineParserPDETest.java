@@ -117,10 +117,39 @@ public class CommandLineParserPDETest {
   }
 
   @Test
+  public void testGetDescription() {
+    String description = commandLineParser.getDescription( "add" );
+
+    assertThat( description ).contains( "Add file" );
+    assertThat( description ).doesNotContain( "\n" );
+  }
+
+  @Test
+  public void testGetDescriptionWithControlCommand() {
+    String description = commandLineParser.getDescription( "use" );
+
+    assertThat( description ).isNotEmpty();
+  }
+
+  @Test
+  public void testGetDescriptionWithUnknownCommand() {
+    String description = commandLineParser.getDescription( "unknown" );
+
+    assertThat( description ).isEmpty();
+  }
+
+  @Test
   public void testGetUsage() {
     String usage = commandLineParser.getUsage( "add" );
 
     assertThat( usage ).contains( "Add file", "filepattern", "help", "update" );
+  }
+
+  @Test
+  public void testGetUsageWithControlCommand() {
+    String usage = commandLineParser.getUsage( "use" );
+
+    assertThat( usage ).isNotEmpty();
   }
 
   @Test

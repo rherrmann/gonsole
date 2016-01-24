@@ -76,6 +76,45 @@ public class GitConsoleInputPDETest {
   }
 
   @Test
+  public void testEnterHelp() {
+    console.open( configurer.createConfigurer( "repo" ) );
+
+    console.enterCommandLine( "help" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsText( "Available Commands" );
+  }
+
+  @Test
+  public void testEnterHelpForCommand() {
+    console.open( configurer.createConfigurer( "repo" ) );
+
+    console.enterCommandLine( "help version" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsText( "Display the version of jgit" );
+  }
+
+  @Test
+  public void testEnterHelpForUnrecognizedCommand() {
+    console.open( configurer.createConfigurer( "repo" ) );
+
+    console.enterCommandLine( "help unknown" );
+
+    assertThat( console )
+      .hasProcessedCommandLine()
+      .caretIsAtEnd()
+      .containsLines( line( "repo", "help unknown" ),
+                      "Unrecognized command: unknown",
+                      "",
+                      line( "repo" ) );
+  }
+
+  @Test
   public void testEnterGitCommandWithMultipleSpaces() {
     console.open( configurer.createConfigurer( "repo" ) );
 
@@ -159,7 +198,6 @@ public class GitConsoleInputPDETest {
       .hasProcessedCommandLine()
       .caretIsAtEnd()
       .containsLines( line( "no repository", "foo" ), "Unrecognized command: foo", line( "no repository" ) );
-
   }
 
   @Test

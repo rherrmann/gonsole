@@ -37,7 +37,7 @@ class ProcessorWorker implements Runnable {
         if( line != null && line.trim().length() > 0 ) {
           String[] commandLine = new CommandLineTokenizer( line ).tokenize();
 
-          ConsoleCommandInterpreter[] interpreters = consoleComponentFactory.createCommandInterpreters( consoleStandardOutput );
+          ConsoleCommandInterpreter[] interpreters = createCommandInterpreters();
           try {
             boolean commandExecuted = false;
             for( int i = 0; !commandExecuted && i < interpreters.length; i++ ) {
@@ -63,6 +63,11 @@ class ProcessorWorker implements Runnable {
         Throwables.propagate( exception );
       }
     }
+  }
+
+  private ConsoleCommandInterpreter[] createCommandInterpreters() {
+    return consoleComponentFactory.createCommandInterpreters( consoleStandardOutput,
+                                                              consoleErrorOutput );
   }
 
   private static void printStackTrace( ConsoleOutput consoleOutput, Exception exception ) {

@@ -1,5 +1,7 @@
 package com.codeaffine.gonsole.internal.interpreter;
 
+import static com.codeaffine.gonsole.internal.interpreter.ControlCommands.DESCRIPTION;
+
 import java.io.StringWriter;
 import java.util.MissingResourceException;
 
@@ -38,19 +40,29 @@ public class CommandLineParser {
     return result;
   }
 
-  public String getUsage( String command ) {
-    CommandInfo commandInfo = new CommandInfo();
-    CmdLineParser parser = new CmdLineParser( commandInfo );
-    try {
-      parser.parseArgument( command );
-    } catch( Exception ignore ) {
+  public String getDescription( String command ) {
+    String result;
+    if( DESCRIPTION.containsKey( command ) ) {
+      result = DESCRIPTION.get( command );
+    } else {
+      result = getDescription( getCommandInfo( command ) );
     }
-    return getUsage( commandInfo );
+    return result;
+  }
+
+  public String getUsage( String command ) {
+    String result;
+    if( ControlCommands.USAGE.containsKey( command ) ) {
+      result = ControlCommands.USAGE.get( command );
+    } else {
+      result = getUsage( getCommandInfo( command ) );
+    }
+    return result;
   }
 
   private String getUsage( CommandInfo commandInfo ) {
     StringWriter result = new StringWriter();
-    String usage = getCommandUsage( commandInfo );
+    String usage = getDescription( commandInfo );
     if( !usage.isEmpty() ) {
       result.append( usage );
       result.append( "\n" );
@@ -69,14 +81,22 @@ public class CommandLineParser {
     return result.toString();
   }
 
-  private String getCommandUsage( CommandInfo commandInfo ) {
+  private String getDescription( CommandInfo commandInfo ) {
     String result = "";
     TextBuiltin command = commandInfo.getCommand();
-    if( command != null ) {
-      Command commandAnnotation = command.getClass().getAnnotation( Command.class );
-      if( commandAnnotation != null && !isNullOrEmpty( commandAnnotation.usage() ) ) {
-        result = pgmResourceBundle.getResourceBundle().getString( commandAnnotation.usage() );
-      }
+    Command commandAnnotation = command == null ? null : command.getClass().getAnnotation( Command.class );
+    if( commandAnnotation != null && !isNullOrEmpty( commandAnnotation.usage() ) ) {
+      result = pgmResourceBundle.getResourceBundle().getString( commandAnnotation.usage() );
+    }
+    return result;
+  }
+
+  private static CommandInfo getCommandInfo( String command ) {
+    CommandInfo result = new CommandInfo();
+    CmdLineParser parser = new CmdLineParser( result );
+    try {
+      parser.parseArgument( command );
+    } catch( Exception ignore ) {
     }
     return result;
   }

@@ -29,10 +29,10 @@ class GitConsoleComponentFactory implements ConsoleComponentFactory {
   }
 
   @Override
-  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput consoleOutput ) {
+  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut ) {
     return new ConsoleCommandInterpreter[]{
-      new ControlCommandInterpreter( consoleOutput, repositoryProvider ),
-      new GitCommandInterpreter( consoleOutput, repositoryProvider )
+      new ControlCommandInterpreter( this, stdOut, errorOut, repositoryProvider ),
+      new GitCommandInterpreter( stdOut, repositoryProvider )
     };
   }
 

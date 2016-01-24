@@ -37,8 +37,8 @@ class GenericConsoleComponentFactory implements ConsoleComponentFactory {
   }
 
   @Override
-  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput consoleOutput ) {
-    ConsoleCommandInterpreter[] result = consoleComponentFactory.createCommandInterpreters( consoleOutput );
+  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut ) {
+    ConsoleCommandInterpreter[] result = consoleComponentFactory.createCommandInterpreters( stdOut, errorOut );
     if( getHistoryTracker() != null ) {
       result = Stream.concat( Stream.of( getHistoryTracker() ), Stream.of( result ) ).toArray( ConsoleCommandInterpreter[]::new );
     }
