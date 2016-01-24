@@ -6,6 +6,8 @@ import static java.util.stream.Collectors.toList;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,7 +45,7 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
   }
 
   private Collection<Proposal> getCommandProposals() {
-    return Stream.of( CommandCatalog.common() ).map( this::toProposal ).collect( toList() );
+    return new CommandRefCollector().collect().stream().map( this::toProposal ).collect( toList() );
   }
 
   private Collection<Proposal> getAliasProposals() {
@@ -58,13 +60,38 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
     return result;
   }
 
-  private Proposal toProposal( CommandRef input ) {
-    String additionalInfo = commandLineParser.getUsage( input.getName() );
-    return createProposal( input.getName(), additionalInfo );
+  private Proposal toProposal( CommandRef commandRef ) {
+    String additionalInfo = commandLineParser.getUsage( commandRef.getName() );
+    return createProposal( commandRef.getName(), additionalInfo );
   }
 
   private static Proposal createProposal( String text, String info ) {
     ImageDescriptor imageDescriptor = new IconRegistry().getDescriptor( GIT_PROPOSAL );
     return new Proposal( text, text, info, imageDescriptor );
   }
+
+  private static class CommandRefCollector {
+    private final Set<CommandRef> commandRefs;
+
+    CommandRefCollector() {
+      commandRefs = new HashSet<>();
+    }
+
+    Collection<CommandRef> collect() {
+      Collections.addAll( commandRefs, CommandCatalog.common() );
+      addExtraCommandRef( "remote" );
+      addExtraCommandRef( "blame" );
+      addExtraCommandRef( "merge-base" );
+      addExtraCommandRef( "rev-parse" );
+      return commandRefs;
+    }
+
+    private void addExtraCommandRef( String commandName ) {
+      CommandRef commandRef = CommandCatalog.get( commandName );
+      if( commandRef != null ) {
+        commandRefs.add( commandRef );
+      }
+    }
+  }
+
 }
