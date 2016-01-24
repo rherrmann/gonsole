@@ -19,8 +19,8 @@ public class ControlCommands {
   private static final String USE_USAGE
     = USE_DESCRIPTION
     + "\n"
-    + "repository\n\n"
-    + "repository: Name or full path to the .git directory of the repository to use. "
+    + " repository\n\n"
+    + " repository: Name or full path to the .git directory of the repository to use. "
     + "The name is taken from the last segment of the path to the repository (without .git). "
     + "E.g. the name of /path/to/repo/.git is 'repo'.";
 
@@ -28,8 +28,8 @@ public class ControlCommands {
   private static final String HELP_USAGE
     = HELP_DESCRIPTION
     + "\n"
-    + "[command]\n\n"
-    + "command : Name of the command to show help for. If no command is specified, a list of"
+    + " [command]\n\n"
+    + " command : Name of the command to show help for. If no command is specified, a list of"
     + "available commands is shown.";
 
 
