@@ -2,7 +2,7 @@
 <feature
       id="com.codeaffine.gonsole.egit.feature"
       label="Gonsole - EGit Integration"
-      version="1.2.0.qualifier"
+      version="1.3.0.qualifier"
       provider-name="codeaffine.com">
 
    <description url="https://gonsole.codeaffine.com">
