@@ -105,6 +105,22 @@
                 <parameters>org.apache.commons.logging,1.1.1,2.0.0</parameters>
               </query>
             </iu>
+            <iu> <!-- used by org.eclipse.jgit.http.apache -->
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.apache.httpcomponents.httpcore,4.1.0,5.0.0</parameters>
+              </query>
+            </iu>
+            <iu> <!-- used by org.eclipse.jgit.http.apache -->
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.apache.httpcomponents.httpclient,4.1.0,5.0.0</parameters>
+              </query>
+            </iu>
             <iu>
               <query>
                 <expression>
