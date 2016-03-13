@@ -66,7 +66,7 @@
           <source>
             <!-- Repository for Args4J, Apache Commons Compress -->
             <repository>
-              <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url>
+              <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160221192158/repository/</url>
               <layout>p2</layout>
             </repository>
             <!-- Repository for JGit -->
@@ -110,7 +110,7 @@
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.apache.httpcomponents.httpcore,4.1.0,5.0.0</parameters>
+                <parameters>org.apache.httpcomponents.httpcore,4.3.0,5.0.0</parameters>
               </query>
             </iu>
             <iu> <!-- used by org.eclipse.jgit.http.apache -->
@@ -118,7 +118,7 @@
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.apache.httpcomponents.httpclient,4.1.0,5.0.0</parameters>
+                <parameters>org.apache.httpcomponents.httpclient,4.3.0,5.0.0</parameters>
               </query>
             </iu>
             <iu>
