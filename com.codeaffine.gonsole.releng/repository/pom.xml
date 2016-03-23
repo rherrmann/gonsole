@@ -64,7 +64,7 @@
         </executions>
         <configuration>
           <source>
-            <!-- Repository for Args4J, Apache Commons Compress -->
+            <!-- Repository for Args4J, Apache Commons Compress, Apahce HttpClient and its deps -->
             <repository>
               <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160221192158/repository/</url>
               <layout>p2</layout>
@@ -103,6 +103,14 @@
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
                 <parameters>org.apache.commons.logging,1.1.1,2.0.0</parameters>
+              </query>
+            </iu>
+            <iu> <!-- used by org.eclipse.jgit.http.apache -->
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.apache.commons.codec,1.6.0,2.0.0</parameters>
               </query>
             </iu>
             <iu> <!-- used by org.eclipse.jgit.http.apache -->
