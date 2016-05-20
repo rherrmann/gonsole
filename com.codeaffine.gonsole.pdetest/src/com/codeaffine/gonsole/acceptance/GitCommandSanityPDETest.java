@@ -19,11 +19,14 @@ import com.codeaffine.gonsole.internal.interpreter.CommandLineParser;
 public class GitCommandSanityPDETest {
 
   @Parameters(name = "{0}")
-  public static Collection<String> parameters() {
-    return new CommandRefCollector().collect().stream().map( CommandRef::getName ).collect( toList() );
+  public static Collection<Object[]> parameters() {
+    return new CommandRefCollector().collect().stream()
+      .map( CommandRef::getName )
+      .map( name -> new String[] { name } )
+      .collect( toList() );
   }
 
-  @Parameter()
+  @Parameter
   public String commandName;
 
   @Test
