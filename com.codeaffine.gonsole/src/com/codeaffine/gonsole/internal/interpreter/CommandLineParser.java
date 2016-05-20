@@ -61,23 +61,19 @@ public class CommandLineParser {
   }
 
   private String getUsage( CommandInfo commandInfo ) {
-    StringWriter result = new StringWriter();
-    String usage = getDescription( commandInfo );
-    if( !usage.isEmpty() ) {
-      result.append( usage );
+    StringBuilder result = new StringBuilder();
+    String description = getDescription( commandInfo );
+    if( !description.isEmpty() ) {
+      result.append( description );
       result.append( "\n" );
     }
     CmdLineParser parser = new CmdLineParser( commandInfo.getCommand() );
-    parser.printSingleLineUsage( result, pgmResourceBundle.getResourceBundle() );
-    if( result.getBuffer().length() > 0 ) {
+    String shortUsage = getShortUsage( parser );
+    if( !shortUsage.isEmpty() ) {
+      result.append( shortUsage );
       result.append( "\n\n" );
     }
-    try {
-      parser.printUsage( result, pgmResourceBundle.getResourceBundle() );
-    } catch( MissingResourceException ignore ) {
-      // [rh] workaround for Bug 457208: [pgm] resource bundle entry for "usage_bareClone" of the Clone command does not exist
-      //      https://bugs.eclipse.org/bugs/show_bug.cgi?id=457208
-    }
+    result.append( getFullUsage( parser ) );
     return result.toString();
   }
 
@@ -89,6 +85,26 @@ public class CommandLineParser {
       result = pgmResourceBundle.getResourceBundle().getString( commandAnnotation.usage() );
     }
     return result;
+  }
+
+  private String getShortUsage( CmdLineParser parser ) {
+    StringWriter result = new StringWriter();
+    try {
+      parser.printSingleLineUsage( result, pgmResourceBundle.getResourceBundle() );
+    } catch( MissingResourceException ignore ) {
+    }
+    return result.toString();
+  }
+
+  private String getFullUsage( CmdLineParser parser ) {
+    StringWriter result = new StringWriter();
+    try {
+      parser.printUsage( result, pgmResourceBundle.getResourceBundle() );
+    } catch( MissingResourceException ignore ) {
+      // [rh] workaround for Bug 457208: [pgm] resource bundle entry for "usage_bareClone" of the Clone command does not exist
+      //      https://bugs.eclipse.org/bugs/show_bug.cgi?id=457208
+    }
+    return result.toString();
   }
 
   private static CommandInfo getCommandInfo( String command ) {

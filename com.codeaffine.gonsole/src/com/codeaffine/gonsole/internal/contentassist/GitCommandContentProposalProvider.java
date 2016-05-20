@@ -6,14 +6,11 @@ import static java.util.stream.Collectors.toList;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
 
 import com.codeaffine.console.core.ContentProposalProvider;
@@ -68,30 +65,6 @@ public class GitCommandContentProposalProvider implements ContentProposalProvide
   private static Proposal createProposal( String text, String info ) {
     ImageDescriptor imageDescriptor = new IconRegistry().getDescriptor( GIT_PROPOSAL );
     return new Proposal( text, text, info, imageDescriptor );
-  }
-
-  private static class CommandRefCollector {
-    private final Set<CommandRef> commandRefs;
-
-    CommandRefCollector() {
-      commandRefs = new HashSet<>();
-    }
-
-    Collection<CommandRef> collect() {
-      Collections.addAll( commandRefs, CommandCatalog.common() );
-      addExtraCommandRef( "remote" );
-      addExtraCommandRef( "blame" );
-      addExtraCommandRef( "merge-base" );
-      addExtraCommandRef( "rev-parse" );
-      return commandRefs;
-    }
-
-    private void addExtraCommandRef( String commandName ) {
-      CommandRef commandRef = CommandCatalog.get( commandName );
-      if( commandRef != null ) {
-        commandRefs.add( commandRef );
-      }
-    }
   }
 
 }
