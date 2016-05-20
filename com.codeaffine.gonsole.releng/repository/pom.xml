@@ -69,9 +69,14 @@
               <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160221192158/repository/</url>
               <layout>p2</layout>
             </repository>
+            <!-- Repository for Jetty -->
+            <repository>
+              <url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.13.v20150730/</url>
+              <layout>p2</layout>
+            </repository>
             <!-- Repository for JGit -->
             <repository>
-              <url>http://download.eclipse.org/egit/updates-4.2/</url>
+              <url>http://download.eclipse.org/egit/updates-4.3/</url>
               <layout>p2</layout>
             </repository>
             <!-- Repository for Xiliary -->
@@ -129,7 +134,7 @@
                 <parameters>org.apache.httpcomponents.httpclient,4.3.0,5.0.0</parameters>
               </query>
             </iu>
-            <iu>
+            <iu> <!-- used by org.eclipse.jgit.pgm -->
               <query>
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
@@ -137,12 +142,12 @@
                 <parameters>org.kohsuke.args4j,2.0.21,2.1.0</parameters>
               </query>
             </iu>
-            <iu>
+            <iu> <!-- used by org.eclipse.jgit.pgm -->
               <query>
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.eclipse.jgit.archive,4.2.0,5.0.0</parameters>
+                <parameters>org.eclipse.jgit.archive,4.3.0,5.0.0</parameters>
               </query>
             </iu>
             <iu>
@@ -150,7 +155,7 @@
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.eclipse.jgit,4.2.0,5.0.0</parameters>
+                <parameters>org.eclipse.jgit,4.3.0,5.0.0</parameters>
               </query>
             </iu>
             <iu>
@@ -158,7 +163,15 @@
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.eclipse.jgit.pgm,4.2.0,5.0.0</parameters>
+                <parameters>org.eclipse.jgit.pgm,4.3.0,5.0.0</parameters>
+              </query>
+            </iu>
+            <iu>
+              <query> <!-- used by org.eclipse.jgit.pgm -->
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jgit.http.apache,4.3.0,5.0.0</parameters>
               </query>
             </iu>
             <iu>
@@ -166,15 +179,7 @@
                 <expression>
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
-                <parameters>org.eclipse.jgit.http.apache,4.2.0,5.0.0</parameters>
-              </query>
-            </iu>
-            <iu>
-              <query>
-                <expression>
-                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
-                </expression>
-                <parameters>org.eclipse.jgit.ui,4.2.0,5.0.0</parameters>
+                <parameters>org.eclipse.jgit.ui,4.3.0,5.0.0</parameters>
               </query>
             </iu>
             <iu>
@@ -199,6 +204,102 @@
                   id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
                 </expression>
                 <parameters>org.slf4j.api,1.7.0,2.0.0</parameters>
+              </query>
+            </iu>
+            <iu> <!-- used by org.eclipse.jgit.lfs -->
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jetty.client,9.2.0,10.0.0</parameters>
+              </query>
+            </iu>
+            <iu> 
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jetty.continuation,9.2.0,10.0.0</parameters>
+              </query>
+            </iu>
+            <iu> 
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jetty.http,9.2.0,10.0.0</parameters>
+              </query>
+            </iu>
+            <iu> 
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jetty.io,9.2.0,10.0.0</parameters>
+              </query>
+            </iu>
+            <iu> 
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jetty.security,9.2.0,10.0.0</parameters>
+              </query>
+            </iu>
+            <iu> 
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jetty.server,9.2.0,10.0.0</parameters>
+              </query>
+            </iu>
+            <iu> 
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jetty.servlet,9.2.0,10.0.0</parameters>
+              </query>
+            </iu>
+            <iu> 
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.eclipse.jetty.util,9.2.0,10.0.0</parameters>
+              </query>
+            </iu>
+            <iu> <!-- used by org.eclipse.jetty -->
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>javax.servlet,3.1.0,4.0.0</parameters>
+              </query>
+            </iu>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>javax.servlet.jsp,2.2.0,3.0.0</parameters>
+              </query>
+            </iu>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>javax.el,2.2.0,3.0.0</parameters>
+              </query>
+            </iu>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>com.sun.el,2.2.0,3.0.0</parameters>
               </query>
             </iu>
           </ius>
