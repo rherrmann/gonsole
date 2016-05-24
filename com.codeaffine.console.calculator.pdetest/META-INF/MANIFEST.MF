@@ -3,10 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Calculator PDETests
 Bundle-SymbolicName: com.codeaffine.console.calculator.pdetest;singleton:=true
 Bundle-Version: 1.3.0.qualifier
-Fragment-Host: com.codeaffine.console.calculator;bundle-version="[1.2.0,2.0.0)"
+Fragment-Host: com.codeaffine.console.calculator;bundle-version="[1.3.0,2.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
- org.assertj.core;bundle-version="[1.6.0,2.0.0)",
+ org.assertj.core;bundle-version="[3.4.0,4.0.0)",
  junitparams;bundle-version="[1.0.0,2.0.0)",
  org.mockito.mockito-all;bundle-version="[1.9.5,2.0.0)",
  com.codeaffine.gonsole.test.util;bundle-version="[1.2.0,2.0.0)"
