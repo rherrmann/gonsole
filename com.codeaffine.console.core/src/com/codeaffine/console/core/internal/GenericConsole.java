@@ -61,6 +61,10 @@ public class GenericConsole extends IOConsole implements Console {
     return colorScheme;
   }
 
+  public ConsoleComponentFactory getConsoleComponentFactory() {
+    return this.consoleComponentFactory;
+  }
+
   @Override
   public void setConsoleComponentFactory( ConsoleComponentFactory consoleComponentFactory ) {
     this.consoleComponentFactory = new GenericConsoleComponentFactory( consoleComponentFactory );
