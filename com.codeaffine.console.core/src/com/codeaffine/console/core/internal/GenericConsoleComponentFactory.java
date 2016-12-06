@@ -1,5 +1,6 @@
 package com.codeaffine.console.core.internal;
 
+import java.io.InputStream;
 import java.util.stream.Stream;
 
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
@@ -37,8 +38,8 @@ class GenericConsoleComponentFactory implements ConsoleComponentFactory {
   }
 
   @Override
-  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut ) {
-    ConsoleCommandInterpreter[] result = consoleComponentFactory.createCommandInterpreters( stdOut, errorOut );
+  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut, InputStream stdIn ) {
+    ConsoleCommandInterpreter[] result = consoleComponentFactory.createCommandInterpreters( stdOut, errorOut, stdIn );
     if( getHistoryTracker() != null ) {
       result = Stream.concat( Stream.of( getHistoryTracker() ), Stream.of( result ) ).toArray( ConsoleCommandInterpreter[]::new );
     }
