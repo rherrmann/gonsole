@@ -2,6 +2,7 @@ package com.codeaffine.gonsole.internal.command;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -94,7 +95,7 @@ class RepositoryLocationComputer {
     try {
       return file.getCanonicalFile();
     } catch( IOException ioe ) {
-      throw new RuntimeException( ioe );
+      throw new UncheckedIOException( ioe );
     }
   }
 

@@ -2,6 +2,7 @@ package com.codeaffine.gonsole.internal.interpreter;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
@@ -40,7 +41,7 @@ class RepositoryContext {
     try {
       repository = new RepositoryBuilder().setGitDir( gitDirectory ).setMustExist( true ).build();
     } catch( IOException e ) {
-      throw new RuntimeException( e );
+      throw new UncheckedIOException( e );
     }
   }
 

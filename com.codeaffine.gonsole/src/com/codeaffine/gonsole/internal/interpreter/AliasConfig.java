@@ -2,6 +2,7 @@ package com.codeaffine.gonsole.internal.interpreter;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.Repository;
@@ -39,7 +40,7 @@ public class AliasConfig {
       FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
       result = repositoryBuilder.setMustExist( true ).setGitDir( repositoryLocation ).build();
     } catch( IOException ignore ) {
-      throw new RuntimeException( ignore );
+      throw new UncheckedIOException( ignore );
     }
     return result;
   }

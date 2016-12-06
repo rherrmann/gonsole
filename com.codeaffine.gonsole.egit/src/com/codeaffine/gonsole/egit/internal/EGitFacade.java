@@ -2,6 +2,7 @@ package com.codeaffine.gonsole.egit.internal;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 
 import org.eclipse.egit.core.Activator;
@@ -29,7 +30,7 @@ public class EGitFacade {
     try {
       return new File( path ).getCanonicalFile();
     } catch( IOException ioe ) {
-      throw new RuntimeException( ioe );
+      throw new UncheckedIOException( ioe );
     }
   }
 }

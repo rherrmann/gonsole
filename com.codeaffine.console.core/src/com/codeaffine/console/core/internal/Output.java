@@ -5,6 +5,7 @@ import static com.codeaffine.console.core.ConsoleConstants.LINE_DELIMITER;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 
 import com.codeaffine.console.core.ConsoleOutput;
 
@@ -39,7 +40,7 @@ public class Output implements ConsoleOutput {
     try {
       consoleWriter.write( outputStream );
     } catch( IOException ioe ) {
-      throw new RuntimeException( ioe );
+      throw new UncheckedIOException( ioe );
     }
   }
 
