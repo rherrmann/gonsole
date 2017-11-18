@@ -13,7 +13,7 @@ public class CommandInfo {
   TextBuiltin command;
 
   @Argument(index = 1, metaVar = "metaVar_arg")
-  final List<String> arguments;
+  List<String> arguments;
 
   String commandName;
   boolean helpRequested;
