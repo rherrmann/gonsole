@@ -1,4 +1,6 @@
 ![](gonsole.png)
+
+
 Gonsole - Git Console for the Eclipse IDE 
 ======
 
