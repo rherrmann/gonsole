@@ -44,7 +44,10 @@ class SharedResourcesRefresher {
     IPath workDir = Repositories.getWorkDir( repositoryLocation );
     for( IProject project : getWorkspaceProjects() ) {
       IPath projectLocation = project.getLocation();
-      if( projectLocation != null && workDir.isPrefixOf( projectLocation ) ) {
+      if(    projectLocation != null
+          && workDir.isPrefixOf( projectLocation )
+          && projectLocation.toFile().exists() )
+      {
         sharedProjects.add( project );
       }
     }
