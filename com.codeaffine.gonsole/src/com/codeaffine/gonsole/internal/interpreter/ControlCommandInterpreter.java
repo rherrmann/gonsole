@@ -63,7 +63,8 @@ public class ControlCommandInterpreter implements ConsoleCommandInterpreter {
         result = null;
         repositoryProvider.setCurrentRepositoryLocation( repositoryLocation );
         String changedRepositoryName = Repositories.getRepositoryName( repositoryLocation );
-        String message = String.format( "Current repository is: %s", changedRepositoryName );
+        Object name = changedRepositoryName == null ? "unknown" : changedRepositoryName;
+        String message = String.format( "Current repository is: %s", name );
         standardOutput.writeLine( message );
       }
     }

@@ -23,6 +23,7 @@ class GitConsolePrompt implements ConsolePrompt {
   public void writePrompt() {
     File gitDirectory = repositoryProvider.getCurrentRepositoryLocation();
     String repositoryName = Repositories.getRepositoryName( gitDirectory );
-    consoleOutput.write( repositoryName + PROMPT_POSTFIX );
+    String prompt = repositoryName == null ? "no repository" : repositoryName;
+    consoleOutput.write( prompt + PROMPT_POSTFIX );
   }
 }

@@ -28,7 +28,7 @@ public class Repositories {
   }
 
   public static String getRepositoryName( File repositoryLocation ) {
-    String result = "no repository";
+    String result = null;
     if( repositoryLocation != null  ) {
       File parentFile = repositoryLocation.getParentFile();
       result = parentFile == null ? null : parentFile.getName();

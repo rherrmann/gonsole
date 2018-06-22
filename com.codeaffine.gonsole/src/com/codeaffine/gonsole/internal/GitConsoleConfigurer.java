@@ -39,20 +39,21 @@ public class GitConsoleConfigurer implements ConsoleConfigurer {
   }
 
   private void execUpdateTitle() {
-    display.asyncExec( new Runnable() {
-      @Override
-      public void run() {
-        updateTitle();
-      }
-    } );
+    display.asyncExec( this::updateTitle );
   }
 
   private void updateTitle() {
     if( !console.isDisposed() ) {
-      File currentRepositoryLocation = repositoryProvider.getCurrentRepositoryLocation();
-      String title = "Git Console: " + Repositories.getRepositoryName( currentRepositoryLocation );
-      console.setTitle( title );
+      console.setTitle( getTitle() );
     }
+  }
+
+  private String getTitle() {
+    File currentRepositoryLocation = repositoryProvider.getCurrentRepositoryLocation();
+    String repositoryName = Repositories.getRepositoryName( currentRepositoryLocation );
+    return repositoryName == null
+        ? "No repository selected, type 'use <repository>' to change the current repository"
+        : "Git Console: " + repositoryName;
   }
 
   private class CurrentRepositoryChangeObserver implements RepositoryChangeListener {

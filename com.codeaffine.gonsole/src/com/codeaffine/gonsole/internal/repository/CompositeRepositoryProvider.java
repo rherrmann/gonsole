@@ -1,10 +1,11 @@
 package com.codeaffine.gonsole.internal.repository;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.io.File;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.codeaffine.gonsole.RepositoryProvider;
@@ -25,7 +26,7 @@ public class CompositeRepositoryProvider implements RepositoryProvider {
   public File[] getRepositoryLocations() {
     Set<File> set = Stream.of( repositoryProviders )
       .flatMap( repositoryProvider -> stream( repositoryProvider ) )
-      .collect( Collectors.toSet() );
+      .collect( toSet() );
     return set.stream().sorted().toArray( File[]::new );
   }
 

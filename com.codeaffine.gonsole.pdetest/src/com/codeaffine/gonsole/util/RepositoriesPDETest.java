@@ -4,6 +4,7 @@ import static com.codeaffine.gonsole.test.io.Files.toCanonicalFile;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jgit.api.Git;
@@ -36,6 +37,22 @@ public class RepositoriesPDETest {
     IPath workDir = Repositories.getWorkDir( repositoryLocation );
 
     assertThat( workDir ).isNull();
+  }
+
+  @Test
+  public void testGetRepositoryName() throws IOException {
+    File repositoryLocation = tempFolder.newFolder( "foo" );
+
+    String repositoryName = Repositories.getRepositoryName( repositoryLocation );
+
+    assertThat( repositoryName ).isEqualTo( repositoryLocation.getName() );
+  }
+
+  @Test
+  public void testGetRepositoryNameWithNull() {
+    String repositoryName = Repositories.getRepositoryName( null );
+
+    assertThat( repositoryName ).isEqualTo( "default" );
   }
 
   private File createRepository( boolean bare ) throws GitAPIException {
