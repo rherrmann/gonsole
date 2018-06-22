@@ -26,6 +26,9 @@ import com.codeaffine.gonsole.test.util.concurrency.ConcurrentHelper;
 
 public class GitConsoleConfigurerPDETest {
 
+  private static final String NO_REPOSITORY_SELECTED
+    = "No repository selected, type 'use <repository>' to change the current repository";
+
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -37,7 +40,7 @@ public class GitConsoleConfigurerPDETest {
   public void testConfigure() {
     configurer.configure( console );
 
-    verify( console ).setTitle( "Git Console: no repository" );
+    verify( console ).setTitle( NO_REPOSITORY_SELECTED );
     verify( console ).setImageDescriptor( new IconRegistry().getDescriptor( IconRegistry.GONSOLE ) );
     verify( console ).setColorScheme( isA( GitConsoleColorScheme.class ) );
     verify( console ).setConsoleComponentFactory( isA( GitConsoleComponentFactory.class ) );
