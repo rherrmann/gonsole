@@ -21,3 +21,4 @@ Import-Package: com.codeaffine.console.core.pdetest,
  com.codeaffine.console.core.pdetest.console,
  com.codeaffine.gonsole.internal.preference,
  com.codeaffine.test.util.util.concurrent;version="[0.1.0,1.0.0)"
+Automatic-Module-Name: com.codeaffine.gonsole.pdetest

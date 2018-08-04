@@ -13,3 +13,4 @@ Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
  com.codeaffine.gonsole.test.util;bundle-version="[1.2.0,2.0.0)",
  com.codeaffine.eclipse.swt.test.util;bundle-version="[0.1.0,1.0.0)",
  com.codeaffine.test.util;bundle-version="[0.1.0,1.0.0)"
+Automatic-Module-Name: com.codeaffine.console.core.test

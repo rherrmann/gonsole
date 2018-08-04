@@ -27,3 +27,4 @@ Export-Package: com.codeaffine.gonsole;version="1.2.0.qualifier",
  com.codeaffine.gonsole.internal.preference;version="1.2.0.qualifier";x-friends:="com.codeaffine.gonsole.test.helper",
  com.codeaffine.gonsole.internal.repository;version="1.2.0.qualifier";x-friends:="com.codeaffine.gonsole.test.helper",
  com.codeaffine.gonsole.util;version="1.2.0.qualifier"
+Automatic-Module-Name: com.codeaffine.gonsole

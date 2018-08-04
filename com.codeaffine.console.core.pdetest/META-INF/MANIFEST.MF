@@ -15,3 +15,4 @@ Require-Bundle: org.junit;bundle-version="[4.11.0,5.0.0)",
 Export-Package: com.codeaffine.console.core,com.codeaffine.console.cor
  e.internal,com.codeaffine.console.core.pdetest,com.codeaffine.console
  .core.pdetest.bot,com.codeaffine.console.core.pdetest.console
+Automatic-Module-Name: com.codeaffine.console.core.pdetest

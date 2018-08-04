@@ -20,3 +20,4 @@ Export-Package: com.codeaffine.console.core;version="1.2.0.qualifier",
  com.codeaffine.console.core.internal.contentassist;version="1.2.0.qualifier";x-internal:=true,
  com.codeaffine.console.core.internal.resource;version="1.2.0.qualifier";x-internal:=true,
  com.codeaffine.console.core.util;version="1.2.0.qualifier"
+Automatic-Module-Name: com.codeaffine.console.core
