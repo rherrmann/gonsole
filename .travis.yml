@@ -25,6 +25,7 @@ addons:
 script:
   - mvn -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.5
   - mvn -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.7
+  - mvn -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.8
 
 before_script:
   - "export DISPLAY=:99.0"
