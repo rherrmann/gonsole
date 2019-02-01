@@ -22,6 +22,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   git rm -rf repository
   mkdir -p repository 
   cp -rf ../com.codeaffine.gonsole.releng/repository/target/repository/* ./repository
+  zip -r repository/gonsole.zip repository/*
   
   # add, commit and push files
   git add -f .
