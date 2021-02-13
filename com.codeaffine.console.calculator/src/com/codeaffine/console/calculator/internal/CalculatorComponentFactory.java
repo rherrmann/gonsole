@@ -1,5 +1,7 @@
 package com.codeaffine.console.calculator.internal;
 
+import java.io.InputStream;
+
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
 import com.codeaffine.console.core.ConsoleComponentFactory;
 import com.codeaffine.console.core.ConsoleOutput;
@@ -20,7 +22,7 @@ class CalculatorComponentFactory implements ConsoleComponentFactory {
   }
 
   @Override
-  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut ) {
+  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut, InputStream stdIn ) {
     return new ConsoleCommandInterpreter[] { new CalculatorConsoleCommandInterpreter( stdOut ) };
   }
 
