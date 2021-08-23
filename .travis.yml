@@ -9,7 +9,7 @@ sudo: false
 language: java
 
 jdk:
-  - oraclejdk8
+  - openjdk11
 
 branches:
   only:
@@ -23,9 +23,7 @@ addons:
     - libwebkit-dev
 
 script:
-  - ./mvnw -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.5
-  - ./mvnw -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.7
-  - ./mvnw -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.8
+  - ./mvnw -q -f com.codeaffine.gonsole.releng/pom.xml clean verify -Dtarget-platform-classifier=eclipse-4.20
 
 before_script:
   - "export DISPLAY=:99.0"

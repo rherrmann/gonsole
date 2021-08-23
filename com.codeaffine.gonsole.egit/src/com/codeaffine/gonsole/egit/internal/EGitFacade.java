@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
 
-import org.eclipse.egit.core.Activator;
 import org.eclipse.egit.core.RepositoryUtil;
 
 
@@ -15,7 +14,7 @@ public class EGitFacade {
   private final RepositoryUtil repositoryUtil;
 
   public EGitFacade() {
-    repositoryUtil = Activator.getDefault().getRepositoryUtil();
+    repositoryUtil = RepositoryUtilFacade.getRepositoryUtil();
   }
 
   public File[] getConfiguredRepositoryLocations() {

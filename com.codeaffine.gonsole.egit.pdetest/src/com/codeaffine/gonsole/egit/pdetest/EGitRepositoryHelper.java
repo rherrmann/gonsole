@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.egit.core.Activator;
 import org.eclipse.egit.core.GitCorePreferences;
 import org.eclipse.egit.core.RepositoryUtil;
 import org.eclipse.jgit.api.Git;
@@ -15,15 +14,19 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.rules.ExternalResource;
 import org.junit.rules.TemporaryFolder;
 
+import com.codeaffine.gonsole.egit.internal.RepositoryUtilFacade;
+
 
 @SuppressWarnings("restriction")
 public class EGitRepositoryHelper extends ExternalResource {
+
+  private static final String EGIT_CORE_PLUGIN_ID = "org.eclipse.egit.core";
 
   private final RepositoryUtil repositoryUtil;
   private final TemporaryFolder tempFolder;
 
   public EGitRepositoryHelper() {
-    repositoryUtil = Activator.getDefault().getRepositoryUtil();
+    repositoryUtil = RepositoryUtilFacade.getRepositoryUtil();
     tempFolder = new TemporaryFolder();
   }
 
@@ -77,10 +80,10 @@ public class EGitRepositoryHelper extends ExternalResource {
   }
 
   private static IEclipsePreferences getInstancePreferencesNode() {
-    return InstanceScope.INSTANCE.getNode( Activator.getPluginId() );
+    return InstanceScope.INSTANCE.getNode( EGIT_CORE_PLUGIN_ID );
   }
 
   private static IEclipsePreferences getDefaultPreferencesNode() {
-    return DefaultScope.INSTANCE.getNode( Activator.getPluginId() );
+    return DefaultScope.INSTANCE.getNode( EGIT_CORE_PLUGIN_ID );
   }
 }

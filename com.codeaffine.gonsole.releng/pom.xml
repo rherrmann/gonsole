@@ -12,9 +12,9 @@
   <packaging>pom</packaging>
 
   <properties>
-    <tycho-version>0.26.0</tycho-version>
-    <tycho-extras-version>0.26.0</tycho-extras-version>
-    <target-platform-classifier>eclipse-4.5</target-platform-classifier>
+    <tycho-version>2.3.0</tycho-version>
+    <tycho-extras-version>2.3.0</tycho-extras-version>
+    <target-platform-classifier>eclipse-4.20</target-platform-classifier>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <os-jvm-flags/>
   </properties>
