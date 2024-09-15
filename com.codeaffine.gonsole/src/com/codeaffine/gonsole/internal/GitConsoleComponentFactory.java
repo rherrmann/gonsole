@@ -2,6 +2,8 @@ package com.codeaffine.gonsole.internal;
 
 import static com.codeaffine.gonsole.internal.activator.IconRegistry.GIT_PROPOSAL;
 
+import java.io.InputStream;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 
 import com.codeaffine.console.core.ConsoleCommandInterpreter;
@@ -29,7 +31,7 @@ class GitConsoleComponentFactory implements ConsoleComponentFactory {
   }
 
   @Override
-  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut ) {
+  public ConsoleCommandInterpreter[] createCommandInterpreters( ConsoleOutput stdOut, ConsoleOutput errorOut, InputStream stdIn ) {
     return new ConsoleCommandInterpreter[]{
       new ControlCommandInterpreter( this, stdOut, errorOut, repositoryProvider ),
       new GitCommandInterpreter( stdOut, repositoryProvider )

@@ -2,6 +2,7 @@ package com.codeaffine.console.core.internal;
 
 import static com.codeaffine.console.core.ConsoleConstants.ENCODING;
 
+import java.io.InputStream;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -17,7 +18,7 @@ public class Input {
 
   @SuppressWarnings("resource")
   public String readLine() {
-    Scanner scanner = new Scanner( consoleIOProvider.getInputStream(), ENCODING.name() );
+    Scanner scanner = new Scanner( getInputStream(), ENCODING.name() );
     String result;
     try {
       result = scanner.nextLine();
@@ -25,5 +26,9 @@ public class Input {
       result = null;
     }
     return result;
+  }
+
+  public InputStream getInputStream() {
+    return consoleIOProvider.getInputStream();
   }
 }

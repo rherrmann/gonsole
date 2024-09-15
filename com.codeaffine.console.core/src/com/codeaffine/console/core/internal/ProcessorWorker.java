@@ -67,7 +67,8 @@ class ProcessorWorker implements Runnable {
 
   private ConsoleCommandInterpreter[] createCommandInterpreters() {
     return consoleComponentFactory.createCommandInterpreters( consoleStandardOutput,
-                                                              consoleErrorOutput );
+                                                              consoleErrorOutput,
+                                                              consoleInput.getInputStream() );
   }
 
   private static void printStackTrace( ConsoleOutput consoleOutput, Exception exception ) {
