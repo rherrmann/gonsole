@@ -12,6 +12,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.codeaffine.console.core.ConsoleComponentFactory;
+import com.codeaffine.console.core.pdetest.console.TestConsoleComponentFactory;
 import com.codeaffine.console.core.pdetest.console.TestConsoleConfigurer;
 
 public class GenericConsolePDETest {
@@ -24,6 +26,20 @@ public class GenericConsolePDETest {
     console.initialize();
 
     verify( consoleConfigurer ).configure( console );
+  }
+
+  @Test
+  public void testGetConsoleComponentFactory() {
+    // should return null without initialization
+    assertThat( console.getConsoleComponentFactory() ).isNull();
+
+    // set a console
+    console.setConsoleComponentFactory( new TestConsoleComponentFactory() );
+
+    // note, the implementation wraps it into a GenericConsoleComponentFactory
+    ConsoleComponentFactory componentFactory = console.getConsoleComponentFactory();
+    assertThat( componentFactory ).isNotNull();
+    assertThat( componentFactory.getClass() ).isSameAs( GenericConsoleComponentFactory.class );
   }
 
   @Test
